@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Sparkles, Heart, X, RotateCcw } from 'lucide-react';
+import { Sparkles, PartyPopper, Star, X } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerFinaleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
 
 export default function FinalSurprise() {
   const [isOpen, setIsOpen] = useState(false);
-  const { finalSurprise } = birthdayData;
+  const { finalCelebration } = birthdayData;
 
   const handleOpenSurprise = () => {
     setIsOpen(true);
@@ -22,7 +22,7 @@ export default function FinalSurprise() {
 
   return (
     <section
-      id="final-surprise-section"
+      id="final-celebration-section"
       style={{
         position: 'relative',
         padding: '110px 24px 130px',
@@ -41,7 +41,7 @@ export default function FinalSurprise() {
           transform: 'translate(-50%, -50%)',
           width: '500px',
           height: '350px',
-          background: 'radial-gradient(circle, rgba(224, 104, 140, 0.18) 0%, rgba(223, 182, 91, 0.12) 50%, transparent 80%)',
+          background: 'radial-gradient(circle, rgba(223, 182, 91, 0.15) 0%, rgba(196, 177, 252, 0.12) 50%, transparent 80%)',
           filter: 'blur(60px)',
           pointerEvents: 'none',
         }}
@@ -72,7 +72,7 @@ export default function FinalSurprise() {
           }}
         >
           <Sparkles size={14} />
-          <span>ONE LAST THING</span>
+          <span>{finalCelebration.intro}</span>
         </div>
 
         <h2
@@ -84,7 +84,7 @@ export default function FinalSurprise() {
           }}
           className="text-gold-gradient"
         >
-          {finalSurprise.heading}
+          {finalCelebration.heading}
         </h2>
 
         {/* Narrative Message */}
@@ -99,10 +99,10 @@ export default function FinalSurprise() {
             fontWeight: 400,
           }}
         >
-          “{finalSurprise.messageText}”
+          “{finalCelebration.closingMessage}”
         </p>
 
-        {/* Surprise Box Trigger Button */}
+        {/* Surprise Fireworks Trigger Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.96 }}
@@ -111,11 +111,11 @@ export default function FinalSurprise() {
           style={{
             padding: '18px 46px',
             fontSize: '1.1rem',
-            boxShadow: '0 12px 35px rgba(223, 182, 91, 0.4), 0 0 30px rgba(224, 104, 140, 0.3)',
+            boxShadow: '0 12px 35px rgba(223, 182, 91, 0.4), 0 0 30px rgba(196, 177, 252, 0.3)',
           }}
         >
-          <Gift size={22} />
-          <span>{finalSurprise.buttonText}</span>
+          <PartyPopper size={22} />
+          <span>{finalCelebration.buttonText}</span>
         </motion.button>
       </motion.div>
 
@@ -162,7 +162,7 @@ export default function FinalSurprise() {
               {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
-                aria-label="Close surprise"
+                aria-label="Close celebration"
                 style={{
                   position: 'absolute',
                   top: '20px',
@@ -183,22 +183,35 @@ export default function FinalSurprise() {
                 <X size={18} />
               </button>
 
-              {/* Glowing Top Heart */}
+              {/* Glowing Top Party Icon */}
               <div
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '54px',
-                  height: '54px',
+                  width: '56px',
+                  height: '56px',
                   borderRadius: '50%',
-                  background: 'rgba(224, 104, 140, 0.15)',
-                  border: '1px solid rgba(224, 104, 140, 0.4)',
-                  color: '#f4b4cb',
+                  background: 'rgba(223, 182, 91, 0.15)',
+                  border: '1px solid rgba(223, 182, 91, 0.4)',
+                  color: '#ffd166',
                   marginBottom: '20px',
                 }}
               >
-                <Heart size={26} fill="#f4b4cb" />
+                <PartyPopper size={28} />
+              </div>
+
+              {/* Tagline */}
+              <div
+                style={{
+                  fontSize: '0.85rem',
+                  letterSpacing: '0.2em',
+                  color: '#dfb65b',
+                  fontWeight: 600,
+                  marginBottom: '10px',
+                }}
+              >
+                {finalCelebration.intro}
               </div>
 
               {/* Main Celebratory Reveal Heading */}
@@ -212,10 +225,10 @@ export default function FinalSurprise() {
                 }}
                 className="text-gold-gradient"
               >
-                {finalSurprise.revealHeading}
+                {finalCelebration.heading}
               </h2>
 
-              {/* Special Celebratory Note */}
+              {/* Closing Message */}
               <p
                 style={{
                   fontFamily: 'var(--font-editorial)',
@@ -226,10 +239,10 @@ export default function FinalSurprise() {
                   lineHeight: 1.5,
                 }}
               >
-                “Keep smiling, keep being yourself, and never forget how special you are.”
+                “{finalCelebration.closingMessage}”
               </p>
 
-              {/* Genuine Warmth Paragraph */}
+              {/* Cheerful Friendly Paragraph */}
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
@@ -241,7 +254,7 @@ export default function FinalSurprise() {
                   margin: '0 auto 36px',
                 }}
               >
-                May this coming year be kind to you, full of victories big and small, and filled with memories you'll always look back on with a smile.
+                Wishing you a fantastic year ahead packed with success, good health, great friends, and reasons to celebrate every single day!
               </p>
 
               {/* Actions: Replay Confetti & Close */}
@@ -260,7 +273,7 @@ export default function FinalSurprise() {
                   style={{ padding: '14px 30px' }}
                 >
                   <Sparkles size={18} />
-                  <span>{finalSurprise.replayText}</span>
+                  <span>{finalCelebration.replayText}</span>
                 </button>
 
                 <button
@@ -268,7 +281,7 @@ export default function FinalSurprise() {
                   className="btn-glass"
                   style={{ padding: '14px 28px' }}
                 >
-                  <span>{finalSurprise.closeText}</span>
+                  <span>{finalCelebration.closeText}</span>
                 </button>
               </div>
             </motion.div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Flame, RotateCcw } from 'lucide-react';
+import { Sparkles, Flame, RotateCcw, PartyPopper } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerCandleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
@@ -57,9 +57,9 @@ export default function BirthdayCake() {
             gap: '8px',
             padding: '6px 18px',
             borderRadius: '9999px',
-            background: 'rgba(244, 180, 203, 0.12)',
-            border: '1px solid rgba(244, 180, 203, 0.35)',
-            color: '#f4b4cb',
+            background: 'rgba(223, 182, 91, 0.12)',
+            border: '1px solid rgba(223, 182, 91, 0.35)',
+            color: '#dfb65b',
             fontSize: '0.8rem',
             fontWeight: 600,
             letterSpacing: '0.18em',
@@ -228,7 +228,7 @@ export default function BirthdayCake() {
               fill="none"
               strokeLinecap="round"
             />
-            <circle cx="170" cy="95" r="7" fill="#e0688c" />
+            <circle cx="170" cy="95" r="7" fill="#dfb65b" />
             <circle cx="158" cy="98" r="5" fill="#f4b4cb" />
             <circle cx="182" cy="98" r="5" fill="#f4b4cb" />
 
@@ -401,9 +401,9 @@ export default function BirthdayCake() {
                   letterSpacing: '0.08em',
                 }}
               >
-                <Sparkles size={16} />
-                <span>WISH SENT TO THE UNIVERSE</span>
-                <Sparkles size={16} />
+                <PartyPopper size={16} />
+                <span>WISH SEALED WITH MAGIC</span>
+                <PartyPopper size={16} />
               </div>
 
               <h3

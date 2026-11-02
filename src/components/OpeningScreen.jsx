@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Heart } from 'lucide-react';
+import { Sparkles, PartyPopper, Star } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
@@ -38,19 +38,19 @@ export default function OpeningScreen({ onOpen }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'radial-gradient(ellipse at center, #1c0a32 0%, #0d0617 70%, #06020c 100%)',
+            background: 'radial-gradient(ellipse at center, #1d0935 0%, #0d0617 70%, #06020c 100%)',
             padding: '24px',
             overflow: 'hidden',
           }}
         >
-          {/* Subtle Ambient Radial Glows */}
+          {/* Subtle Ambient Glows */}
           <div
             style={{
               position: 'absolute',
               width: '520px',
               height: '520px',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(224, 104, 140, 0.22) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(196, 177, 252, 0.2) 0%, transparent 70%)',
               filter: 'blur(75px)',
               pointerEvents: 'none',
               transform: 'translate(-25%, -30%)',
@@ -69,7 +69,7 @@ export default function OpeningScreen({ onOpen }) {
             }}
           />
 
-          {/* Main Cinematic Card Container */}
+          {/* Main Card Container */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -78,8 +78,8 @@ export default function OpeningScreen({ onOpen }) {
               position: 'relative',
               maxWidth: '560px',
               width: '100%',
-              background: 'rgba(23, 11, 41, 0.65)',
-              border: '1px solid rgba(223, 182, 91, 0.3)',
+              background: 'rgba(23, 11, 41, 0.72)',
+              border: '1px solid rgba(223, 182, 91, 0.32)',
               borderRadius: '28px',
               padding: 'clamp(36px, 6vw, 56px) clamp(24px, 5vw, 44px)',
               textAlign: 'center',
@@ -88,24 +88,25 @@ export default function OpeningScreen({ onOpen }) {
               WebkitBackdropFilter: 'blur(20px)',
             }}
           >
-            {/* Top Ornamental Star Accent */}
+            {/* Top Ornamental Party Icon */}
             <motion.div
-              animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
+              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.05, 1] }}
+              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '54px',
-                height: '54px',
+                width: '56px',
+                height: '56px',
                 borderRadius: '50%',
                 background: 'rgba(223, 182, 91, 0.12)',
                 border: '1px solid rgba(223, 182, 91, 0.4)',
                 marginBottom: '24px',
                 boxShadow: '0 0 20px rgba(223, 182, 91, 0.25)',
+                color: '#ffd166',
               }}
             >
-              <Sparkles size={24} color="#ffd166" />
+              <PartyPopper size={26} />
             </motion.div>
 
             {/* Badge */}
@@ -152,7 +153,7 @@ export default function OpeningScreen({ onOpen }) {
               style={{
                 fontFamily: 'var(--font-editorial)',
                 fontStyle: 'italic',
-                fontSize: 'clamp(1.15rem, 2.5vw, 1.35rem)',
+                fontSize: 'clamp(1.18rem, 2.6vw, 1.4rem)',
                 color: '#d8c8ff',
                 lineHeight: 1.5,
                 marginBottom: '36px',
@@ -172,11 +173,11 @@ export default function OpeningScreen({ onOpen }) {
               }}
             >
               <div style={{ height: '1px', width: '60px', background: 'linear-gradient(to right, transparent, rgba(223, 182, 91, 0.4))' }} />
-              <Heart size={14} color="#f4b4cb" fill="#f4b4cb" style={{ opacity: 0.8 }} />
+              <Star size={14} color="#ffd166" fill="#ffd166" style={{ opacity: 0.85 }} />
               <div style={{ height: '1px', width: '60px', background: 'linear-gradient(to left, transparent, rgba(223, 182, 91, 0.4))' }} />
             </div>
 
-            {/* Animated Button */}
+            {/* Animated Celebration Button */}
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
@@ -191,7 +192,7 @@ export default function OpeningScreen({ onOpen }) {
               <span>{openingScreen.buttonText}</span>
             </motion.button>
 
-            {/* Delicate Footer Note */}
+            {/* Audio Hint */}
             <p
               style={{
                 marginTop: '28px',

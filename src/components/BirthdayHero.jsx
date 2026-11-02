@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Cake, Mail, ChevronDown } from 'lucide-react';
+import { Sparkles, Cake, PartyPopper, ChevronDown } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 
-export default function BirthdayHero({ onWishClick, onLetterClick }) {
+export default function BirthdayHero({ onWishClick, onFunClick }) {
   const { hero } = birthdayData;
 
   const handleWish = (e) => {
@@ -21,11 +21,11 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
     }
   };
 
-  const handleLetter = () => {
-    if (onLetterClick) {
-      onLetterClick();
+  const handleFun = () => {
+    if (onFunClick) {
+      onFunClick();
     } else {
-      const el = document.getElementById('letter-section');
+      const el = document.getElementById('fun-section');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -50,7 +50,7 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
       <div className="ambient-glow-lavender" style={{ top: '25%', right: '10%' }} />
       <div className="ambient-glow-gold" style={{ bottom: '10%', left: '40%' }} />
 
-      {/* Floating Pastel Pink Balloon */}
+      {/* Floating Pastel Balloon (SVG) */}
       <motion.div
         animate={{ y: [-15, 15, -15], rotate: [-2, 3, -2] }}
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
@@ -59,17 +59,17 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           top: '15%',
           left: 'clamp(10px, 6vw, 100px)',
           pointerEvents: 'none',
-          opacity: 0.75,
+          opacity: 0.8,
           zIndex: 1,
         }}
       >
         <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
-          <ellipse cx="30" cy="35" rx="26" ry="32" fill="url(#heroPinkBalloonGrad)" />
+          <ellipse cx="30" cy="35" rx="26" ry="32" fill="url(#heroBalloonPink)" />
           <path d="M28 67 L32 67 L30 71 Z" fill="#e0688c" />
           <path d="M30 71 Q35 78 28 85 T32 90" stroke="#f4b4cb" strokeWidth="1" fill="none" opacity="0.6" />
           <ellipse cx="22" cy="22" rx="6" ry="10" fill="white" opacity="0.35" transform="rotate(-20 22 22)" />
           <defs>
-            <linearGradient id="heroPinkBalloonGrad" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="heroBalloonPink" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#fbe6ee" />
               <stop offset="60%" stopColor="#f4b4cb" />
               <stop offset="100%" stopColor="#e0688c" />
@@ -78,7 +78,7 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
         </svg>
       </motion.div>
 
-      {/* Floating Champagne Gold Balloon */}
+      {/* Floating Gold Balloon (SVG) */}
       <motion.div
         animate={{ y: [12, -18, 12], rotate: [2, -3, 2] }}
         transition={{ repeat: Infinity, duration: 8.5, ease: 'easeInOut', delay: 1 }}
@@ -87,17 +87,17 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           top: '20%',
           right: 'clamp(10px, 6vw, 110px)',
           pointerEvents: 'none',
-          opacity: 0.7,
+          opacity: 0.75,
           zIndex: 1,
         }}
       >
         <svg width="64" height="95" viewBox="0 0 64 95" fill="none">
-          <ellipse cx="32" cy="38" rx="28" ry="34" fill="url(#heroGoldBalloonGrad)" />
+          <ellipse cx="32" cy="38" rx="28" ry="34" fill="url(#heroBalloonGold)" />
           <path d="M30 72 L34 72 L32 76 Z" fill="#dfb65b" />
           <path d="M32 76 Q27 82 34 89 T30 95" stroke="#faeed1" strokeWidth="1" fill="none" opacity="0.6" />
           <ellipse cx="24" cy="24" rx="7" ry="11" fill="white" opacity="0.4" transform="rotate(-20 24 24)" />
           <defs>
-            <linearGradient id="heroGoldBalloonGrad" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="heroBalloonGold" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#faeed1" />
               <stop offset="60%" stopColor="#dfb65b" />
               <stop offset="100%" stopColor="#b8913b" />
@@ -131,7 +131,7 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           }}
         >
           <Sparkles size={14} color="#ffd166" />
-          <span>{hero.tagline}</span>
+          <span>{hero.badge}</span>
           <Sparkles size={14} color="#ffd166" />
         </motion.div>
 
@@ -171,7 +171,7 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           {hero.name}
         </motion.h1>
 
-        {/* Heartfelt Subtitle */}
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -188,7 +188,7 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           “{hero.subtitle}”
         </motion.p>
 
-        {/* Narrative Description */}
+        {/* Cheerful Description */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -232,15 +232,15 @@ export default function BirthdayHero({ onWishClick, onLetterClick }) {
           </button>
 
           <button
-            onClick={handleLetter}
+            onClick={handleFun}
             className="btn-glass"
             style={{
               padding: '16px 32px',
               fontSize: '1rem',
             }}
           >
-            <Mail size={18} />
-            <span>{hero.ctaLetter}</span>
+            <PartyPopper size={18} />
+            <span>{hero.ctaExplore}</span>
           </button>
         </motion.div>
       </div>

@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Smile, Coffee, Trophy, Compass, Heart, ChevronRight } from 'lucide-react';
+import { Sparkles, Smile, Trophy, Camera, Compass, Sun, ChevronRight } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 
 const iconMap = {
   Smile: Smile,
-  Coffee: Coffee,
   Trophy: Trophy,
-  Sparkles: Sparkles,
+  Camera: Camera,
   Compass: Compass,
-  Heart: Heart,
+  Sun: Sun,
+  Sparkles: Sparkles,
 };
 
 export default function BirthdayWishes() {
-  const { birthdayWishes } = birthdayData;
+  const { wishes } = birthdayData;
   const [activeCard, setActiveCard] = useState(null);
 
   const toggleCard = (id, e) => {
@@ -67,7 +67,7 @@ export default function BirthdayWishes() {
           }}
         >
           <Sparkles size={14} />
-          <span>HEARTFELT WISHES</span>
+          <span>INSPIRING WISHES</span>
         </div>
 
         <h2
@@ -79,7 +79,7 @@ export default function BirthdayWishes() {
           }}
           className="text-gold-gradient"
         >
-          {birthdayWishes.heading}
+          {wishes.heading}
         </h2>
 
         <p
@@ -92,7 +92,7 @@ export default function BirthdayWishes() {
             margin: '0 auto',
           }}
         >
-          “{birthdayWishes.subtitle}”
+          “{wishes.subtitle}”
         </p>
       </motion.div>
 
@@ -104,7 +104,7 @@ export default function BirthdayWishes() {
           gap: '24px',
         }}
       >
-        {birthdayWishes.wishes.map((item, index) => {
+        {wishes.items.map((item, index) => {
           const IconComponent = iconMap[item.icon] || Sparkles;
           const isExpanded = activeCard === item.id;
 
@@ -215,7 +215,7 @@ export default function BirthdayWishes() {
                   color: '#dfb65b',
                 }}
               >
-                <span>{isExpanded ? 'Wish noted ✨' : 'Tap to focus wish'}</span>
+                <span>{isExpanded ? 'Wish active ✨' : 'Click to highlight'}</span>
                 <ChevronRight
                   size={16}
                   style={{

@@ -2,8 +2,8 @@
  * Birthday Configuration & Content for Zarin Afra Rafa
  * Birthday Date: 15 November 2026 (Asia/Dhaka timezone)
  *
- * Communicates affection, warmth, and playful chemistry
- * without any overt romantic confession or pressure.
+ * Friendly, cheerful, vibrant, and celebratory.
+ * Strictly friendly birthday celebration between friends.
  */
 
 export const birthdayData = {
@@ -12,33 +12,33 @@ export const birthdayData = {
     nickname: "Rafa",
     birthDate: "2026-11-15T00:00:00+06:00", // Asia/Dhaka (+06:00)
     timezone: "Asia/Dhaka",
-    displayDate: "November 15, 2026",
+    displayDate: "15 November 2026",
   },
 
   openingScreen: {
-    badge: "A LITTLE SOMETHING FOR SOMEONE SPECIAL",
+    badge: "A LITTLE BIRTHDAY SURPRISE",
     title: "Zarin Afra Rafa",
-    subtitle: "Well... someone deserves a little extra happiness today.",
-    buttonText: "Open Your Surprise ✨",
-    audioHint: "Click to enter with music 🎵",
+    subtitle: "Today is your day! Let's make it memorable.",
+    buttonText: "Let's Celebrate ✨",
+    audioHint: "Click to enter with celebratory melody 🎵",
   },
 
   hero: {
-    tagline: "NOVEMBER 15 • A VERY SPECIAL CELEBRATION",
+    badge: "15 NOVEMBER 2026 • CELEBRATION TIME",
     headingMain: "HAPPY BIRTHDAY",
     name: "Zarin Afra Rafa",
-    subtitle: "Another year of you being wonderfully you.",
+    subtitle: "Wishing you a wonderful year ahead, filled with happiness, laughter and success!",
     description:
-      "A small corner of the internet dedicated to celebrating someone who makes ordinary days surprisingly brighter.",
+      "A vibrant, handcrafted birthday experience made to celebrate your special day in style. Turn on the tunes, blow the candles, and enjoy the party!",
     ctaWish: "Make a Wish 🎂",
-    ctaLetter: "Read Your Note 💌",
-    scrollHint: "Scroll down to explore",
+    ctaExplore: "Fun & Games 🎈",
+    scrollHint: "Scroll down to celebrate",
   },
 
   countdown: {
-    heading: "The Big Day Approaches",
+    heading: "Countdown to the Big Day",
     celebrationTitle: "HAPPY BIRTHDAY, ZARIN! 🎂",
-    celebrationSubtitle: "Today is officially your day. Go celebrate and shine!",
+    celebrationSubtitle: "Today is officially your birthday! Wishing you the most incredible year ahead!",
     labels: {
       days: "Days",
       hours: "Hours",
@@ -48,140 +48,107 @@ export const birthdayData = {
     footerNote: "Counted with Asia/Dhaka timezone",
   },
 
-  personalLetter: {
-    heading: "Something I Wanted You To Know...",
-    subheading: "A little note written without any filters, just genuine appreciation.",
-    salutation: "Hey Rafa,",
-    paragraphs: [
-      "I was thinking about how quickly time moves, and honestly, I'm just genuinely glad we got to know each other. Looking back at when we first crossed paths versus where things are now, it's pretty cool how naturally everything unfolded.",
-      "You have this rare knack for making ordinary days so much more enjoyable. Half the time, what starts as a completely random check-in somehow ends up being the unexpected highlight of my entire day. Whether we're debating the most ridiculous things, stressing over studies, or jumping between fifty different topics in one breath, talking with you is always effortless.",
-      "I genuinely appreciate your humor, your playful energy, and just the way you are. You bring a kind of warmth that isn't loud or forced, but you definitely feel it when it's there.",
-      "For this new year of your life, I hope everything you've been working toward starts falling into place. I hope you get days with less stress, moments filled with pure laughter, and opportunities that match your potential. You deserve all the good things coming your way.",
-    ],
-    closing: "Anyway, enough emotional stuff. It's your day. Go enjoy it! :)",
-    signature: "— From someone who genuinely enjoys our talks ✨",
-    envelopePrompt: "Click the seal to read your note",
-    envelopeReturn: "Fold note back",
-  },
-
-  littleUniverse: {
-    heading: "Some Little Things Are Just Fun",
-    subtitle: "A few moments and quirks that make talking to you one of my favorite habits.",
-    moments: [
-      {
-        id: "gaming",
-        badge: "DECEMBER 2025",
-        title: "The Gaming Era",
-        icon: "Gamepad2",
-        highlight: "Roblox lobbies & Among Us emergency meetings",
-        description:
-          "Back when we first met through mutual friends. Running through chaotic Roblox obbies and trying not to get voted out as imposter. Who knew that was just the prologue?",
-        interactiveType: "badge",
-      },
-      {
-        id: "clock",
-        badge: "LATE NIGHTS",
-        title: "The 3-Hour Problem",
-        icon: "Clock",
-        highlight: "‘Just a 5-minute quick call...’",
-        quote1: "“Just a quick conversation...”",
-        quote2: "“...and suddenly, where did the last 3 hours go?”",
-        description:
-          "Studies, random debates, life updates, and things that make zero sense at 2 AM. Time apparently stops functioning when we get talking.",
-        interactiveType: "clock",
-      },
-      {
-        id: "beyadob",
-        badge: "TOP SECRET INTERROGATION",
-        title: "The Beyadob Incident",
-        icon: "MessageCircleWarning",
-        highlight: "Some people have a talent for making others admit things...",
-        revealedPrompt: "BOLO KE BEYADOB? 😭",
-        revealedAnswer: "Fine, I AM.",
-        revealedSub: "The persistence was undefeated. I had zero chance of winning that trial.",
-        buttonText: "Reveal the incident 🕵️",
-        interactiveType: "reveal",
-      },
-      {
-        id: "oneboy",
-        badge: "JUST SAYING",
-        title: "The Late Night Inquisitions",
-        icon: "Sparkles",
-        highlight: "“Do you talk to other people this late?”",
-        description:
-          "For the record: no, nobody else gets to hold 3-hour midnight podcasts about life. And hearing ‘I only talk to one boy’ still ranks as an iconic quote.",
-        interactiveType: "note",
-      },
-    ],
-  },
-
-  birthdayWishes: {
-    heading: "A Few Things I Wish For You",
-    subtitle: "Six little wishes for someone who deserves the very best this year has to offer.",
-    wishes: [
+  wishes: {
+    heading: "Here's To Your New Chapter!",
+    subtitle: "Six vibrant wishes for an unforgettable year filled with joy and high spirits.",
+    items: [
       {
         id: 1,
-        title: "More reasons to smile",
+        title: "Happiness in Every Little Moment",
         icon: "Smile",
-        detail: "Moments where laughter comes so easily that your cheeks hurt, even on ordinary Tuesdays.",
+        detail:
+          "May ordinary everyday moments bring you spontaneous reasons to laugh out loud, feel energized, and smile bright.",
       },
       {
         id: 2,
-        title: "Less stress, more peace",
-        icon: "Coffee",
-        detail: "Calm mornings, quiet confidence, and less of the unnecessary chaos that drains your energy.",
+        title: "Success in Everything You Pursue",
+        icon: "Trophy",
+        detail:
+          "Whatever academic goals, exciting projects, or bold challenges you tackle this year—may you crush them all with flying colors.",
       },
       {
         id: 3,
-        title: "Success in what you pursue",
-        icon: "Trophy",
-        detail: "Every exam, project, and goal you put your heart into—may it reward you with flying colors.",
+        title: "Beautiful Memories Worth Remembering",
+        icon: "Camera",
+        detail:
+          "Here's to great times with awesome friends, hilarious adventures, delicious birthday food, and unforgettable memories.",
       },
       {
         id: 4,
-        title: "Unforgettable memories",
-        icon: "Sparkles",
-        detail: "Surrounded by good people, great food, silly inside jokes, and stories you'll cherish forever.",
+        title: "New Adventures & Opportunities",
+        icon: "Compass",
+        detail:
+          "May this year open up exciting doors, fresh experiences, inspiring travels, and plenty of thrilling opportunities.",
       },
       {
         id: 5,
-        title: "Dreams that become reality",
-        icon: "Compass",
-        detail: "Every quiet ambition you hold—may step by step, you see them unfolding right in front of you.",
+        title: "Good Health & Peaceful Days",
+        icon: "Sun",
+        detail:
+          "Abundant energy to do everything you enjoy, peaceful restful nights, and a calm, stress-free mindset throughout the year.",
       },
       {
         id: 6,
-        title: "Happiness that stays",
-        icon: "Heart",
-        detail: "Not just momentary visits of joy, but a deep, lasting feeling that things are truly good.",
+        title: "Dreams Turning into Reality",
+        icon: "Sparkles",
+        detail:
+          "May every ambition, idea, and goal you've been working towards come together in the best and most rewarding way possible.",
       },
     ],
   },
 
   cake: {
     heading: "Make a Birthday Wish",
-    subtitle: "Close your eyes, make a wish, and let the universe handle the rest. ✨",
-    promptLit: "Tap the candles or button to blow them out",
-    promptExtinguished: "Your wish has been cast into the stars ✨",
+    subtitle: "Close your eyes, make a wish, and let the magic begin! ✨",
+    promptLit: "Tap the candles or button to blow them out!",
+    promptExtinguished: "Your birthday wish has been launched into the stars! 🌟",
     buttonBlow: "Make a Wish ✨",
     buttonRelight: "Relight Candles 🕯️",
-    wishGrantedTitle: "May all your wishes come true! ✨",
-    wishGrantedSub: "Whatever you wished for just now, I really hope you get it.",
+    wishGrantedTitle: "May All Your Wishes Come True! 🎉",
+    wishGrantedSub: "Wishing you a fabulous birthday filled with cake, laughs, and pure celebration!",
   },
 
-  finalSurprise: {
-    heading: "Before You Go...",
-    messageText:
-      "Just wanted to say that I'm really glad our paths crossed. I hope this new chapter of your life brings you countless beautiful moments. Keep smiling, keep being yourself, and never forget how special you are.",
-    revealHeading: "HAPPY BIRTHDAY, ZARIN AFRA RAFA! ❤️",
-    buttonText: "Click for Your Final Surprise 🎁",
-    replayText: "One More Confetti Burst! 🎉",
-    closeText: "Back to Celebration ✨",
+  interactiveFun: {
+    heading: "The Birthday Fun Zone",
+    subtitle: "Pop balloons, test your birthday trivia, and draw positive vibes!",
+    balloons: [
+      { id: 1, color: "#f4b4cb", label: "Joy", poppedText: "🎉 +100 Happiness Points!" },
+      { id: 2, color: "#dfb65b", label: "Success", poppedText: "🏆 All Goals Achieved!" },
+      { id: 3, color: "#c4b1fc", label: "Laughter", poppedText: "😄 Non-stop Good Vibes!" },
+      { id: 4, color: "#85e3b3", label: "Energy", poppedText: "⚡ Zero-Stress Superpower!" },
+      { id: 5, color: "#ffd166", label: "Luck", poppedText: "🌟 Max Good Fortune!" },
+    ],
+    fortunes: [
+      "✨ Pro tip: Birthday calories officially do not count today. Eat all the cake!",
+      "🚀 Prediction: This next year is going to be your most successful chapter yet.",
+      "🎉 Cosmic memo: You are destined for awesome adventures and great accomplishments.",
+      "☀️ Good fortune alert: Something exciting and unexpected is headed your way soon.",
+      "🌟 High score incoming: You're going to ace whatever you're currently working on!",
+      "🍰 Birthday Law #1: You have full authority to relax, laugh, and celebrate all day long.",
+    ],
+    quiz: {
+      question: "What is the #1 Golden Rule of Birthdays?",
+      options: [
+        { text: "Birthday calories definitely do not count 🎂", isCorrect: true, response: "Spot on! Science fully agrees." },
+        { text: "You must smile in at least 50 photos 📸", isCorrect: false, response: "Good idea, but cake comes first!" },
+        { text: "Do homework instead of partying 📚", isCorrect: false, response: "Definitely incorrect! No way." },
+      ],
+    },
+  },
+
+  finalCelebration: {
+    intro: "ONCE AGAIN...",
+    heading: "HAPPY BIRTHDAY, ZARIN AFRA RAFA!",
+    closingMessage:
+      "May this year bring you endless smiles, incredible achievements and countless unforgettable memories.",
+    buttonText: "Launch Birthday Fireworks 🎆",
+    replayText: "More Fireworks! 🎊",
+    closeText: "Back to Party ✨",
   },
 
   footer: {
-    quote: "“Another year older, none the less wonderful.”",
-    credit: "Handcrafted with warmth for Zarin Afra Rafa",
-    year: "November 2026",
+    heading: "Wishing Zarin Afra Rafa the Happiest of Birthdays!",
+    date: "15 November 2026",
+    tagline: "Have an extraordinary day and an even better year ahead!",
   },
 };

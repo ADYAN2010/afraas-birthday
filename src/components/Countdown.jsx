@@ -179,7 +179,7 @@ export default function Countdown() {
                 marginBottom: '38px',
               }}
             >
-              Counting down every second to celebrate Zarin Afra Rafa's special day
+              Counting down every second until the birthday celebrations begin!
             </p>
 
             {/* Countdown Grid */}

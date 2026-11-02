@@ -1,9 +1,9 @@
 import React from 'react';
-import { Heart, Sparkles } from 'lucide-react';
+import { Sparkles, PartyPopper } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 
 export default function Footer() {
-  const { footer, recipient } = birthdayData;
+  const { footer } = birthdayData;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -43,20 +43,32 @@ export default function Footer() {
           <Sparkles size={18} />
         </div>
 
-        {/* Closing Quote */}
+        {/* Heading */}
+        <p
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontSize: '1.35rem',
+            color: '#faeed1',
+            marginBottom: '10px',
+          }}
+        >
+          {footer.heading}
+        </p>
+
+        {/* Closing Tagline */}
         <p
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: '1.25rem',
-            color: '#faeed1',
-            marginBottom: '18px',
+            fontSize: '1.15rem',
+            color: '#c4b1fc',
+            marginBottom: '20px',
           }}
         >
-          {footer.quote}
+          “{footer.tagline}”
         </p>
 
-        {/* Attribution */}
+        {/* Attribution / Date */}
         <div
           style={{
             display: 'flex',
@@ -68,11 +80,10 @@ export default function Footer() {
             letterSpacing: '0.04em',
           }}
         >
-          <span>{footer.credit}</span>
+          <PartyPopper size={14} color="#dfb65b" />
+          <span>{footer.date}</span>
           <span>•</span>
-          <Heart size={13} color="#e0688c" fill="#e0688c" />
-          <span>•</span>
-          <span>{footer.year}</span>
+          <span>Happy Birthday, Rafa! 🎂</span>
         </div>
       </div>
     </footer>
