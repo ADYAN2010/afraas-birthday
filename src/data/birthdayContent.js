@@ -3,7 +3,7 @@
  * Birthday Date: 15 November 2026 (Asia/Dhaka timezone)
  *
  * Friendly, cheerful, vibrant, and celebratory.
- * Strictly friendly birthday celebration between friends.
+ * A thoughtful birthday gift from Adyan to Afraa.
  */
 
 export const birthdayData = {
@@ -31,6 +31,7 @@ export const birthdayData = {
     description:
       "A vibrant, handcrafted birthday experience made to celebrate your special day in style. Turn on the tunes, blow the candles, and enjoy the party!",
     ctaWish: "Make a Wish 🎂",
+    ctaNote: "A Little Note 💌",
     ctaExplore: "Fun & Games 🎈",
     scrollHint: "Scroll down to celebrate",
   },
@@ -46,6 +47,21 @@ export const birthdayData = {
       seconds: "Seconds",
     },
     footerNote: "Counted with Asia/Dhaka timezone",
+  },
+
+  personalNote: {
+    heading: "A Little Note For You",
+    subtitle: "A few genuine, heartfelt thoughts for your special day.",
+    salutation: "Hey Afraa,",
+    messages: [
+      "I hope life gives you a thousand reasons to smile.",
+      "Never stop being the wonderfully unpredictable person you are.",
+      "Some days just become a little better with good conversations.",
+      "Keep smiling. It suits you.",
+      "Wishing you more happiness than you can ever count.",
+    ],
+    closing: "With warm wishes,",
+    signature: "Adyan",
   },
 
   wishes: {
@@ -150,5 +166,6 @@ export const birthdayData = {
     heading: "Wishing Afraa the Happiest of Birthdays!",
     date: "15 November 2026",
     tagline: "Have an extraordinary day and an even better year ahead!",
+    signatureNote: "Made with care by Adyan for Afraa",
   },
 };

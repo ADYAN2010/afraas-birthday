@@ -85,6 +85,20 @@ export default function Footer() {
           <span>•</span>
           <span>Happy Birthday, Afraa! 🎂</span>
         </div>
+
+        {footer.signatureNote && (
+          <p
+            style={{
+              marginTop: '12px',
+              fontSize: '0.78rem',
+              color: '#7b6890',
+              fontStyle: 'italic',
+              letterSpacing: '0.03em',
+            }}
+          >
+            {footer.signatureNote}
+          </p>
+        )}
       </div>
     </footer>
   );

@@ -4,8 +4,9 @@ import FloatingParticles from './components/FloatingParticles';
 import MusicPlayer from './components/MusicPlayer';
 import BirthdayHero from './components/BirthdayHero';
 import Countdown from './components/Countdown';
-import BirthdayWishes from './components/BirthdayWishes';
+import PersonalNote from './components/PersonalNote';
 import BirthdayCake from './components/BirthdayCake';
+import BirthdayWishes from './components/BirthdayWishes';
 import BirthdayFunZone from './components/BirthdayFunZone';
 import FinalSurprise from './components/FinalSurprise';
 import Footer from './components/Footer';
@@ -21,6 +22,13 @@ export default function App() {
 
   const scrollToCake = () => {
     const el = document.getElementById('cake-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToNote = () => {
+    const el = document.getElementById('note-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -48,24 +56,31 @@ export default function App() {
           <MusicPlayer autoStarted={startMusic} />
 
           {/* 1. Main Birthday Hero */}
-          <BirthdayHero onWishClick={scrollToCake} onFunClick={scrollToFun} />
+          <BirthdayHero
+            onWishClick={scrollToCake}
+            onNoteClick={scrollToNote}
+            onFunClick={scrollToFun}
+          />
 
           {/* 2. Live Countdown to 15 November 2026 (Asia/Dhaka) */}
           <Countdown />
 
-          {/* 3. Birthday Wishes ("Here's To Your New Chapter!") */}
-          <BirthdayWishes />
+          {/* 3. A Little Note For You (From Adyan to Afraa) */}
+          <PersonalNote />
 
           {/* 4. Interactive Birthday Cake & Candle Blow */}
           <BirthdayCake />
 
-          {/* 5. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz) */}
+          {/* 5. Birthday Wishes ("Here's To Your New Chapter!") */}
+          <BirthdayWishes />
+
+          {/* 6. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz) */}
           <BirthdayFunZone />
 
-          {/* 6. Grand Birthday Finale */}
+          {/* 7. Grand Birthday Finale */}
           <FinalSurprise />
 
-          {/* 7. Friendly Footer */}
+          {/* 8. Friendly Footer */}
           <Footer />
         </main>
       )}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Cake, PartyPopper, ChevronDown } from 'lucide-react';
+import { Sparkles, Cake, Feather, PartyPopper, ChevronDown } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 
-export default function BirthdayHero({ onWishClick, onFunClick }) {
+export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
   const { hero } = birthdayData;
 
   const handleWish = (e) => {
@@ -17,6 +17,15 @@ export default function BirthdayHero({ onWishClick, onFunClick }) {
       onWishClick();
     } else {
       const el = document.getElementById('cake-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleNote = () => {
+    if (onNoteClick) {
+      onNoteClick();
+    } else {
+      const el = document.getElementById('note-section');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -215,7 +224,7 @@ export default function BirthdayHero({ onWishClick, onFunClick }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '16px',
+            gap: '14px',
             flexWrap: 'wrap',
           }}
         >
@@ -223,8 +232,8 @@ export default function BirthdayHero({ onWishClick, onFunClick }) {
             onClick={handleWish}
             className="btn-gold"
             style={{
-              padding: '16px 38px',
-              fontSize: '1.02rem',
+              padding: '15px 34px',
+              fontSize: '1rem',
             }}
           >
             <Cake size={18} />
@@ -232,14 +241,26 @@ export default function BirthdayHero({ onWishClick, onFunClick }) {
           </button>
 
           <button
+            onClick={handleNote}
+            className="btn-glass"
+            style={{
+              padding: '15px 30px',
+              fontSize: '0.98rem',
+            }}
+          >
+            <Feather size={17} color="#dfb65b" />
+            <span>{hero.ctaNote}</span>
+          </button>
+
+          <button
             onClick={handleFun}
             className="btn-glass"
             style={{
-              padding: '16px 32px',
-              fontSize: '1rem',
+              padding: '15px 30px',
+              fontSize: '0.98rem',
             }}
           >
-            <PartyPopper size={18} />
+            <PartyPopper size={17} />
             <span>{hero.ctaExplore}</span>
           </button>
         </motion.div>
