@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, Sparkles } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
+import CountdownDivider from './svg/CountdownDivider';
 
 export default function Countdown() {
   const { countdown, recipient } = birthdayData;
@@ -123,6 +124,8 @@ export default function Countdown() {
               {countdown.celebrationTitle}
             </h2>
 
+            <CountdownDivider delay={0.2} maxWidth={320} />
+
             <p
               style={{
                 fontFamily: 'var(--font-editorial)',
@@ -164,7 +167,7 @@ export default function Countdown() {
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
-                marginBottom: '12px',
+                marginBottom: '10px',
                 letterSpacing: '-0.01em',
               }}
             >
@@ -176,11 +179,14 @@ export default function Countdown() {
                 fontFamily: 'var(--font-sans)',
                 fontSize: '0.95rem',
                 color: '#bfaecf',
-                marginBottom: '38px',
+                marginBottom: '10px',
               }}
             >
               Counting down every second until the birthday celebrations begin!
             </p>
+
+            {/* Subtle Animated SVG Separator */}
+            <CountdownDivider delay={0.2} maxWidth={420} />
 
             {/* Countdown Grid */}
             <div
@@ -210,20 +216,33 @@ export default function Countdown() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    overflow: 'hidden',
                   }}
                 >
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(2.4rem, 5vw, 3.4rem)',
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      marginBottom: '8px',
-                    }}
-                    className="text-gold-gradient"
-                  >
-                    {String(unit.value).padStart(2, '0')}
-                  </span>
+                  {/* Number with smooth height/opacity tick */}
+                  <div style={{ height: 'clamp(2.4rem, 5vw, 3.4rem)', overflow: 'hidden' }}>
+                    <AnimatePresence mode="popLayout">
+                      <motion.span
+                        key={unit.value}
+                        initial={{ y: -16, opacity: 0.3 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 16, opacity: 0 }}
+                        transition={{ duration: 0.28, ease: 'easeOut' }}
+                        style={{
+                          display: 'block',
+                          fontFamily: 'var(--font-serif)',
+                          fontSize: 'clamp(2.4rem, 5vw, 3.4rem)',
+                          fontWeight: 700,
+                          lineHeight: 1,
+                          marginBottom: '8px',
+                        }}
+                        className="text-gold-gradient"
+                      >
+                        {String(unit.value).padStart(2, '0')}
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
+
                   <span
                     style={{
                       fontSize: '0.78rem',
@@ -232,6 +251,7 @@ export default function Countdown() {
                       textTransform: 'uppercase',
                       color: '#c4b1fc',
                       fontWeight: 600,
+                      marginTop: '6px',
                     }}
                   >
                     {unit.label}
@@ -240,10 +260,13 @@ export default function Countdown() {
               ))}
             </div>
 
+            {/* Bottom Subtle Animated SVG Separator */}
+            <CountdownDivider delay={0.4} maxWidth={260} />
+
             {/* Timezone Note */}
             <div
               style={{
-                marginTop: '32px',
+                marginTop: '12px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',

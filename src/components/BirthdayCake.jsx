@@ -304,10 +304,10 @@ export default function BirthdayCake() {
 
                   {/* Extinguished Smoke Puff */}
                   {!candlesLit && (
-                    <g style={{ opacity: 0.5 }}>
+                    <g style={{ opacity: 0.6 }}>
                       <path
-                        d={`M${candle.cx} ${candleTop - 5} Q${candle.cx - 5} ${candleTop - 18} ${candle.cx + 2} ${candleTop - 30} T${candle.cx - 2} ${candleTop - 42}`}
-                        stroke="#a69bb8"
+                        d={`M${candle.cx} ${candleTop - 5} Q${candle.cx - 6} ${candleTop - 18} ${candle.cx + 3} ${candleTop - 32} T${candle.cx - 2} ${candleTop - 48}`}
+                        stroke="#c4b1fc"
                         strokeWidth="1.5"
                         fill="none"
                         strokeDasharray="2 3"
@@ -317,6 +317,57 @@ export default function BirthdayCake() {
                 </g>
               );
             })}
+
+            {/* Celebratory SVG Confetti / Sparkle Shapes when wish is made */}
+            {wishMade && (
+              <g>
+                <motion.polygon
+                  points="170,20 173,30 183,33 173,36 170,46 167,36 157,33 167,30"
+                  fill="#ffd166"
+                  initial={{ y: 20, opacity: 0, scale: 0.5 }}
+                  animate={{ y: -35, opacity: [0, 1, 0.9, 0], scale: 1.2 }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
+                />
+                <motion.circle
+                  cx="140"
+                  cy="35"
+                  r="3.5"
+                  fill="#f4b4cb"
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{ y: -35, opacity: [0, 1, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+                />
+                <motion.polygon
+                  points="198,30 200,36 206,38 200,40 198,46 196,40 190,38 196,36"
+                  fill="#c4b1fc"
+                  initial={{ y: 15, opacity: 0 }}
+                  animate={{ y: -40, opacity: [0, 1, 0] }}
+                  transition={{ duration: 2.4, repeat: Infinity, delay: 0.6 }}
+                />
+                <motion.rect
+                  x="125"
+                  y="45"
+                  width="4"
+                  height="8"
+                  rx="1"
+                  fill="#dfb65b"
+                  initial={{ y: 10, rotate: 0, opacity: 0 }}
+                  animate={{ y: -30, rotate: 180, opacity: [0, 1, 0] }}
+                  transition={{ duration: 1.9, repeat: Infinity, delay: 0.2 }}
+                />
+                <motion.rect
+                  x="210"
+                  y="45"
+                  width="4"
+                  height="8"
+                  rx="1"
+                  fill="#ffd166"
+                  initial={{ y: 10, rotate: 0, opacity: 0 }}
+                  animate={{ y: -30, rotate: -180, opacity: [0, 1, 0] }}
+                  transition={{ duration: 2.1, repeat: Infinity, delay: 0.5 }}
+                />
+              </g>
+            )}
           </svg>
         </div>
 

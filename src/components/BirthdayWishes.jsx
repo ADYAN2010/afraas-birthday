@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Smile, Trophy, Camera, Compass, Sun, ChevronRight } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
+import BotanicalFlourish from './svg/BotanicalFlourish';
 
 const iconMap = {
   Smile: Smile,
@@ -75,12 +76,15 @@ export default function BirthdayWishes() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '14px',
+            marginBottom: '10px',
           }}
           className="text-gold-gradient"
         >
           {wishes.heading}
         </h2>
+
+        {/* Hand-drawn Botanical SVG Flourish */}
+        <BotanicalFlourish delay={0.2} maxWidth={260} />
 
         <p
           style={{

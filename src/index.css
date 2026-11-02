@@ -313,3 +313,79 @@ h1, h2, h3, h4 {
     scroll-behavior: auto !important;
   }
 }
+
+/* SVG Path Stroke Drawing Animation */
+@keyframes svgPathDraw {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0.2;
+  }
+  60% {
+    opacity: 0.85;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Subtle Slow Rotation for Ornamental Geometric SVGs */
+@keyframes slowSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reverseSpin {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slowSpin 45s linear infinite;
+  transform-origin: center;
+}
+
+.animate-reverse-spin {
+  animation: reverseSpin 38s linear infinite;
+  transform-origin: center;
+}
+
+/* Delicate Breathing / Floating for SVG Elements */
+@keyframes svgBreathe {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.02) translateY(-4px);
+  }
+}
+
+.animate-svg-breathe {
+  animation: svgBreathe 7s ease-in-out infinite;
+}
+
+/* Fine Starlight Twinkle */
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.animate-star-twinkle {
+  animation: starTwinkle 3.5s ease-in-out infinite;
+  transform-origin: center;
+}
+

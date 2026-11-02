@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Feather, Sparkles, Star } from 'lucide-react';
+import { Feather, Sparkles } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
+import BotanicalFlourish from './svg/BotanicalFlourish';
 
 export default function PersonalNote() {
   const { personalNote } = birthdayData;
@@ -51,12 +52,15 @@ export default function PersonalNote() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '12px',
+            marginBottom: '10px',
           }}
           className="text-gold-gradient"
         >
           {personalNote.heading}
         </h2>
+
+        {/* Hand-drawn Botanical SVG Flourish */}
+        <BotanicalFlourish delay={0.25} maxWidth={240} />
 
         <p
           style={{

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Cake, Feather, PartyPopper, ChevronDown } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
+import HeroFloralEmblem from './svg/HeroFloralEmblem';
 
 export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
   const { hero } = birthdayData;
@@ -117,6 +118,16 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
 
       {/* Hero Content Container */}
       <div style={{ maxWidth: '880px', position: 'relative', zIndex: 3 }}>
+        {/* Custom SVG Line-Art Floral & Celestial Drawing Emblem */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '16px' }}
+        >
+          <HeroFloralEmblem />
+        </motion.div>
+
         {/* Date Tagline Badge */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}

@@ -4,6 +4,7 @@ import { Sparkles, PartyPopper, Star, X } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerFinaleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
+import CelebrationEmblem from './svg/CelebrationEmblem';
 
 export default function FinalSurprise() {
   const [isOpen, setIsOpen] = useState(false);
@@ -183,23 +184,8 @@ export default function FinalSurprise() {
                 <X size={18} />
               </button>
 
-              {/* Glowing Top Party Icon */}
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: 'rgba(223, 182, 91, 0.15)',
-                  border: '1px solid rgba(223, 182, 91, 0.4)',
-                  color: '#ffd166',
-                  marginBottom: '20px',
-                }}
-              >
-                <PartyPopper size={28} />
-              </div>
+              {/* Custom Animated SVG Progressive Drawing Celebration Emblem */}
+              <CelebrationEmblem />
 
               {/* Tagline */}
               <div

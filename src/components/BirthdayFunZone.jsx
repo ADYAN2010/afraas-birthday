@@ -4,6 +4,7 @@ import { PartyPopper, Sparkles, HelpCircle, Gift, Shuffle, CheckCircle, RefreshC
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst, triggerCandleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
+import CountdownDivider from './svg/CountdownDivider';
 
 export default function BirthdayFunZone() {
   const { interactiveFun } = birthdayData;
@@ -105,12 +106,15 @@ export default function BirthdayFunZone() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '12px',
+            marginBottom: '10px',
           }}
           className="text-gold-gradient"
         >
           {interactiveFun.heading}
         </h2>
+
+        {/* Hand-drawn SVG Decorative Line */}
+        <CountdownDivider delay={0.2} maxWidth={280} />
 
         <p
           style={{
