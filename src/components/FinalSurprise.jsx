@@ -149,6 +149,7 @@ export default function FinalSurprise() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="celebration-modal-card"
               style={{
                 position: 'relative',
                 maxWidth: '680px',

@@ -449,67 +449,133 @@ button,
   }
 }
 
-/* Responsive Photo Gallery Grid */
+/* ==========================================================================
+   IPAD & TABLET SPECIFIC LAYOUTS (744px to 1040px & Landscape)
+   ========================================================================== */
+
+/* Responsive Photo Gallery Grid:
+   - Mobile: 1 col stack
+   - Tablet (iPad Mini 744px, iPad Air 820px, iPad Pro 834px/1032px):
+     Row 1: Featured Portrait (Image 1) centrally spans 2 columns
+     Row 2: Dual vertical collages (Images 2 & 3) sit side-by-side in 2 columns
+   - Desktop & Tablet Landscape (>= 1041px): 3 columns side by side
+*/
 .gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 28px;
+  gap: 24px;
   align-items: start;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 641px) and (max-width: 1040px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 28px;
   }
+
+  .gallery-featured-item {
+    grid-column: 1 / -1;
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1041px) {
   .gallery-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
   }
 }
 
-/* Responsive Wishes Grid */
+/* Responsive Wishes Grid:
+   - Mobile: 1 col (6 rows)
+   - Tablet (iPad): 2 cols (3 rows of 2) - completely balanced, 0 empty slots
+   - Desktop & Tablet Landscape (>= 1041px): 3 cols (2 rows of 3)
+*/
 .wishes-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 
-@media (min-width: 680px) {
+@media (min-width: 641px) and (max-width: 1040px) {
   .wishes-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 }
 
-@media (min-width: 1060px) {
+@media (min-width: 1041px) {
   .wishes-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 26px;
   }
 }
 
-/* Responsive Arcade / Fun Zone Grid */
+/* Responsive Arcade / Fun Zone Grid:
+   - Mobile: 1 col stack
+   - Tablet (iPad): 2 cols (Row 1: Balloons + Fortune, Row 2: Quiz card spans 2 cols)
+   - Desktop & Tablet Landscape (>= 1041px): 3 cols
+*/
 .arcade-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 641px) and (max-width: 1040px) {
   .arcade-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
+
+  .arcade-quiz-card {
+    grid-column: 1 / -1;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
-@media (min-width: 1060px) {
+@media (min-width: 1041px) {
   .arcade-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 26px;
+  }
+}
+
+/* Tablet Portrait Hero CTA 2x2 Grid (iPad Mini, Air, Pro) */
+@media (min-width: 641px) and (max-width: 960px) {
+  .hero-cta-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 520px;
+    gap: 14px;
+    margin: 0 auto;
+  }
+
+  .hero-btn {
+    width: 100%;
+  }
+
+  .hero-floating-balloon {
+    display: block !important;
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+/* Tablet Landscape Height Optimization (Reduced vertical height e.g. 744px to 834px) */
+@media (orientation: landscape) and (max-height: 900px) {
+  .lightbox-modal-img {
+    max-height: 60vh !important;
+  }
+
+  .celebration-modal-card {
+    max-height: 84vh !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
   }
 }
 

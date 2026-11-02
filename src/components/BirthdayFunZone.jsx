@@ -362,7 +362,7 @@ export default function BirthdayFunZone() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="glass-panel"
+          className="glass-panel arcade-quiz-card"
           style={{
             padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
             display: 'flex',

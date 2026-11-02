@@ -123,7 +123,7 @@ export default function PhotoGallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="glass-panel"
+          className="glass-panel gallery-featured-item"
           style={{
             padding: '18px',
             background: 'linear-gradient(145deg, rgba(32, 16, 54, 0.75) 0%, rgba(18, 8, 32, 0.9) 100%)',
@@ -514,6 +514,7 @@ export default function PhotoGallery() {
               <img
                 src={activeImage.src}
                 alt={activeImage.alt}
+                className="lightbox-modal-img"
                 style={{
                   maxHeight: '70vh',
                   maxWidth: '100%',
