@@ -5,6 +5,7 @@ import MusicPlayer from './components/MusicPlayer';
 import BirthdayHero from './components/BirthdayHero';
 import Countdown from './components/Countdown';
 import PersonalNote from './components/PersonalNote';
+import PhotoGallery from './components/PhotoGallery';
 import BirthdayCake from './components/BirthdayCake';
 import BirthdayWishes from './components/BirthdayWishes';
 import BirthdayFunZone from './components/BirthdayFunZone';
@@ -29,6 +30,13 @@ export default function App() {
 
   const scrollToNote = () => {
     const el = document.getElementById('note-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToGallery = () => {
+    const el = document.getElementById('gallery-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -59,6 +67,7 @@ export default function App() {
           <BirthdayHero
             onWishClick={scrollToCake}
             onNoteClick={scrollToNote}
+            onGalleryClick={scrollToGallery}
             onFunClick={scrollToFun}
           />
 
@@ -68,19 +77,22 @@ export default function App() {
           {/* 3. A Little Note For You (From Adyan to Afraa) */}
           <PersonalNote />
 
-          {/* 4. Interactive Birthday Cake & Candle Blow */}
+          {/* 4. A Little Photo Corner (Afraa's Portrait & Scrapbook Collages) */}
+          <PhotoGallery />
+
+          {/* 5. Interactive Birthday Cake & Candle Blow */}
           <BirthdayCake />
 
-          {/* 5. Birthday Wishes ("Here's To Your New Chapter!") */}
+          {/* 6. Birthday Wishes ("Here's To Your New Chapter!") */}
           <BirthdayWishes />
 
-          {/* 6. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz) */}
+          {/* 7. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz) */}
           <BirthdayFunZone />
 
-          {/* 7. Grand Birthday Finale */}
+          {/* 8. Grand Birthday Finale */}
           <FinalSurprise />
 
-          {/* 8. Friendly Footer */}
+          {/* 9. Friendly Footer */}
           <Footer />
         </main>
       )}

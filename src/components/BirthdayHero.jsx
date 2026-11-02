@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Cake, Feather, PartyPopper, ChevronDown } from 'lucide-react';
+import { Sparkles, Cake, Feather, PartyPopper, ChevronDown, Camera } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 import HeroFloralEmblem from './svg/HeroFloralEmblem';
 
-export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
+export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick, onFunClick }) {
   const { hero } = birthdayData;
 
   const handleWish = (e) => {
@@ -27,6 +27,15 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
       onNoteClick();
     } else {
       const el = document.getElementById('note-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleGallery = () => {
+    if (onGalleryClick) {
+      onGalleryClick();
+    } else {
+      const el = document.getElementById('gallery-section');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -261,6 +270,18 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onFunClick }) {
           >
             <Feather size={17} color="#dfb65b" />
             <span>{hero.ctaNote}</span>
+          </button>
+
+          <button
+            onClick={handleGallery}
+            className="btn-glass"
+            style={{
+              padding: '15px 30px',
+              fontSize: '0.98rem',
+            }}
+          >
+            <Camera size={17} color="#dfb65b" />
+            <span>Photo Corner 📸</span>
           </button>
 
           <button
