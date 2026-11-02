@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Flame, RotateCcw, Heart, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Flame, RotateCcw } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerCandleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
@@ -68,7 +68,7 @@ export default function BirthdayCake() {
           }}
         >
           <Sparkles size={14} />
-          <span>INTERACTIVE MOMENT</span>
+          <span>A BIRTHDAY TRADITION</span>
         </div>
 
         <h2
@@ -83,13 +83,14 @@ export default function BirthdayCake() {
           {cake.heading}
         </h2>
 
+        {/* The Exact Subtitle Requested */}
         <p
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.15rem, 2.5vw, 1.45rem)',
+            fontSize: 'clamp(1.18rem, 2.8vw, 1.5rem)',
             color: '#d8c8ff',
-            maxWidth: '620px',
+            maxWidth: '650px',
             margin: '0 auto',
           }}
         >
@@ -130,7 +131,7 @@ export default function BirthdayCake() {
         {/* Illustrated Cake Canvas / SVG */}
         <div
           onClick={handleBlowCandles}
-          title={candlesLit ? 'Click cake or candles to blow them out!' : 'Candles are blown out!'}
+          title={candlesLit ? 'Click candles to blow them out!' : 'Candles are blown out!'}
           style={{
             cursor: candlesLit ? 'pointer' : 'default',
             display: 'inline-block',
@@ -152,40 +153,34 @@ export default function BirthdayCake() {
             }}
           >
             <defs>
-              {/* Stand Gold Gradient */}
-              <linearGradient id="goldStand" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id="standGrad" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor="#faeed1" />
                 <stop offset="50%" stopColor="#dfb65b" />
                 <stop offset="100%" stopColor="#b8913b" />
               </linearGradient>
 
-              {/* Tier 1 Lavender */}
-              <linearGradient id="tier1Grad" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="tierBottom" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#d8c8ff" />
                 <stop offset="100%" stopColor="#8d62ed" />
               </linearGradient>
 
-              {/* Tier 2 Blush Pink */}
-              <linearGradient id="tier2Grad" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="tierMiddle" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#fbe6ee" />
                 <stop offset="100%" stopColor="#e0688c" />
               </linearGradient>
 
-              {/* Tier 3 Ivory Cream */}
-              <linearGradient id="tier3Grad" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="tierTop" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop offset="100%" stopColor="#faeed1" />
               </linearGradient>
 
-              {/* Candle Body Gold Pattern */}
-              <linearGradient id="candleGrad" x1="0" y1="0" x2="1" y2="0">
+              <linearGradient id="candleBody" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#faeed1" />
                 <stop offset="50%" stopColor="#ffffff" />
                 <stop offset="100%" stopColor="#dfb65b" />
               </linearGradient>
 
-              {/* Flame Radial */}
-              <radialGradient id="flameGrad" cx="50%" cy="50%" r="50%">
+              <radialGradient id="cakeFlame" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#ffffff" />
                 <stop offset="35%" stopColor="#ffd166" />
                 <stop offset="80%" stopColor="#ff7675" />
@@ -194,13 +189,12 @@ export default function BirthdayCake() {
             </defs>
 
             {/* 1. Cake Pedestal / Plate */}
-            <ellipse cx="170" cy="305" rx="140" ry="16" fill="url(#goldStand)" />
+            <ellipse cx="170" cy="305" rx="140" ry="16" fill="url(#standGrad)" />
             <path d="M145 305 L155 325 L185 325 L195 305 Z" fill="#b8913b" />
-            <rect x="140" y="322" width="60" height="6" rx="3" fill="url(#goldStand)" />
+            <rect x="140" y="322" width="60" height="6" rx="3" fill="url(#standGrad)" />
 
-            {/* 2. Bottom Tier (Lavender, largest) */}
-            <rect x="55" y="225" width="230" height="75" rx="14" fill="url(#tier1Grad)" />
-            {/* Bottom tier decorative scallops */}
+            {/* 2. Bottom Tier (Lavender) */}
+            <rect x="55" y="225" width="230" height="75" rx="14" fill="url(#tierBottom)" />
             <path
               d="M55 240 Q75 255 95 240 Q115 255 135 240 Q155 255 175 240 Q195 255 215 240 Q235 255 255 240 Q275 255 285 240"
               stroke="#faeed1"
@@ -208,14 +202,12 @@ export default function BirthdayCake() {
               fill="none"
               strokeLinecap="round"
             />
-            {/* Gold pearl dots */}
             {[75, 115, 155, 195, 235, 275].map((x, i) => (
-              <circle key={`p1-${i}`} cx={x} cy="265" r="3" fill="#faeed1" />
+              <circle key={`pearl-${i}`} cx={x} cy="265" r="3" fill="#faeed1" />
             ))}
 
             {/* 3. Middle Tier (Blush Pink) */}
-            <rect x="85" y="155" width="170" height="72" rx="12" fill="url(#tier2Grad)" />
-            {/* Middle tier drip frosting */}
+            <rect x="85" y="155" width="170" height="72" rx="12" fill="url(#tierMiddle)" />
             <path
               d="M85 165 C95 180, 105 180, 115 165 C125 188, 138 188, 148 165 C158 190, 172 190, 182 165 C192 185, 205 185, 215 165 C225 188, 240 188, 255 165"
               stroke="#ffffff"
@@ -223,13 +215,12 @@ export default function BirthdayCake() {
               fill="none"
               strokeLinecap="round"
             />
-            {/* Little decorative stars */}
             <circle cx="120" cy="195" r="2.5" fill="#faeed1" />
             <circle cx="170" cy="200" r="3.5" fill="#faeed1" />
             <circle cx="220" cy="195" r="2.5" fill="#faeed1" />
 
             {/* 4. Top Tier (Ivory Cream) */}
-            <rect x="115" y="95" width="110" height="62" rx="10" fill="url(#tier3Grad)" />
+            <rect x="115" y="95" width="110" height="62" rx="10" fill="url(#tierTop)" />
             <path
               d="M115 105 Q125 115 137 105 Q149 115 161 105 Q173 115 185 105 Q197 115 209 105 Q220 115 225 105"
               stroke="#dfb65b"
@@ -237,12 +228,11 @@ export default function BirthdayCake() {
               fill="none"
               strokeLinecap="round"
             />
-            {/* Rose/Berry accent on top tier */}
             <circle cx="170" cy="95" r="7" fill="#e0688c" />
             <circle cx="158" cy="98" r="5" fill="#f4b4cb" />
             <circle cx="182" cy="98" r="5" fill="#f4b4cb" />
 
-            {/* 5. Five Elegant Golden Candles */}
+            {/* 5. Five Glowing Candles */}
             {[
               { id: 1, cx: 135, cy: 55, height: 40 },
               { id: 2, cx: 152, cy: 45, height: 50 },
@@ -255,7 +245,7 @@ export default function BirthdayCake() {
 
               return (
                 <g key={candle.id}>
-                  {/* Candle Wick */}
+                  {/* Wick */}
                   <line
                     x1={candle.cx}
                     y1={candleTop}
@@ -272,12 +262,12 @@ export default function BirthdayCake() {
                     width="7"
                     height={candle.height}
                     rx="2"
-                    fill="url(#candleGrad)"
+                    fill="url(#candleBody)"
                     stroke="#dfb65b"
                     strokeWidth="0.8"
                   />
 
-                  {/* Candle Stripes */}
+                  {/* Gold Stripes */}
                   <line
                     x1={candle.cx - 3}
                     y1={candleTop + 8}
@@ -295,7 +285,7 @@ export default function BirthdayCake() {
                     strokeWidth="1"
                   />
 
-                  {/* Candle Flame (Flickering Animation) */}
+                  {/* Animated Flame */}
                   {candlesLit && (
                     <g
                       style={{
@@ -303,19 +293,16 @@ export default function BirthdayCake() {
                         animation: `flameFlicker ${1.8 + (candle.id % 3) * 0.4}s ease-in-out infinite`,
                       }}
                     >
-                      {/* Outer Glow */}
-                      <circle cx={candle.cx} cy={flameY + 3} r="14" fill="url(#flameGrad)" opacity="0.85" />
-                      {/* Flame Teardrop */}
+                      <circle cx={candle.cx} cy={flameY + 3} r="14" fill="url(#cakeFlame)" opacity="0.85" />
                       <path
                         d={`M${candle.cx} ${flameY - 14} C${candle.cx - 6} ${flameY - 3}, ${candle.cx - 5} ${flameY + 6}, ${candle.cx} ${flameY + 7} C${candle.cx + 5} ${flameY + 6}, ${candle.cx + 6} ${flameY - 3}, ${candle.cx} ${flameY - 14} Z`}
                         fill="#ffd166"
                       />
-                      {/* Inner White-hot core */}
                       <ellipse cx={candle.cx} cy={flameY + 3} rx="2.5" ry="5" fill="#ffffff" />
                     </g>
                   )}
 
-                  {/* Wispy Smoke Puff (when extinguished) */}
+                  {/* Extinguished Smoke Puff */}
                   {!candlesLit && (
                     <g style={{ opacity: 0.5 }}>
                       <path
@@ -333,7 +320,7 @@ export default function BirthdayCake() {
           </svg>
         </div>
 
-        {/* Action Prompt */}
+        {/* Prompt */}
         <p
           style={{
             marginTop: '20px',
@@ -342,7 +329,7 @@ export default function BirthdayCake() {
             fontFamily: 'var(--font-sans)',
           }}
         >
-          {candlesLit ? cake.actionText : 'The candles are blown out! ✨'}
+          {candlesLit ? cake.promptLit : cake.promptExtinguished}
         </p>
 
         {/* Buttons / Wish Control */}
@@ -366,7 +353,7 @@ export default function BirthdayCake() {
               style={{ padding: '14px 38px', fontSize: '1rem' }}
             >
               <Flame size={18} color="#1a0b27" fill="#1a0b27" />
-              <span>{isBlowing ? 'Blowing out candles...' : cake.wishButtonText}</span>
+              <span>{isBlowing ? 'Blowing out candles...' : cake.buttonBlow}</span>
             </motion.button>
           ) : (
             <motion.button
@@ -380,12 +367,12 @@ export default function BirthdayCake() {
               }}
             >
               <RotateCcw size={16} />
-              <span>{cake.relightButtonText}</span>
+              <span>{cake.buttonRelight}</span>
             </motion.button>
           )}
         </div>
 
-        {/* Wish Granted Notification / Message Card */}
+        {/* Wish Granted Notification */}
         <AnimatePresence>
           {wishMade && (
             <motion.div
@@ -415,7 +402,7 @@ export default function BirthdayCake() {
                 }}
               >
                 <Sparkles size={16} />
-                <span>WISH SEALED WITH LOVE</span>
+                <span>WISH SENT TO THE UNIVERSE</span>
                 <Sparkles size={16} />
               </div>
 
@@ -442,7 +429,7 @@ export default function BirthdayCake() {
                   lineHeight: 1.5,
                 }}
               >
-                “{cake.wishGrantedMessage}”
+                “{cake.wishGrantedSub}”
               </p>
             </motion.div>
           )}

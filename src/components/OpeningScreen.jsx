@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Heart, Star } from 'lucide-react';
+import { Sparkles, Heart } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
@@ -14,7 +14,6 @@ export default function OpeningScreen({ onOpen }) {
     soundCtrl.playMagicalSparkle();
     triggerSparkleBurst(0.5, 0.55);
 
-    // Smooth cinematic delay before revealing the main site
     setTimeout(() => {
       onOpen();
     }, 700);
@@ -28,9 +27,9 @@ export default function OpeningScreen({ onOpen }) {
           animate={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.08,
-            filter: 'blur(10px)',
-            transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+            scale: 1.06,
+            filter: 'blur(8px)',
+            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
           }}
           style={{
             position: 'fixed',
@@ -39,32 +38,32 @@ export default function OpeningScreen({ onOpen }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'radial-gradient(ellipse at center, #1b0a30 0%, #0d0617 70%, #06020c 100%)',
+            background: 'radial-gradient(ellipse at center, #1c0a32 0%, #0d0617 70%, #06020c 100%)',
             padding: '24px',
             overflow: 'hidden',
           }}
         >
-          {/* Subtle Ambient Glow Circles */}
+          {/* Subtle Ambient Radial Glows */}
           <div
             style={{
               position: 'absolute',
-              width: '500px',
-              height: '500px',
+              width: '520px',
+              height: '520px',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(224, 104, 140, 0.22) 0%, transparent 70%)',
-              filter: 'blur(70px)',
+              filter: 'blur(75px)',
               pointerEvents: 'none',
-              transform: 'translate(-20%, -30%)',
+              transform: 'translate(-25%, -30%)',
             }}
           />
           <div
             style={{
               position: 'absolute',
-              width: '450px',
-              height: '450px',
+              width: '460px',
+              height: '460px',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(223, 182, 91, 0.2) 0%, transparent 70%)',
-              filter: 'blur(70px)',
+              filter: 'blur(75px)',
               pointerEvents: 'none',
               transform: 'translate(30%, 30%)',
             }}
@@ -72,9 +71,9 @@ export default function OpeningScreen({ onOpen }) {
 
           {/* Main Cinematic Card Container */}
           <motion.div
-            initial={{ y: 25, opacity: 0 }}
+            initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             style={{
               position: 'relative',
               maxWidth: '560px',
@@ -91,7 +90,7 @@ export default function OpeningScreen({ onOpen }) {
           >
             {/* Top Ornamental Star Accent */}
             <motion.div
-              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.05, 1] }}
+              animate={{ rotate: [0, 8, -8, 0], scale: [1, 1.05, 1] }}
               transition={{ repeat: Infinity, duration: 6, ease: 'easeInOut' }}
               style={{
                 display: 'inline-flex',
@@ -115,7 +114,7 @@ export default function OpeningScreen({ onOpen }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.8 }}
               style={{
-                fontSize: '0.82rem',
+                fontSize: '0.8rem',
                 fontFamily: 'var(--font-sans)',
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -201,7 +200,7 @@ export default function OpeningScreen({ onOpen }) {
                 letterSpacing: '0.04em',
               }}
             >
-              Turn on sound for the best experience 🎵
+              {openingScreen.audioHint}
             </p>
           </motion.div>
         </motion.div>

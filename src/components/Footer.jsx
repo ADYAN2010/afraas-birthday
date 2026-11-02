@@ -21,7 +21,7 @@ export default function Footer() {
       }}
     >
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-        {/* Decorative Star */}
+        {/* Back to top star button */}
         <div
           onClick={scrollToTop}
           title="Back to top"
@@ -53,10 +53,10 @@ export default function Footer() {
             marginBottom: '18px',
           }}
         >
-          “{footer.quote}”
+          {footer.quote}
         </p>
 
-        {/* Small Attribution */}
+        {/* Attribution */}
         <div
           style={{
             display: 'flex',
@@ -68,9 +68,9 @@ export default function Footer() {
             letterSpacing: '0.04em',
           }}
         >
-          <span>Crafted with</span>
-          <Heart size={14} color="#e0688c" fill="#e0688c" />
-          <span>for {recipient.fullName}</span>
+          <span>{footer.credit}</span>
+          <span>•</span>
+          <Heart size={13} color="#e0688c" fill="#e0688c" />
           <span>•</span>
           <span>{footer.year}</span>
         </div>

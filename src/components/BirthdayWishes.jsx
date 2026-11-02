@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Star, Crown, HeartHandshake, Heart, Gift, ChevronRight } from 'lucide-react';
+import { Sparkles, Smile, Coffee, Trophy, Compass, Heart, ChevronRight } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 
 const iconMap = {
+  Smile: Smile,
+  Coffee: Coffee,
+  Trophy: Trophy,
   Sparkles: Sparkles,
-  Star: Star,
-  Crown: Crown,
-  HeartHandshake: HeartHandshake,
+  Compass: Compass,
   Heart: Heart,
-  Gift: Gift,
 };
 
-export default function Wishes() {
-  const { reasonsToSmile } = birthdayData;
+export default function BirthdayWishes() {
+  const { birthdayWishes } = birthdayData;
   const [activeCard, setActiveCard] = useState(null);
 
   const toggleCard = (id, e) => {
@@ -67,7 +67,7 @@ export default function Wishes() {
           }}
         >
           <Sparkles size={14} />
-          <span>REASONS TO SMILE</span>
+          <span>HEARTFELT WISHES</span>
         </div>
 
         <h2
@@ -79,7 +79,7 @@ export default function Wishes() {
           }}
           className="text-gold-gradient"
         >
-          {reasonsToSmile.heading}
+          {birthdayWishes.heading}
         </h2>
 
         <p
@@ -92,7 +92,7 @@ export default function Wishes() {
             margin: '0 auto',
           }}
         >
-          “{reasonsToSmile.subtitle}”
+          “{birthdayWishes.subtitle}”
         </p>
       </motion.div>
 
@@ -104,7 +104,7 @@ export default function Wishes() {
           gap: '24px',
         }}
       >
-        {reasonsToSmile.items.map((item, index) => {
+        {birthdayWishes.wishes.map((item, index) => {
           const IconComponent = iconMap[item.icon] || Sparkles;
           const isExpanded = activeCard === item.id;
 
@@ -188,7 +188,7 @@ export default function Wishes() {
                   {item.title}
                 </h3>
 
-                {/* Short or Full Description */}
+                {/* Detail */}
                 <p
                   style={{
                     fontSize: '0.94rem',
@@ -197,7 +197,7 @@ export default function Wishes() {
                     transition: 'color 0.3s ease',
                   }}
                 >
-                  {isExpanded ? item.fullNote : item.shortDesc}
+                  {item.detail}
                 </p>
               </div>
 
@@ -215,7 +215,7 @@ export default function Wishes() {
                   color: '#dfb65b',
                 }}
               >
-                <span>{isExpanded ? 'Close message' : 'Tap to read note'}</span>
+                <span>{isExpanded ? 'Wish noted ✨' : 'Tap to focus wish'}</span>
                 <ChevronRight
                   size={16}
                   style={{

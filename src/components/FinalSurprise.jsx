@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Sparkles, Heart, Star, X, RotateCcw } from 'lucide-react';
+import { Gift, Sparkles, Heart, X, RotateCcw } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerFinaleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
 
 export default function FinalSurprise() {
   const [isOpen, setIsOpen] = useState(false);
-  const { finalSurprise, recipient } = birthdayData;
+  const { finalSurprise } = birthdayData;
 
   const handleOpenSurprise = () => {
     setIsOpen(true);
@@ -72,7 +72,7 @@ export default function FinalSurprise() {
           }}
         >
           <Sparkles size={14} />
-          <span>A CLOSING BLESSING</span>
+          <span>ONE LAST THING</span>
         </div>
 
         <h2
@@ -80,24 +80,26 @@ export default function FinalSurprise() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.4rem, 6vw, 3.8rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '20px',
+            marginBottom: '22px',
           }}
           className="text-gold-gradient"
         >
           {finalSurprise.heading}
         </h2>
 
+        {/* Narrative Message */}
         <p
           style={{
-            fontFamily: 'var(--font-editorial)',
-            fontStyle: 'italic',
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(1.05rem, 2.4vw, 1.25rem)',
             color: '#d8c8ff',
-            maxWidth: '560px',
-            margin: '0 auto 40px',
+            maxWidth: '680px',
+            margin: '0 auto 38px',
+            lineHeight: 1.8,
+            fontWeight: 400,
           }}
         >
-          Before you conclude your visit, there is one last heartfelt sentiment crafted especially for you.
+          “{finalSurprise.messageText}”
         </p>
 
         {/* Surprise Box Trigger Button */}
@@ -181,29 +183,25 @@ export default function FinalSurprise() {
                 <X size={18} />
               </button>
 
-              {/* Glowing Badge */}
+              {/* Glowing Top Heart */}
               <div
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 18px',
-                  borderRadius: '9999px',
+                  justifyContent: 'center',
+                  width: '54px',
+                  height: '54px',
+                  borderRadius: '50%',
                   background: 'rgba(224, 104, 140, 0.15)',
                   border: '1px solid rgba(224, 104, 140, 0.4)',
                   color: '#f4b4cb',
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.15em',
-                  marginBottom: '22px',
+                  marginBottom: '20px',
                 }}
               >
-                <Heart size={14} fill="#f4b4cb" />
-                <span>{finalSurprise.modalBadge}</span>
-                <Heart size={14} fill="#f4b4cb" />
+                <Heart size={26} fill="#f4b4cb" />
               </div>
 
-              {/* Main Heading */}
+              {/* Main Celebratory Reveal Heading */}
               <h2
                 style={{
                   fontFamily: 'var(--font-serif)',
@@ -214,24 +212,24 @@ export default function FinalSurprise() {
                 }}
                 className="text-gold-gradient"
               >
-                {finalSurprise.modalHeading}
+                {finalSurprise.revealHeading}
               </h2>
 
-              {/* Special Celebratory Quote */}
+              {/* Special Celebratory Note */}
               <p
                 style={{
                   fontFamily: 'var(--font-editorial)',
                   fontStyle: 'italic',
-                  fontSize: 'clamp(1.25rem, 3vw, 1.65rem)',
+                  fontSize: 'clamp(1.2rem, 2.8vw, 1.55rem)',
                   color: '#faeed1',
-                  marginBottom: '24px',
-                  lineHeight: 1.45,
+                  marginBottom: '28px',
+                  lineHeight: 1.5,
                 }}
               >
-                {finalSurprise.quote}
+                “Keep smiling, keep being yourself, and never forget how special you are.”
               </p>
 
-              {/* Warm Message */}
+              {/* Genuine Warmth Paragraph */}
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
@@ -243,7 +241,7 @@ export default function FinalSurprise() {
                   margin: '0 auto 36px',
                 }}
               >
-                {finalSurprise.message}
+                May this coming year be kind to you, full of victories big and small, and filled with memories you'll always look back on with a smile.
               </p>
 
               {/* Actions: Replay Confetti & Close */}
@@ -262,7 +260,7 @@ export default function FinalSurprise() {
                   style={{ padding: '14px 30px' }}
                 >
                   <Sparkles size={18} />
-                  <span>More Confetti! 🎉</span>
+                  <span>{finalSurprise.replayText}</span>
                 </button>
 
                 <button

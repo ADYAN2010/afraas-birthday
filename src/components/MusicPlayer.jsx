@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Music } from 'lucide-react';
 import { soundCtrl } from '../utils/audio';
 
-export default function MusicToggle({ autoStarted = false }) {
+export default function MusicPlayer({ autoStarted = false }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
 
@@ -39,7 +39,7 @@ export default function MusicToggle({ autoStarted = false }) {
           gap: '10px',
           padding: '10px 18px',
           borderRadius: '9999px',
-          background: 'rgba(26, 11, 46, 0.75)',
+          background: 'rgba(26, 11, 46, 0.78)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           border: '1px solid rgba(223, 182, 91, 0.35)',
@@ -61,7 +61,7 @@ export default function MusicToggle({ autoStarted = false }) {
             </div>
             <Volume2 size={16} color="#dfb65b" />
             <span style={{ fontSize: '0.82rem', fontWeight: 500, letterSpacing: '0.03em' }}>
-              Melody On
+              Melody Playing
             </span>
           </>
         ) : (
@@ -69,7 +69,7 @@ export default function MusicToggle({ autoStarted = false }) {
             <Music size={16} color="#a69bb8" />
             <VolumeX size={16} color="#a69bb8" />
             <span style={{ fontSize: '0.82rem', fontWeight: 500, letterSpacing: '0.03em', color: '#a69bb8' }}>
-              {hasInteracted ? 'Melody Off' : 'Play Melody'}
+              {hasInteracted ? 'Music Muted' : 'Play Music'}
             </span>
           </>
         )}

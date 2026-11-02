@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Heart, Gift, Cake, ChevronDown } from 'lucide-react';
+import { Sparkles, Cake, Mail, ChevronDown } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 
-export default function Hero({ onWishClick }) {
+export default function BirthdayHero({ onWishClick, onLetterClick }) {
   const { hero } = birthdayData;
 
   const handleWish = (e) => {
@@ -16,8 +16,17 @@ export default function Hero({ onWishClick }) {
     if (onWishClick) {
       onWishClick();
     } else {
-      const cakeEl = document.getElementById('cake-section');
-      if (cakeEl) cakeEl.scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById('cake-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleLetter = () => {
+    if (onLetterClick) {
+      onLetterClick();
+    } else {
+      const el = document.getElementById('letter-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -36,12 +45,12 @@ export default function Hero({ onWishClick }) {
         zIndex: 2,
       }}
     >
-      {/* Soft Ambient Colorful Radial Glows */}
+      {/* Soft Ambient Radial Glows */}
       <div className="ambient-glow-pink" style={{ top: '10%', left: '15%' }} />
       <div className="ambient-glow-lavender" style={{ top: '25%', right: '10%' }} />
       <div className="ambient-glow-gold" style={{ bottom: '10%', left: '40%' }} />
 
-      {/* Decorative Floating Luxury Balloons (SVG) */}
+      {/* Floating Pastel Pink Balloon */}
       <motion.div
         animate={{ y: [-15, 15, -15], rotate: [-2, 3, -2] }}
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
@@ -55,12 +64,12 @@ export default function Hero({ onWishClick }) {
         }}
       >
         <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
-          <ellipse cx="30" cy="35" rx="26" ry="32" fill="url(#pinkBalloonGrad)" />
+          <ellipse cx="30" cy="35" rx="26" ry="32" fill="url(#heroPinkBalloonGrad)" />
           <path d="M28 67 L32 67 L30 71 Z" fill="#e0688c" />
           <path d="M30 71 Q35 78 28 85 T32 90" stroke="#f4b4cb" strokeWidth="1" fill="none" opacity="0.6" />
           <ellipse cx="22" cy="22" rx="6" ry="10" fill="white" opacity="0.35" transform="rotate(-20 22 22)" />
           <defs>
-            <linearGradient id="pinkBalloonGrad" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="heroPinkBalloonGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#fbe6ee" />
               <stop offset="60%" stopColor="#f4b4cb" />
               <stop offset="100%" stopColor="#e0688c" />
@@ -69,6 +78,7 @@ export default function Hero({ onWishClick }) {
         </svg>
       </motion.div>
 
+      {/* Floating Champagne Gold Balloon */}
       <motion.div
         animate={{ y: [12, -18, 12], rotate: [2, -3, 2] }}
         transition={{ repeat: Infinity, duration: 8.5, ease: 'easeInOut', delay: 1 }}
@@ -82,12 +92,12 @@ export default function Hero({ onWishClick }) {
         }}
       >
         <svg width="64" height="95" viewBox="0 0 64 95" fill="none">
-          <ellipse cx="32" cy="38" rx="28" ry="34" fill="url(#goldBalloonGrad)" />
+          <ellipse cx="32" cy="38" rx="28" ry="34" fill="url(#heroGoldBalloonGrad)" />
           <path d="M30 72 L34 72 L32 76 Z" fill="#dfb65b" />
           <path d="M32 76 Q27 82 34 89 T30 95" stroke="#faeed1" strokeWidth="1" fill="none" opacity="0.6" />
           <ellipse cx="24" cy="24" rx="7" ry="11" fill="white" opacity="0.4" transform="rotate(-20 24 24)" />
           <defs>
-            <linearGradient id="goldBalloonGrad" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="heroGoldBalloonGrad" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stopColor="#faeed1" />
               <stop offset="60%" stopColor="#dfb65b" />
               <stop offset="100%" stopColor="#b8913b" />
@@ -98,7 +108,7 @@ export default function Hero({ onWishClick }) {
 
       {/* Hero Content Container */}
       <div style={{ maxWidth: '880px', position: 'relative', zIndex: 3 }}>
-        {/* Tagline Badge */}
+        {/* Date Tagline Badge */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -112,17 +122,17 @@ export default function Hero({ onWishClick }) {
             background: 'rgba(223, 182, 91, 0.08)',
             border: '1px solid rgba(223, 182, 91, 0.3)',
             color: '#dfb65b',
-            fontSize: '0.82rem',
+            fontSize: '0.8rem',
             fontWeight: 600,
-            letterSpacing: '0.24em',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
             marginBottom: '26px',
             boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25)',
           }}
         >
-          <Sparkles size={15} color="#ffd166" />
+          <Sparkles size={14} color="#ffd166" />
           <span>{hero.tagline}</span>
-          <Sparkles size={15} color="#ffd166" />
+          <Sparkles size={14} color="#ffd166" />
         </motion.div>
 
         {/* Small "HAPPY BIRTHDAY" over-heading */}
@@ -154,7 +164,7 @@ export default function Hero({ onWishClick }) {
             fontWeight: 700,
             lineHeight: 1.05,
             letterSpacing: '-0.03em',
-            marginBottom: '24px',
+            marginBottom: '22px',
           }}
           className="text-gold-gradient"
         >
@@ -178,7 +188,7 @@ export default function Hero({ onWishClick }) {
           “{hero.subtitle}”
         </motion.p>
 
-        {/* Description */}
+        {/* Narrative Description */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -196,7 +206,7 @@ export default function Hero({ onWishClick }) {
           {hero.description}
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* Interactive CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -213,25 +223,25 @@ export default function Hero({ onWishClick }) {
             onClick={handleWish}
             className="btn-gold"
             style={{
-              padding: '16px 40px',
-              fontSize: '1.05rem',
+              padding: '16px 38px',
+              fontSize: '1.02rem',
             }}
           >
-            <Cake size={19} />
-            <span>{hero.ctaButton}</span>
+            <Cake size={18} />
+            <span>{hero.ctaWish}</span>
           </button>
 
-          <a
-            href="#letter-section"
+          <button
+            onClick={handleLetter}
             className="btn-glass"
             style={{
-              textDecoration: 'none',
               padding: '16px 32px',
               fontSize: '1rem',
             }}
           >
-            <span>Read Your Letter 💌</span>
-          </a>
+            <Mail size={18} />
+            <span>{hero.ctaLetter}</span>
+          </button>
         </motion.div>
       </div>
 

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Sparkles, Feather, Heart, CornerDownRight } from 'lucide-react';
+import { Feather, Sparkles, Heart } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { soundCtrl } from '../utils/audio';
 import { triggerSparkleBurst } from '../utils/confetti';
 
-export default function BirthdayLetter() {
+export default function PersonalLetter() {
   const [isOpen, setIsOpen] = useState(false);
-  const { letter, recipient } = birthdayData;
+  const { personalLetter, recipient } = birthdayData;
 
   const handleToggleLetter = () => {
     if (!isOpen) {
@@ -54,7 +54,7 @@ export default function BirthdayLetter() {
           }}
         >
           <Feather size={14} />
-          <span>PERSONAL CORRESPONDENCE</span>
+          <span>A LITTLE SOMETHING FROM ME</span>
         </div>
 
         <h2
@@ -66,7 +66,7 @@ export default function BirthdayLetter() {
           }}
           className="text-gold-gradient"
         >
-          {letter.heading}
+          {personalLetter.heading}
         </h2>
 
         <p
@@ -77,7 +77,7 @@ export default function BirthdayLetter() {
             color: '#d8c8ff',
           }}
         >
-          {letter.subheading}
+          {personalLetter.subheading}
         </p>
       </motion.div>
 
@@ -167,7 +167,7 @@ export default function BirthdayLetter() {
                 }}
               >
                 <Sparkles size={16} />
-                <span>{letter.envelopePrompt}</span>
+                <span>{personalLetter.envelopePrompt}</span>
                 <Sparkles size={16} />
               </p>
             </motion.div>
@@ -187,7 +187,7 @@ export default function BirthdayLetter() {
                 position: 'relative',
               }}
             >
-              {/* Gold Corner Accents */}
+              {/* Fold Button */}
               <div
                 style={{
                   position: 'absolute',
@@ -214,7 +214,7 @@ export default function BirthdayLetter() {
                   }}
                   title="Fold letter back into envelope"
                 >
-                  Fold Envelope
+                  {personalLetter.envelopeReturn}
                 </button>
               </div>
 
@@ -229,10 +229,10 @@ export default function BirthdayLetter() {
                   letterSpacing: '-0.01em',
                 }}
               >
-                {letter.salutation}
+                {personalLetter.salutation}
               </h3>
 
-              {/* Heartfelt Paragraphs */}
+              {/* Genuine, Conversational Paragraphs */}
               <div
                 style={{
                   fontFamily: 'var(--font-sans)',
@@ -244,12 +244,12 @@ export default function BirthdayLetter() {
                   gap: '20px',
                 }}
               >
-                {letter.paragraphs.map((para, idx) => (
+                {personalLetter.paragraphs.map((para, idx) => (
                   <p key={idx}>{para}</p>
                 ))}
               </div>
 
-              {/* Letter Closing & Script Signature */}
+              {/* Playful & Warm Closing */}
               <div
                 style={{
                   marginTop: '36px',
@@ -261,23 +261,24 @@ export default function BirthdayLetter() {
                   style={{
                     fontFamily: 'var(--font-editorial)',
                     fontStyle: 'italic',
-                    fontSize: '1.15rem',
-                    color: '#554163',
-                    marginBottom: '8px',
+                    fontSize: '1.18rem',
+                    color: '#493557',
+                    marginBottom: '12px',
+                    fontWeight: 500,
                   }}
                 >
-                  {letter.closing}
+                  {personalLetter.closing}
                 </p>
 
                 <p
                   style={{
                     fontFamily: 'var(--font-script)',
-                    fontSize: 'clamp(2rem, 5vw, 2.8rem)',
+                    fontSize: 'clamp(1.8rem, 4.5vw, 2.5rem)',
                     color: '#9e2d53',
                     lineHeight: 1.2,
                   }}
                 >
-                  {letter.signature}
+                  {personalLetter.signature}
                 </p>
               </div>
             </motion.div>
