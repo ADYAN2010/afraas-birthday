@@ -24,8 +24,8 @@ export default function MusicPlayer({ autoStarted = false }) {
     <div
       style={{
         position: 'fixed',
-        top: '24px',
-        right: '24px',
+        top: 'clamp(12px, 2.5vh, 24px)',
+        right: 'clamp(12px, 2.5vw, 24px)',
         zIndex: 90,
       }}
     >
@@ -36,10 +36,11 @@ export default function MusicPlayer({ autoStarted = false }) {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '10px',
-          padding: '10px 18px',
+          gap: '8px',
+          padding: 'clamp(8px, 1.5vh, 10px) clamp(12px, 2.5vw, 18px)',
+          minHeight: '44px',
           borderRadius: '9999px',
-          background: 'rgba(26, 11, 46, 0.78)',
+          background: 'rgba(26, 11, 46, 0.85)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           border: '1px solid rgba(223, 182, 91, 0.35)',

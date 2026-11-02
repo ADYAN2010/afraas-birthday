@@ -26,11 +26,12 @@ export default function FinalSurprise() {
       id="final-celebration-section"
       style={{
         position: 'relative',
-        padding: '110px 24px 130px',
+        padding: 'clamp(60px, 10vw, 110px) clamp(14px, 3.5vw, 24px) clamp(70px, 12vw, 130px)',
         maxWidth: '900px',
         margin: '0 auto',
         textAlign: 'center',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Background Soft Glow */}
@@ -40,7 +41,7 @@ export default function FinalSurprise() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '500px',
+          width: 'min(500px, 85vw)',
           height: '350px',
           background: 'radial-gradient(circle, rgba(223, 182, 91, 0.15) 0%, rgba(196, 177, 252, 0.12) 50%, transparent 80%)',
           filter: 'blur(60px)',
@@ -110,8 +111,9 @@ export default function FinalSurprise() {
           onClick={handleOpenSurprise}
           className="btn-gold"
           style={{
-            padding: '18px 46px',
-            fontSize: '1.1rem',
+            padding: '16px clamp(24px, 5vw, 46px)',
+            fontSize: 'clamp(0.98rem, 2.2vw, 1.1rem)',
+            minHeight: '48px',
             boxShadow: '0 12px 35px rgba(223, 182, 91, 0.4), 0 0 30px rgba(196, 177, 252, 0.3)',
           }}
         >
@@ -135,10 +137,10 @@ export default function FinalSurprise() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(7, 3, 13, 0.88)',
+              background: 'rgba(7, 3, 13, 0.92)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              padding: '24px',
+              padding: 'clamp(14px, 3vw, 24px)',
             }}
           >
             {/* Modal Card */}
@@ -151,13 +153,14 @@ export default function FinalSurprise() {
                 position: 'relative',
                 maxWidth: '680px',
                 width: '100%',
+                maxHeight: '92vh',
+                overflowY: 'auto',
                 background: 'linear-gradient(145deg, #1f0c38 0%, #120622 60%, #0d0417 100%)',
                 border: '1px solid rgba(223, 182, 91, 0.45)',
-                borderRadius: '30px',
-                padding: 'clamp(36px, 6vw, 60px) clamp(24px, 5vw, 48px)',
+                borderRadius: 'clamp(20px, 5vw, 30px)',
+                padding: 'clamp(28px, 6vw, 60px) clamp(16px, 4vw, 48px)',
                 textAlign: 'center',
                 boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(223, 182, 91, 0.25)',
-                overflow: 'hidden',
               }}
             >
               {/* Close Button */}
@@ -166,22 +169,23 @@ export default function FinalSurprise() {
                 aria-label="Close celebration"
                 style={{
                   position: 'absolute',
-                  top: '20px',
-                  right: '20px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  top: 'clamp(12px, 2vh, 20px)',
+                  right: 'clamp(12px, 2vw, 20px)',
+                  background: 'rgba(255, 255, 255, 0.12)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
                   borderRadius: '50%',
-                  width: '38px',
-                  height: '38px',
+                  width: '44px',
+                  height: '44px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#faeed1',
                   cursor: 'pointer',
                   transition: 'background 0.2s',
+                  zIndex: 10,
                 }}
               >
-                <X size={18} />
+                <X size={20} />
               </button>
 
               {/* Custom Animated SVG Progressive Drawing Celebration Emblem */}

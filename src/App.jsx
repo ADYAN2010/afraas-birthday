@@ -50,7 +50,16 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#07030d] text-[#faf8f5]">
+    <div
+      style={{
+        position: 'relative',
+        minHeight: '100vh',
+        width: '100%',
+        maxWidth: '100vw',
+        overflowX: 'hidden',
+      }}
+      className="bg-[#07030d] text-[#faf8f5]"
+    >
       {/* Background Twinkling Starlight & Subtle Bokeh Particles */}
       <FloatingParticles />
 
@@ -59,7 +68,15 @@ export default function App() {
 
       {/* Main Birthday Experience */}
       {isCelebrationOpen && (
-        <main style={{ position: 'relative', zIndex: 2 }}>
+        <main
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            width: '100%',
+            maxWidth: '100vw',
+            overflowX: 'hidden',
+          }}
+        >
           {/* Floating Music Player Toggle */}
           <MusicPlayer autoStarted={startMusic} />
 

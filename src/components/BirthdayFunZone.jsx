@@ -66,10 +66,11 @@ export default function BirthdayFunZone() {
       id="fun-section"
       style={{
         position: 'relative',
-        padding: '90px 24px',
+        padding: 'clamp(50px, 8vw, 90px) clamp(14px, 3.5vw, 24px)',
         maxWidth: '1100px',
         margin: '0 auto',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Header */}
@@ -78,7 +79,7 @@ export default function BirthdayFunZone() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '48px' }}
+        style={{ textAlign: 'center', marginBottom: '40px' }}
       >
         <div
           style={{
@@ -104,7 +105,7 @@ export default function BirthdayFunZone() {
         <h2
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
             marginBottom: '10px',
           }}
@@ -120,7 +121,7 @@ export default function BirthdayFunZone() {
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)',
+            fontSize: 'clamp(1.12rem, 2.5vw, 1.4rem)',
             color: '#d8c8ff',
             maxWidth: '600px',
             margin: '0 auto',
@@ -130,14 +131,8 @@ export default function BirthdayFunZone() {
         </p>
       </motion.div>
 
-      {/* Grid of 3 Fun Interactive Blocks */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '24px',
-        }}
-      >
+      {/* Responsive Grid of 3 Fun Interactive Blocks */}
+      <div className="arcade-grid">
         {/* Block 1: Interactive Click-to-Pop Balloons */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -146,7 +141,7 @@ export default function BirthdayFunZone() {
           transition={{ duration: 0.7 }}
           className="glass-panel"
           style={{
-            padding: '32px 26px',
+            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -286,7 +281,7 @@ export default function BirthdayFunZone() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="glass-panel"
           style={{
-            padding: '32px 26px',
+            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
@@ -369,7 +364,7 @@ export default function BirthdayFunZone() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="glass-panel"
           style={{
-            padding: '32px 26px',
+            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',

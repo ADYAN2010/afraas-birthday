@@ -12,10 +12,11 @@ export default function PersonalNote() {
       id="note-section"
       style={{
         position: 'relative',
-        padding: '90px 24px',
+        padding: 'clamp(50px, 8vw, 90px) clamp(14px, 3.5vw, 24px)',
         maxWidth: '860px',
         margin: '0 auto',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Header */}
@@ -24,7 +25,7 @@ export default function PersonalNote() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '40px' }}
+        style={{ textAlign: 'center', marginBottom: '36px' }}
       >
         <div
           style={{
@@ -50,7 +51,7 @@ export default function PersonalNote() {
         <h2
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
             marginBottom: '10px',
           }}
@@ -66,7 +67,7 @@ export default function PersonalNote() {
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)',
+            fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
             color: '#d8c8ff',
           }}
         >
@@ -82,7 +83,7 @@ export default function PersonalNote() {
         transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         className="glass-panel"
         style={{
-          padding: 'clamp(36px, 6vw, 56px) clamp(24px, 5vw, 48px)',
+          padding: 'clamp(24px, 5vw, 56px) clamp(16px, 4vw, 48px)',
           background: 'linear-gradient(145deg, rgba(32, 15, 54, 0.75) 0%, rgba(18, 8, 32, 0.9) 100%)',
           border: '1px solid rgba(223, 182, 91, 0.35)',
           borderRadius: '24px',

@@ -13,11 +13,12 @@ export default function Footer() {
     <footer
       style={{
         position: 'relative',
-        padding: '60px 24px 50px',
+        padding: 'clamp(40px, 6vw, 60px) clamp(16px, 4vw, 24px) clamp(30px, 5vw, 50px)',
         textAlign: 'center',
         borderTop: '1px solid rgba(223, 182, 91, 0.18)',
         background: 'linear-gradient(180deg, transparent 0%, rgba(13, 6, 23, 0.8) 100%)',
         zIndex: 2,
+        width: '100%',
       }}
     >
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
@@ -25,13 +26,18 @@ export default function Footer() {
         <div
           onClick={scrollToTop}
           title="Back to top"
+          role="button"
+          tabIndex={0}
+          aria-label="Back to top"
           style={{
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '42px',
-            height: '42px',
+            width: '46px',
+            height: '46px',
+            minWidth: '46px',
+            minHeight: '46px',
             borderRadius: '50%',
             background: 'rgba(223, 182, 91, 0.1)',
             border: '1px solid rgba(223, 182, 91, 0.3)',

@@ -58,19 +58,33 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '120px 24px 60px',
+        padding: 'clamp(80px, 12vh, 120px) clamp(16px, 4vw, 24px) clamp(40px, 8vh, 60px)',
         textAlign: 'center',
         overflow: 'hidden',
         zIndex: 2,
+        width: '100%',
+        maxWidth: '100vw',
       }}
     >
-      {/* Soft Ambient Radial Glows */}
-      <div className="ambient-glow-pink" style={{ top: '10%', left: '15%' }} />
-      <div className="ambient-glow-lavender" style={{ top: '25%', right: '10%' }} />
-      <div className="ambient-glow-gold" style={{ bottom: '10%', left: '40%' }} />
+      {/* Soft Ambient Radial Glows - Safely Clipped */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          overflow: 'hidden',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+        aria-hidden="true"
+      >
+        <div className="ambient-glow-pink" style={{ top: '10%', left: '15%' }} />
+        <div className="ambient-glow-lavender" style={{ top: '25%', right: '10%' }} />
+        <div className="ambient-glow-gold" style={{ bottom: '10%', left: '40%' }} />
+      </div>
 
-      {/* Floating Pastel Balloon (SVG) */}
+      {/* Floating Pastel Balloon (SVG) - Hidden on phones <= 480px */}
       <motion.div
+        className="hero-floating-balloon"
         animate={{ y: [-15, 15, -15], rotate: [-2, 3, -2] }}
         transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
         style={{
@@ -97,8 +111,9 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         </svg>
       </motion.div>
 
-      {/* Floating Gold Balloon (SVG) */}
+      {/* Floating Gold Balloon (SVG) - Hidden on phones <= 480px */}
       <motion.div
+        className="hero-floating-balloon"
         animate={{ y: [12, -18, 12], rotate: [2, -3, 2] }}
         transition={{ repeat: Infinity, duration: 8.5, ease: 'easeInOut', delay: 1 }}
         style={{
@@ -126,13 +141,13 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
       </motion.div>
 
       {/* Hero Content Container */}
-      <div style={{ maxWidth: '880px', position: 'relative', zIndex: 3 }}>
+      <div style={{ maxWidth: '880px', width: '100%', position: 'relative', zIndex: 3 }}>
         {/* Custom SVG Line-Art Floral & Celestial Drawing Emblem */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: '16px' }}
+          style={{ marginBottom: '12px' }}
         >
           <HeroFloralEmblem />
         </motion.div>
@@ -145,23 +160,23 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '10px',
-            padding: '8px 24px',
+            gap: '8px',
+            padding: 'clamp(6px, 1.5vw, 8px) clamp(14px, 3vw, 24px)',
             borderRadius: '9999px',
             background: 'rgba(223, 182, 91, 0.08)',
             border: '1px solid rgba(223, 182, 91, 0.3)',
             color: '#dfb65b',
-            fontSize: '0.8rem',
+            fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
             fontWeight: 600,
-            letterSpacing: '0.22em',
+            letterSpacing: 'clamp(0.12em, 2vw, 0.22em)',
             textTransform: 'uppercase',
-            marginBottom: '26px',
+            marginBottom: '22px',
             boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25)',
           }}
         >
-          <Sparkles size={14} color="#ffd166" />
+          <Sparkles size={13} color="#ffd166" />
           <span>{hero.badge}</span>
-          <Sparkles size={14} color="#ffd166" />
+          <Sparkles size={13} color="#ffd166" />
         </motion.div>
 
         {/* Small "HAPPY BIRTHDAY" over-heading */}
@@ -171,12 +186,12 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           transition={{ duration: 0.9, delay: 0.15 }}
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.45rem)',
+            fontSize: 'clamp(0.95rem, 2.5vw, 1.45rem)',
             fontWeight: 600,
-            letterSpacing: '0.35em',
+            letterSpacing: 'clamp(0.18em, 2.5vw, 0.35em)',
             color: '#f4b4cb',
             textTransform: 'uppercase',
-            marginBottom: '12px',
+            marginBottom: '10px',
           }}
         >
           {hero.headingMain}
@@ -189,11 +204,11 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(3rem, 8vw, 5.8rem)',
+            fontSize: 'clamp(2.6rem, 9vw, 5.8rem)',
             fontWeight: 700,
             lineHeight: 1.05,
             letterSpacing: '-0.03em',
-            marginBottom: '22px',
+            marginBottom: '18px',
           }}
           className="text-gold-gradient"
         >
@@ -208,10 +223,10 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.35rem, 3.2vw, 1.85rem)',
+            fontSize: 'clamp(1.15rem, 3.2vw, 1.85rem)',
             color: '#ece6ff',
             lineHeight: 1.4,
-            marginBottom: '18px',
+            marginBottom: '16px',
           }}
         >
           “{hero.subtitle}”
@@ -224,12 +239,13 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           transition={{ duration: 0.9, delay: 0.6 }}
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(0.98rem, 2vw, 1.12rem)',
+            fontSize: 'clamp(0.92rem, 2vw, 1.12rem)',
             color: '#a69bb8',
             maxWidth: '620px',
-            margin: '0 auto 40px',
+            margin: '0 auto 36px',
             lineHeight: 1.7,
             fontWeight: 400,
+            padding: '0 8px',
           }}
         >
           {hero.description}
@@ -240,20 +256,14 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.75 }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '14px',
-            flexWrap: 'wrap',
-          }}
+          className="hero-cta-container"
         >
           <button
             onClick={handleWish}
-            className="btn-gold"
+            className="hero-btn btn-gold"
             style={{
-              padding: '15px 34px',
-              fontSize: '1rem',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(20px, 3.5vw, 34px)',
+              fontSize: 'clamp(0.92rem, 2vw, 1rem)',
             }}
           >
             <Cake size={18} />
@@ -262,10 +272,10 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
 
           <button
             onClick={handleNote}
-            className="btn-glass"
+            className="hero-btn btn-glass"
             style={{
-              padding: '15px 30px',
-              fontSize: '0.98rem',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
             <Feather size={17} color="#dfb65b" />
@@ -274,10 +284,10 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
 
           <button
             onClick={handleGallery}
-            className="btn-glass"
+            className="hero-btn btn-glass"
             style={{
-              padding: '15px 30px',
-              fontSize: '0.98rem',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
             <Camera size={17} color="#dfb65b" />
@@ -286,10 +296,10 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
 
           <button
             onClick={handleFun}
-            className="btn-glass"
+            className="hero-btn btn-glass"
             style={{
-              padding: '15px 30px',
-              fontSize: '0.98rem',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
             <PartyPopper size={17} />
@@ -303,7 +313,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
         style={{
-          marginTop: '60px',
+          marginTop: 'clamp(36px, 8vh, 60px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

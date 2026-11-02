@@ -12,9 +12,10 @@ export default function CelebrationEmblem() {
       style={{
         display: 'inline-block',
         position: 'relative',
-        width: 'clamp(180px, 24vw, 220px)',
-        height: 'clamp(180px, 24vw, 220px)',
-        margin: '0 auto 20px',
+        width: 'clamp(140px, 38vw, 220px)',
+        height: 'clamp(140px, 38vw, 220px)',
+        maxWidth: '100%',
+        margin: '0 auto 16px',
         userSelect: 'none',
       }}
       aria-hidden="true"

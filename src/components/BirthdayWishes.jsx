@@ -36,10 +36,11 @@ export default function BirthdayWishes() {
       id="wishes-section"
       style={{
         position: 'relative',
-        padding: '90px 24px',
+        padding: 'clamp(50px, 8vw, 90px) clamp(14px, 3.5vw, 24px)',
         maxWidth: '1180px',
         margin: '0 auto',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Header */}
@@ -48,7 +49,7 @@ export default function BirthdayWishes() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '48px' }}
+        style={{ textAlign: 'center', marginBottom: '40px' }}
       >
         <div
           style={{
@@ -74,7 +75,7 @@ export default function BirthdayWishes() {
         <h2
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
             marginBottom: '10px',
           }}
@@ -90,7 +91,7 @@ export default function BirthdayWishes() {
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)',
+            fontSize: 'clamp(1.12rem, 2.5vw, 1.4rem)',
             color: '#d8c8ff',
             maxWidth: '600px',
             margin: '0 auto',
@@ -100,14 +101,8 @@ export default function BirthdayWishes() {
         </p>
       </motion.div>
 
-      {/* Grid of Cards */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-          gap: '24px',
-        }}
-      >
+      {/* Responsive Grid of Cards */}
+      <div className="wishes-grid">
         {wishes.items.map((item, index) => {
           const IconComponent = iconMap[item.icon] || Sparkles;
           const isExpanded = activeCard === item.id;
@@ -124,12 +119,13 @@ export default function BirthdayWishes() {
               className="glass-panel"
               style={{
                 cursor: 'pointer',
-                padding: '30px 26px',
+                padding: 'clamp(22px, 4vw, 30px) clamp(16px, 3.5vw, 26px)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 position: 'relative',
                 overflow: 'hidden',
+                minHeight: '220px',
                 border: isExpanded
                   ? '1px solid rgba(223, 182, 91, 0.6)'
                   : '1px solid rgba(255, 255, 255, 0.08)',

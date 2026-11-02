@@ -6,12 +6,13 @@ export default function CountdownDivider({ width = '100%', maxWidth = 480, delay
     <div
       style={{
         width,
-        maxWidth,
-        margin: '22px auto',
+        maxWidth: `min(100%, ${maxWidth}px)`,
+        margin: '18px auto',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         userSelect: 'none',
+        overflow: 'hidden',
       }}
       aria-hidden="true"
     >
@@ -19,7 +20,7 @@ export default function CountdownDivider({ width = '100%', maxWidth = 480, delay
         viewBox="0 0 480 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ width: '100%', height: 'auto', overflow: 'visible' }}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
       >
         <defs>
           <linearGradient id="dividerGold" x1="0%" y1="0%" x2="100%" y2="0%">

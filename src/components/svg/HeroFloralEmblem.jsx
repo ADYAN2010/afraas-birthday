@@ -12,8 +12,9 @@ export default function HeroFloralEmblem() {
       style={{
         display: 'inline-block',
         position: 'relative',
-        width: 'clamp(220px, 28vw, 300px)',
-        height: 'clamp(220px, 28vw, 300px)',
+        width: 'clamp(170px, 45vw, 280px)',
+        height: 'clamp(170px, 45vw, 280px)',
+        maxWidth: '100%',
         margin: '0 auto',
         userSelect: 'none',
       }}

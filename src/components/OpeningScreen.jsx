@@ -39,7 +39,7 @@ export default function OpeningScreen({ onOpen }) {
             alignItems: 'center',
             justifyContent: 'center',
             background: 'radial-gradient(ellipse at center, #1d0935 0%, #0d0617 70%, #06020c 100%)',
-            padding: '24px',
+            padding: 'clamp(14px, 4vw, 24px)',
             overflow: 'hidden',
           }}
         >
@@ -47,8 +47,8 @@ export default function OpeningScreen({ onOpen }) {
           <div
             style={{
               position: 'absolute',
-              width: '520px',
-              height: '520px',
+              width: 'min(520px, 90vw)',
+              height: 'min(520px, 90vw)',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(196, 177, 252, 0.2) 0%, transparent 70%)',
               filter: 'blur(75px)',
@@ -59,8 +59,8 @@ export default function OpeningScreen({ onOpen }) {
           <div
             style={{
               position: 'absolute',
-              width: '460px',
-              height: '460px',
+              width: 'min(460px, 85vw)',
+              height: 'min(460px, 85vw)',
               borderRadius: '50%',
               background: 'radial-gradient(circle, rgba(223, 182, 91, 0.2) 0%, transparent 70%)',
               filter: 'blur(75px)',
@@ -80,8 +80,8 @@ export default function OpeningScreen({ onOpen }) {
               width: '100%',
               background: 'rgba(23, 11, 41, 0.72)',
               border: '1px solid rgba(223, 182, 91, 0.32)',
-              borderRadius: '28px',
-              padding: 'clamp(36px, 6vw, 56px) clamp(24px, 5vw, 44px)',
+              borderRadius: 'clamp(20px, 5vw, 28px)',
+              padding: 'clamp(28px, 6vw, 56px) clamp(16px, 5vw, 44px)',
               textAlign: 'center',
               boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(223, 182, 91, 0.15)',
               backdropFilter: 'blur(20px)',
@@ -96,17 +96,17 @@ export default function OpeningScreen({ onOpen }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '56px',
-                height: '56px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '50%',
                 background: 'rgba(223, 182, 91, 0.12)',
                 border: '1px solid rgba(223, 182, 91, 0.4)',
-                marginBottom: '24px',
+                marginBottom: '20px',
                 boxShadow: '0 0 20px rgba(223, 182, 91, 0.25)',
                 color: '#ffd166',
               }}
             >
-              <PartyPopper size={26} />
+              <PartyPopper size={24} />
             </motion.div>
 
             {/* Badge */}
@@ -115,13 +115,13 @@ export default function OpeningScreen({ onOpen }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.8 }}
               style={{
-                fontSize: '0.8rem',
+                fontSize: 'clamp(0.72rem, 2vw, 0.8rem)',
                 fontFamily: 'var(--font-sans)',
-                letterSpacing: '0.22em',
+                letterSpacing: 'clamp(0.12em, 2vw, 0.22em)',
                 textTransform: 'uppercase',
                 color: '#dfb65b',
                 fontWeight: 600,
-                marginBottom: '16px',
+                marginBottom: '14px',
               }}
             >
               {openingScreen.badge}
@@ -134,10 +134,10 @@ export default function OpeningScreen({ onOpen }) {
               transition={{ delay: 0.5, duration: 0.9 }}
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2.4rem, 6vw, 3.4rem)',
+                fontSize: 'clamp(2.1rem, 7vw, 3.4rem)',
                 fontWeight: 600,
                 lineHeight: 1.15,
-                marginBottom: '18px',
+                marginBottom: '16px',
                 letterSpacing: '-0.02em',
               }}
               className="text-gold-gradient"
@@ -153,10 +153,10 @@ export default function OpeningScreen({ onOpen }) {
               style={{
                 fontFamily: 'var(--font-editorial)',
                 fontStyle: 'italic',
-                fontSize: 'clamp(1.18rem, 2.6vw, 1.4rem)',
+                fontSize: 'clamp(1.05rem, 3vw, 1.4rem)',
                 color: '#d8c8ff',
                 lineHeight: 1.5,
-                marginBottom: '36px',
+                marginBottom: '28px',
               }}
             >
               “{openingScreen.subtitle}”
@@ -169,12 +169,12 @@ export default function OpeningScreen({ onOpen }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '12px',
-                marginBottom: '36px',
+                marginBottom: '28px',
               }}
             >
-              <div style={{ height: '1px', width: '60px', background: 'linear-gradient(to right, transparent, rgba(223, 182, 91, 0.4))' }} />
+              <div style={{ height: '1px', width: 'clamp(40px, 12vw, 60px)', background: 'linear-gradient(to right, transparent, rgba(223, 182, 91, 0.4))' }} />
               <Star size={14} color="#ffd166" fill="#ffd166" style={{ opacity: 0.85 }} />
-              <div style={{ height: '1px', width: '60px', background: 'linear-gradient(to left, transparent, rgba(223, 182, 91, 0.4))' }} />
+              <div style={{ height: '1px', width: 'clamp(40px, 12vw, 60px)', background: 'linear-gradient(to left, transparent, rgba(223, 182, 91, 0.4))' }} />
             </div>
 
             {/* Animated Celebration Button */}
@@ -184,8 +184,11 @@ export default function OpeningScreen({ onOpen }) {
               onClick={handleOpen}
               className="btn-gold"
               style={{
-                fontSize: '1.05rem',
-                padding: '16px 42px',
+                fontSize: 'clamp(0.96rem, 2.5vw, 1.05rem)',
+                padding: '14px 32px',
+                width: '100%',
+                maxWidth: '280px',
+                minHeight: '48px',
                 cursor: 'pointer',
               }}
             >
@@ -195,8 +198,8 @@ export default function OpeningScreen({ onOpen }) {
             {/* Audio Hint */}
             <p
               style={{
-                marginTop: '28px',
-                fontSize: '0.8rem',
+                marginTop: '22px',
+                fontSize: 'clamp(0.74rem, 2vw, 0.8rem)',
                 color: '#9e8fb8',
                 letterSpacing: '0.04em',
               }}

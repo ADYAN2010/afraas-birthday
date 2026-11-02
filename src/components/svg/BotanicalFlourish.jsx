@@ -5,12 +5,13 @@ export default function BotanicalFlourish({ delay = 0.2, maxWidth = 260 }) {
   return (
     <div
       style={{
-        maxWidth,
+        maxWidth: `min(100%, ${maxWidth}px)`,
         margin: '0 auto 16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         userSelect: 'none',
+        overflow: 'hidden',
       }}
       aria-hidden="true"
     >
@@ -18,7 +19,7 @@ export default function BotanicalFlourish({ delay = 0.2, maxWidth = 260 }) {
         viewBox="0 0 260 28"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ width: '100%', height: 'auto', overflow: 'visible' }}
+        style={{ width: '100%', height: 'auto', display: 'block' }}
       >
         <defs>
           <linearGradient id="flourishGold" x1="0%" y1="0%" x2="100%" y2="0%">

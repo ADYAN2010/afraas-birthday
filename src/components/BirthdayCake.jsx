@@ -35,11 +35,12 @@ export default function BirthdayCake() {
       id="cake-section"
       style={{
         position: 'relative',
-        padding: '90px 24px',
+        padding: 'clamp(50px, 8vw, 90px) clamp(14px, 3.5vw, 24px)',
         maxWidth: '1000px',
         margin: '0 auto',
         textAlign: 'center',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Header */}
@@ -48,7 +49,7 @@ export default function BirthdayCake() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        style={{ marginBottom: '36px' }}
+        style={{ marginBottom: '32px' }}
       >
         <div
           style={{
@@ -74,9 +75,9 @@ export default function BirthdayCake() {
         <h2
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '14px',
+            marginBottom: '12px',
           }}
           className="text-gold-gradient"
         >
@@ -88,7 +89,7 @@ export default function BirthdayCake() {
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.18rem, 2.8vw, 1.5rem)',
+            fontSize: 'clamp(1.12rem, 2.8vw, 1.5rem)',
             color: '#d8c8ff',
             maxWidth: '650px',
             margin: '0 auto',
@@ -103,7 +104,7 @@ export default function BirthdayCake() {
         className="glass-panel"
         style={{
           position: 'relative',
-          padding: 'clamp(36px, 5vw, 54px) 24px',
+          padding: 'clamp(24px, 5vw, 54px) clamp(12px, 3vw, 24px)',
           maxWidth: '720px',
           margin: '0 auto',
           overflow: 'hidden',
@@ -118,7 +119,7 @@ export default function BirthdayCake() {
             top: '30%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '380px',
+            width: 'min(380px, 85vw)',
             height: '240px',
             background: candlesLit
               ? 'radial-gradient(circle, rgba(255, 209, 102, 0.22) 0%, rgba(224, 104, 140, 0.12) 50%, transparent 80%)'
@@ -138,6 +139,7 @@ export default function BirthdayCake() {
             margin: '0 auto',
             position: 'relative',
             userSelect: 'none',
+            maxWidth: '100%',
           }}
         >
           <svg
@@ -146,7 +148,7 @@ export default function BirthdayCake() {
             viewBox="0 0 340 330"
             fill="none"
             style={{
-              maxWidth: '100%',
+              maxWidth: 'min(340px, 85vw)',
               height: 'auto',
               filter: candlesLit ? 'drop-shadow(0 0 16px rgba(255, 209, 102, 0.35))' : 'none',
               transition: 'filter 0.5s ease',
@@ -401,7 +403,12 @@ export default function BirthdayCake() {
               onClick={handleBlowCandles}
               disabled={isBlowing}
               className="btn-gold"
-              style={{ padding: '14px 38px', fontSize: '1rem' }}
+              style={{
+                padding: '14px clamp(20px, 4vw, 38px)',
+                fontSize: 'clamp(0.92rem, 2vw, 1rem)',
+                minHeight: '48px',
+                maxWidth: '100%',
+              }}
             >
               <Flame size={18} color="#1a0b27" fill="#1a0b27" />
               <span>{isBlowing ? 'Blowing out candles...' : cake.buttonBlow}</span>
@@ -413,8 +420,12 @@ export default function BirthdayCake() {
               onClick={handleRelight}
               className="btn-glass"
               style={{
+                padding: '14px clamp(20px, 4vw, 36px)',
+                fontSize: 'clamp(0.92rem, 2vw, 1rem)',
                 borderColor: 'rgba(223, 182, 91, 0.4)',
                 color: '#faeed1',
+                minHeight: '48px',
+                maxWidth: '100%',
               }}
             >
               <RotateCcw size={16} />

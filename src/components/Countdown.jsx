@@ -53,16 +53,17 @@ export default function Countdown() {
       id="countdown-section"
       style={{
         position: 'relative',
-        padding: '70px 20px',
+        padding: 'clamp(48px, 8vw, 70px) clamp(12px, 3vw, 20px)',
         maxWidth: '1100px',
         margin: '0 auto',
         zIndex: 2,
+        width: '100%',
       }}
     >
       <div
         className="glass-panel"
         style={{
-          padding: 'clamp(32px, 5vw, 56px) clamp(20px, 4vw, 48px)',
+          padding: 'clamp(26px, 5vw, 56px) clamp(14px, 4vw, 48px)',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
@@ -77,7 +78,7 @@ export default function Countdown() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '600px',
+            width: 'min(600px, 90vw)',
             height: '250px',
             background: 'radial-gradient(ellipse, rgba(223, 182, 91, 0.12) 0%, transparent 70%)',
             pointerEvents: 'none',
@@ -188,16 +189,8 @@ export default function Countdown() {
             {/* Subtle Animated SVG Separator */}
             <CountdownDivider delay={0.2} maxWidth={420} />
 
-            {/* Countdown Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-                gap: '18px',
-                maxWidth: '780px',
-                margin: '0 auto',
-              }}
-            >
+            {/* Countdown Grid - 2x2 on Mobile, 4-col on Tablet/Desktop */}
+            <div className="countdown-grid">
               {timeUnits.map((unit, index) => (
                 <motion.div
                   key={unit.label}
@@ -208,8 +201,8 @@ export default function Countdown() {
                   style={{
                     background: 'rgba(15, 6, 26, 0.75)',
                     border: '1px solid rgba(223, 182, 91, 0.25)',
-                    borderRadius: '18px',
-                    padding: '24px 16px',
+                    borderRadius: '16px',
+                    padding: 'clamp(14px, 3vw, 24px) clamp(8px, 2vw, 16px)',
                     position: 'relative',
                     boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.35)',
                     display: 'flex',
@@ -220,7 +213,7 @@ export default function Countdown() {
                   }}
                 >
                   {/* Number with smooth height/opacity tick */}
-                  <div style={{ height: 'clamp(2.4rem, 5vw, 3.4rem)', overflow: 'hidden' }}>
+                  <div style={{ height: 'clamp(2.2rem, 5vw, 3.4rem)', overflow: 'hidden' }}>
                     <AnimatePresence mode="popLayout">
                       <motion.span
                         key={unit.value}
@@ -231,10 +224,10 @@ export default function Countdown() {
                         style={{
                           display: 'block',
                           fontFamily: 'var(--font-serif)',
-                          fontSize: 'clamp(2.4rem, 5vw, 3.4rem)',
+                          fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
                           fontWeight: 700,
                           lineHeight: 1,
-                          marginBottom: '8px',
+                          marginBottom: '4px',
                         }}
                         className="text-gold-gradient"
                       >
@@ -245,13 +238,13 @@ export default function Countdown() {
 
                   <span
                     style={{
-                      fontSize: '0.78rem',
+                      fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
                       fontFamily: 'var(--font-sans)',
-                      letterSpacing: '0.16em',
+                      letterSpacing: '0.14em',
                       textTransform: 'uppercase',
                       color: '#c4b1fc',
                       fontWeight: 600,
-                      marginTop: '6px',
+                      marginTop: '4px',
                     }}
                   >
                     {unit.label}

@@ -50,10 +50,11 @@ export default function PhotoGallery() {
       id="gallery-section"
       style={{
         position: 'relative',
-        padding: '90px 24px',
+        padding: 'clamp(50px, 8vw, 90px) clamp(14px, 3vw, 24px)',
         maxWidth: '1200px',
         margin: '0 auto',
         zIndex: 2,
+        width: '100%',
       }}
     >
       {/* Section Header */}
@@ -62,7 +63,7 @@ export default function PhotoGallery() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '48px' }}
+        style={{ textAlign: 'center', marginBottom: '40px' }}
       >
         <div
           style={{
@@ -88,7 +89,7 @@ export default function PhotoGallery() {
         <h2
           style={{
             fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+            fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
             marginBottom: '10px',
           }}
@@ -104,7 +105,7 @@ export default function PhotoGallery() {
           style={{
             fontFamily: 'var(--font-editorial)',
             fontStyle: 'italic',
-            fontSize: 'clamp(1.18rem, 2.6vw, 1.45rem)',
+            fontSize: 'clamp(1.15rem, 2.6vw, 1.45rem)',
             color: '#d8c8ff',
             maxWidth: '560px',
             margin: '0 auto',
@@ -114,15 +115,8 @@ export default function PhotoGallery() {
         </p>
       </motion.div>
 
-      {/* Editorial Magazine Grid Layout */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '32px',
-          alignItems: 'start',
-        }}
-      >
+      {/* Editorial Responsive Grid Layout: Clean Single Stack on Mobile, 3-col on Desktop */}
+      <div className="gallery-grid">
         {/* 1. Featured Square Portrait (Prominent Showcase) */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -467,13 +461,39 @@ export default function PhotoGallery() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(7, 3, 13, 0.92)',
+              background: 'rgba(7, 3, 13, 0.94)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              padding: '24px',
+              padding: 'clamp(14px, 3vw, 24px)',
               cursor: 'zoom-out',
             }}
           >
+            {/* Fixed Accessible Close Button for All Screen Sizes */}
+            <button
+              onClick={() => setActiveImage(null)}
+              aria-label="Close photo view"
+              style={{
+                position: 'fixed',
+                top: 'clamp(16px, 3vh, 24px)',
+                right: 'clamp(16px, 3vw, 24px)',
+                zIndex: 130,
+                background: 'rgba(255, 255, 255, 0.15)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '50%',
+                width: '44px',
+                height: '44px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#faeed1',
+                cursor: 'pointer',
+                transition: 'background 0.2s',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',
+              }}
+            >
+              <X size={22} />
+            </button>
+
             <motion.div
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -482,44 +502,20 @@ export default function PhotoGallery() {
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: 'relative',
-                maxHeight: '90vh',
-                maxWidth: '90vw',
+                maxHeight: '92vh',
+                maxWidth: '92vw',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 cursor: 'default',
               }}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setActiveImage(null)}
-                aria-label="Close photo view"
-                style={{
-                  position: 'absolute',
-                  top: '-48px',
-                  right: '0',
-                  background: 'rgba(255, 255, 255, 0.12)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '50%',
-                  width: '38px',
-                  height: '38px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#faeed1',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s',
-                }}
-              >
-                <X size={20} />
-              </button>
-
               {/* Full Image */}
               <img
                 src={activeImage.src}
                 alt={activeImage.alt}
                 style={{
-                  maxHeight: '75vh',
+                  maxHeight: '70vh',
                   maxWidth: '100%',
                   objectFit: 'contain',
                   borderRadius: '12px',
@@ -529,18 +525,18 @@ export default function PhotoGallery() {
               />
 
               {/* Lightbox Caption */}
-              <div style={{ textAlign: 'center', marginTop: '16px' }}>
+              <div style={{ textAlign: 'center', marginTop: '14px', maxWidth: '480px' }}>
                 <h4
                   style={{
                     fontFamily: 'var(--font-serif)',
-                    fontSize: '1.25rem',
+                    fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)',
                     color: '#faeed1',
                     marginBottom: '4px',
                   }}
                 >
                   {activeImage.title}
                 </h4>
-                <p style={{ fontSize: '0.88rem', color: '#c4b1fc' }}>
+                <p style={{ fontSize: 'clamp(0.82rem, 2vw, 0.9rem)', color: '#c4b1fc' }}>
                   {activeImage.caption}
                 </p>
               </div>
