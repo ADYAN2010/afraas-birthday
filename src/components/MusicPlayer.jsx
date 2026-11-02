@@ -24,8 +24,8 @@ export default function MusicPlayer({ autoStarted = false }) {
     <div
       style={{
         position: 'fixed',
-        top: 'clamp(12px, 2.5vh, 24px)',
-        right: 'clamp(12px, 2.5vw, 24px)',
+        top: 'clamp(12px, 2.5vh, 22px)',
+        right: 'clamp(12px, 2.5vw, 22px)',
         zIndex: 90,
       }}
     >
@@ -37,17 +37,17 @@ export default function MusicPlayer({ autoStarted = false }) {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          padding: 'clamp(8px, 1.5vh, 10px) clamp(12px, 2.5vw, 18px)',
+          padding: 'clamp(8px, 1.5vh, 10px) clamp(14px, 2.5vw, 18px)',
           minHeight: '44px',
           borderRadius: '9999px',
-          background: 'rgba(26, 11, 46, 0.85)',
+          background: 'rgba(255, 253, 248, 0.94)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(223, 182, 91, 0.35)',
+          border: '1.5px solid #F3DDE2',
           boxShadow: isPlaying
-            ? '0 6px 20px rgba(223, 182, 91, 0.25), 0 0 12px rgba(223, 182, 91, 0.2)'
-            : '0 4px 14px rgba(0, 0, 0, 0.4)',
-          color: isPlaying ? '#faeed1' : '#d8c8ff',
+            ? '0 6px 18px rgba(169, 75, 89, 0.15)'
+            : '0 4px 12px rgba(73, 59, 59, 0.08)',
+          color: isPlaying ? '#A94B59' : '#6E5D5D',
           cursor: 'pointer',
           transition: 'all 0.3s ease',
         }}
@@ -60,16 +60,16 @@ export default function MusicPlayer({ autoStarted = false }) {
               <span className="equalizer-bar bar-2" />
               <span className="equalizer-bar bar-3" />
             </div>
-            <Volume2 size={16} color="#dfb65b" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 500, letterSpacing: '0.03em' }}>
-              Melody Playing
+            <Volume2 size={16} color="#A94B59" />
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, letterSpacing: '0.02em' }}>
+              Melody Playing 🎵
             </span>
           </>
         ) : (
           <>
-            <Music size={16} color="#a69bb8" />
-            <VolumeX size={16} color="#a69bb8" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 500, letterSpacing: '0.03em', color: '#a69bb8' }}>
+            <Music size={16} color="#857272" />
+            <VolumeX size={16} color="#857272" />
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, letterSpacing: '0.02em', color: '#857272' }}>
               {hasInteracted ? 'Music Muted' : 'Play Music'}
             </span>
           </>
@@ -80,7 +80,7 @@ export default function MusicPlayer({ autoStarted = false }) {
         .equalizer-bar {
           display: inline-block;
           width: 3px;
-          background: #dfb65b;
+          background: #A94B59;
           border-radius: 2px;
           animation: eqBounce 1.2s ease-in-out infinite alternate;
         }

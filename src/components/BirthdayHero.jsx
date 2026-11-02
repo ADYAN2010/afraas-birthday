@@ -3,7 +3,10 @@ import { motion } from 'framer-motion';
 import { Sparkles, Cake, Feather, PartyPopper, ChevronDown, Camera } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
-import HeroFloralEmblem from './svg/HeroFloralEmblem';
+import CuteButterfly from './svg/CuteButterfly';
+import CuteFlower from './svg/CuteFlower';
+import CuteBow from './svg/CuteBow';
+import WashiTape from './svg/WashiTape';
 
 export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick, onFunClick }) {
   const { hero } = birthdayData;
@@ -58,7 +61,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 'clamp(80px, 12vh, 120px) clamp(16px, 4vw, 24px) clamp(40px, 8vh, 60px)',
+        padding: 'clamp(70px, 11vh, 110px) clamp(16px, 4vw, 24px) clamp(40px, 7vh, 60px)',
         textAlign: 'center',
         overflow: 'hidden',
         zIndex: 2,
@@ -66,7 +69,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         maxWidth: '100vw',
       }}
     >
-      {/* Soft Ambient Radial Glows - Safely Clipped */}
+      {/* Soft Ambient Radial Pastel Glows */}
       <div
         style={{
           position: 'absolute',
@@ -77,156 +80,153 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         }}
         aria-hidden="true"
       >
-        <div className="ambient-glow-pink" style={{ top: '10%', left: '15%' }} />
-        <div className="ambient-glow-lavender" style={{ top: '25%', right: '10%' }} />
-        <div className="ambient-glow-gold" style={{ bottom: '10%', left: '40%' }} />
+        <div className="ambient-glow-pink" style={{ top: '8%', left: '12%' }} />
+        <div className="ambient-glow-lavender" style={{ top: '22%', right: '10%' }} />
+        <div className="ambient-glow-peach" style={{ bottom: '12%', left: '35%' }} />
       </div>
 
-      {/* Floating Pastel Balloon (SVG) - Hidden on phones <= 480px */}
-      <motion.div
-        className="hero-floating-balloon"
-        animate={{ y: [-15, 15, -15], rotate: [-2, 3, -2] }}
-        transition={{ repeat: Infinity, duration: 7, ease: 'easeInOut' }}
+      {/* Floating Cute Butterfly - Top Left */}
+      <div
         style={{
           position: 'absolute',
-          top: '15%',
-          left: 'clamp(10px, 6vw, 100px)',
-          pointerEvents: 'none',
-          opacity: 0.8,
+          top: '12%',
+          left: 'clamp(12px, 7vw, 100px)',
           zIndex: 1,
+          pointerEvents: 'none',
         }}
       >
-        <svg width="60" height="90" viewBox="0 0 60 90" fill="none">
-          <ellipse cx="30" cy="35" rx="26" ry="32" fill="url(#heroBalloonPink)" />
-          <path d="M28 67 L32 67 L30 71 Z" fill="#e0688c" />
-          <path d="M30 71 Q35 78 28 85 T32 90" stroke="#f4b4cb" strokeWidth="1" fill="none" opacity="0.6" />
-          <ellipse cx="22" cy="22" rx="6" ry="10" fill="white" opacity="0.35" transform="rotate(-20 22 22)" />
-          <defs>
-            <linearGradient id="heroBalloonPink" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#fbe6ee" />
-              <stop offset="60%" stopColor="#f4b4cb" />
-              <stop offset="100%" stopColor="#e0688c" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </motion.div>
+        <CuteButterfly size={46} color="#E9E2F5" wingColor="#DDA6B0" />
+      </div>
 
-      {/* Floating Gold Balloon (SVG) - Hidden on phones <= 480px */}
-      <motion.div
-        className="hero-floating-balloon"
-        animate={{ y: [12, -18, 12], rotate: [2, -3, 2] }}
-        transition={{ repeat: Infinity, duration: 8.5, ease: 'easeInOut', delay: 1 }}
+      {/* Floating Cute Flower - Top Right */}
+      <div
         style={{
           position: 'absolute',
-          top: '20%',
-          right: 'clamp(10px, 6vw, 110px)',
-          pointerEvents: 'none',
-          opacity: 0.75,
+          top: '16%',
+          right: 'clamp(14px, 7vw, 110px)',
           zIndex: 1,
+          pointerEvents: 'none',
         }}
       >
-        <svg width="64" height="95" viewBox="0 0 64 95" fill="none">
-          <ellipse cx="32" cy="38" rx="28" ry="34" fill="url(#heroBalloonGold)" />
-          <path d="M30 72 L34 72 L32 76 Z" fill="#dfb65b" />
-          <path d="M32 76 Q27 82 34 89 T30 95" stroke="#faeed1" strokeWidth="1" fill="none" opacity="0.6" />
-          <ellipse cx="24" cy="24" rx="7" ry="11" fill="white" opacity="0.4" transform="rotate(-20 24 24)" />
-          <defs>
-            <linearGradient id="heroBalloonGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#faeed1" />
-              <stop offset="60%" stopColor="#dfb65b" />
-              <stop offset="100%" stopColor="#b8913b" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </motion.div>
+        <CuteFlower size={42} color="#F3DDE2" centerColor="#A94B59" />
+      </div>
 
       {/* Hero Content Container */}
-      <div style={{ maxWidth: '880px', width: '100%', position: 'relative', zIndex: 3 }}>
-        {/* Custom SVG Line-Art Floral & Celestial Drawing Emblem */}
+      <div style={{ maxWidth: '860px', width: '100%', position: 'relative', zIndex: 3 }}>
+        {/* Cute Bow Icon on Top */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ marginBottom: '12px' }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginBottom: '14px', display: 'flex', justifyContent: 'center' }}
         >
-          <HeroFloralEmblem />
+          <CuteBow size={56} color="#DDA6B0" />
         </motion.div>
 
-        {/* Date Tagline Badge */}
+        {/* Date Tagline Badge with Washi Tape Look */}
         <motion.div
-          initial={{ opacity: 0, y: -15 }}
+          initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           style={{
+            position: 'relative',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: 'clamp(6px, 1.5vw, 8px) clamp(14px, 3vw, 24px)',
+            padding: 'clamp(6px, 1.5vw, 8px) clamp(16px, 3vw, 24px)',
             borderRadius: '9999px',
-            background: 'rgba(223, 182, 91, 0.08)',
-            border: '1px solid rgba(223, 182, 91, 0.3)',
-            color: '#dfb65b',
-            fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
-            fontWeight: 600,
-            letterSpacing: 'clamp(0.12em, 2vw, 0.22em)',
+            background: '#FDF2F4',
+            border: '1.5px solid #F3DDE2',
+            color: '#A94B59',
+            fontSize: 'clamp(0.74rem, 1.8vw, 0.82rem)',
+            fontWeight: 700,
+            letterSpacing: 'clamp(0.12em, 2vw, 0.2em)',
             textTransform: 'uppercase',
-            marginBottom: '22px',
-            boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25)',
+            marginBottom: '20px',
+            boxShadow: '0 4px 14px rgba(169, 75, 89, 0.08)',
           }}
         >
-          <Sparkles size={13} color="#ffd166" />
+          <Sparkles size={13} color="#A94B59" />
           <span>{hero.badge}</span>
-          <Sparkles size={13} color="#ffd166" />
+          <Sparkles size={13} color="#A94B59" />
         </motion.div>
 
         {/* Small "HAPPY BIRTHDAY" over-heading */}
         <motion.h2
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.15 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(0.95rem, 2.5vw, 1.45rem)',
-            fontWeight: 600,
-            letterSpacing: 'clamp(0.18em, 2.5vw, 0.35em)',
-            color: '#f4b4cb',
+            fontSize: 'clamp(0.92rem, 2.3vw, 1.35rem)',
+            fontWeight: 700,
+            letterSpacing: 'clamp(0.16em, 2.5vw, 0.32em)',
+            color: '#A94B59',
             textTransform: 'uppercase',
-            marginBottom: '10px',
+            marginBottom: '8px',
           }}
         >
           {hero.headingMain}
         </motion.h2>
 
-        {/* Recipient Full Name */}
-        <motion.h1
+        {/* Recipient Display Name: Strictly Afraa */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            fontFamily: 'var(--font-serif)',
-            fontSize: 'clamp(2.6rem, 9vw, 5.8rem)',
-            fontWeight: 700,
-            lineHeight: 1.05,
-            letterSpacing: '-0.03em',
-            marginBottom: '18px',
-          }}
-          className="text-gold-gradient"
+          style={{ position: 'relative', display: 'inline-block' }}
         >
-          {hero.name}
-        </motion.h1>
+          <h1
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(2.8rem, 10vw, 5.8rem)',
+              fontWeight: 700,
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
+              color: '#493B3B',
+              marginBottom: '14px',
+            }}
+          >
+            {hero.name}
+          </h1>
 
-        {/* Subtitle */}
+          {/* Cute Handwritten Caveat Annotation Beside Name */}
+          <motion.div
+            initial={{ opacity: 0, rotate: -8, scale: 0.8 }}
+            animate={{ opacity: 1, rotate: -4, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            style={{
+              position: 'absolute',
+              top: '-14px',
+              right: '-40px',
+              fontFamily: 'var(--font-handwritten)',
+              fontSize: 'clamp(1.15rem, 3vw, 1.6rem)',
+              color: '#A94B59',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              transform: 'rotate(-4deg)',
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span>it's your day! 🌸</span>
+          </motion.div>
+        </motion.div>
+
+        {/* Subtitle in Handwritten Caveat Style */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.45 }}
+          transition={{ duration: 0.85, delay: 0.45 }}
           style={{
-            fontFamily: 'var(--font-editorial)',
-            fontStyle: 'italic',
-            fontSize: 'clamp(1.15rem, 3.2vw, 1.85rem)',
-            color: '#ece6ff',
-            lineHeight: 1.4,
+            fontFamily: 'var(--font-handwritten)',
+            fontSize: 'clamp(1.35rem, 3.8vw, 2.1rem)',
+            color: '#A94B59',
+            lineHeight: 1.35,
             marginBottom: '16px',
+            fontWeight: 600,
           }}
         >
           “{hero.subtitle}”
@@ -234,15 +234,15 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
 
         {/* Cheerful Description */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.6 }}
+          transition={{ duration: 0.85, delay: 0.6 }}
           style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(0.92rem, 2vw, 1.12rem)',
-            color: '#a69bb8',
+            fontSize: 'clamp(0.95rem, 2vw, 1.15rem)',
+            color: '#6E5D5D',
             maxWidth: '620px',
-            margin: '0 auto 36px',
+            margin: '0 auto 34px',
             lineHeight: 1.7,
             fontWeight: 400,
             padding: '0 8px',
@@ -253,16 +253,16 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
 
         {/* Interactive CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.75 }}
+          transition={{ duration: 0.85, delay: 0.75 }}
           className="hero-cta-container"
         >
           <button
             onClick={handleWish}
-            className="hero-btn btn-gold"
+            className="hero-btn btn-cherry"
             style={{
-              padding: 'clamp(12px, 2.5vw, 15px) clamp(20px, 3.5vw, 34px)',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(20px, 3.5vw, 32px)',
               fontSize: 'clamp(0.92rem, 2vw, 1rem)',
             }}
           >
@@ -274,11 +274,11 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
             onClick={handleNote}
             className="hero-btn btn-glass"
             style={{
-              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 28px)',
               fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
-            <Feather size={17} color="#dfb65b" />
+            <Feather size={17} color="#A94B59" />
             <span>{hero.ctaNote}</span>
           </button>
 
@@ -286,11 +286,11 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
             onClick={handleGallery}
             className="hero-btn btn-glass"
             style={{
-              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 28px)',
               fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
-            <Camera size={17} color="#dfb65b" />
+            <Camera size={17} color="#A94B59" />
             <span>Photo Corner 📸</span>
           </button>
 
@@ -298,11 +298,11 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
             onClick={handleFun}
             className="hero-btn btn-glass"
             style={{
-              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 30px)',
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 28px)',
               fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
             }}
           >
-            <PartyPopper size={17} />
+            <PartyPopper size={17} color="#A94B59" />
             <span>{hero.ctaExplore}</span>
           </button>
         </motion.div>
@@ -313,12 +313,12 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
         style={{
-          marginTop: 'clamp(36px, 8vh, 60px)',
+          marginTop: 'clamp(36px, 7vh, 56px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '6px',
-          color: '#8d7a9f',
+          color: '#857272',
           fontSize: '0.8rem',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
@@ -331,7 +331,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
         }}
       >
         <span>{hero.scrollHint}</span>
-        <ChevronDown size={18} color="#dfb65b" />
+        <ChevronDown size={18} color="#A94B59" />
       </motion.div>
     </section>
   );

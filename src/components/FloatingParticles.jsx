@@ -16,12 +16,13 @@ export default function FloatingParticles() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const particleCount = prefersReducedMotion ? 25 : Math.min(Math.floor((width * height) / 14000), 75);
 
-    // Color tones
+    // Pastel Cute Palette: powder pink, dusty rose, lavender, peach, soft cherry
     const colors = [
-      { r: 250, g: 238, b: 209 }, // Champagne Gold
-      { r: 248, g: 207, b: 223 }, // Blush Pink
-      { r: 196, g: 177, b: 252 }, // Soft Lavender
-      { r: 255, g: 255, b: 255 }, // Pure Starlight
+      { r: 243, g: 221, b: 226 }, // Powder Pink
+      { r: 221, g: 166, b: 176 }, // Dusty Rose
+      { r: 233, g: 226, b: 245 }, // Soft Lavender
+      { r: 247, g: 214, b: 189 }, // Warm Peach
+      { r: 169, g: 75, b: 89 },   // Muted Cherry
     ];
 
     // Star particles

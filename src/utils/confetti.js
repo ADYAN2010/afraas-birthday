@@ -7,7 +7,7 @@ export const triggerCandleConfetti = () => {
   const count = 120;
   const defaults = {
     origin: { y: 0.65 },
-    colors: ['#ffd166', '#f29bb5', '#c4b1fc', '#faeed1', '#ffffff', '#e0688c'],
+    colors: ['#A94B59', '#DDA6B0', '#F3DDE2', '#F7D6BD', '#E9E2F5', '#FFF8E9'],
     disableForReducedMotion: true,
   };
 
@@ -37,7 +37,7 @@ export const triggerFinaleConfetti = () => {
   const duration = 3.5 * 1000;
   const end = Date.now() + duration;
 
-  const colors = ['#dfb65b', '#f29bb5', '#9f80f7', '#ffffff', '#faeed1', '#ffd166'];
+  const colors = ['#A94B59', '#DDA6B0', '#F7D6BD', '#E9E2F5', '#FFF8E9', '#F3DDE2'];
 
   (function frame() {
     confetti({
@@ -95,7 +95,7 @@ export const triggerSparkleBurst = (x = 0.5, y = 0.5) => {
     spread: 40,
     startVelocity: 20,
     origin: { x, y },
-    colors: ['#ffd166', '#faeed1', '#ffffff', '#c4b1fc'],
+    colors: ['#A94B59', '#DDA6B0', '#F7D6BD', '#E9E2F5'],
     shapes: ['star', 'circle'],
     scalar: 0.7,
     disableForReducedMotion: true,

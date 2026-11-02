@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Sparkles, Smile, Trophy, Camera, Compass, Sun, ChevronRight } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
-import BotanicalFlourish from './svg/BotanicalFlourish';
+import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
+import WashiTape from './svg/WashiTape';
 
 const iconMap = {
   Smile: Smile,
@@ -13,6 +14,15 @@ const iconMap = {
   Sun: Sun,
   Sparkles: Sparkles,
 };
+
+const cardTapeStyles = [
+  { color: '#F3DDE2', angle: -2, pattern: 'dots' },
+  { color: '#E9E2F5', angle: 3, pattern: 'stripes' },
+  { color: '#F7D6BD', angle: -3, pattern: 'dots' },
+  { color: '#DDA6B0', angle: 2, pattern: 'stripes' },
+  { color: '#E9E2F5', angle: -2, pattern: 'dots' },
+  { color: '#F3DDE2', angle: 3, pattern: 'stripes' },
+];
 
 export default function BirthdayWishes() {
   const { wishes } = birthdayData;
@@ -45,30 +55,30 @@ export default function BirthdayWishes() {
     >
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0.1, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "150px" }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '40px' }}
+        style={{ textAlign: 'center', marginBottom: '38px' }}
       >
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '6px 18px',
+            padding: '5px 16px',
             borderRadius: '9999px',
-            background: 'rgba(196, 177, 252, 0.12)',
-            border: '1px solid rgba(196, 177, 252, 0.35)',
-            color: '#c4b1fc',
-            fontSize: '0.8rem',
-            fontWeight: 600,
+            background: '#FDF2F4',
+            border: '1.5px solid #F3DDE2',
+            color: '#A94B59',
+            fontSize: '0.78rem',
+            fontWeight: 700,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            marginBottom: '16px',
+            marginBottom: '14px',
           }}
         >
-          <Sparkles size={14} />
+          <Sparkles size={13} color="#A94B59" />
           <span>INSPIRING WISHES</span>
         </div>
 
@@ -77,22 +87,21 @@ export default function BirthdayWishes() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '10px',
+            marginBottom: '8px',
+            color: '#493B3B',
           }}
-          className="text-gold-gradient"
         >
           {wishes.heading}
         </h2>
 
-        {/* Hand-drawn Botanical SVG Flourish */}
-        <BotanicalFlourish delay={0.2} maxWidth={260} />
+        {/* Cute Stitched Scrapbook Divider */}
+        <CuteScrapbookDivider maxWidth={260} />
 
         <p
           style={{
-            fontFamily: 'var(--font-editorial)',
-            fontStyle: 'italic',
-            fontSize: 'clamp(1.12rem, 2.5vw, 1.4rem)',
-            color: '#d8c8ff',
+            fontFamily: 'var(--font-handwritten)',
+            fontSize: 'clamp(1.35rem, 3.2vw, 1.75rem)',
+            color: '#A94B59',
             maxWidth: '600px',
             margin: '0 auto',
           }}
@@ -101,42 +110,60 @@ export default function BirthdayWishes() {
         </p>
       </motion.div>
 
-      {/* Responsive Grid of Cards */}
+      {/* Responsive Grid of Scrapbook Note Cards */}
       <div className="wishes-grid">
         {wishes.items.map((item, index) => {
           const IconComponent = iconMap[item.icon] || Sparkles;
           const isExpanded = activeCard === item.id;
+          const tapeStyle = cardTapeStyles[index % cardTapeStyles.length];
 
           return (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0.2, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.7 }}
-              whileHover={{ y: -6 }}
+              viewport={{ once: true, margin: "150px" }}
+              transition={{ delay: index * 0.08, duration: 0.7 }}
+              whileHover={{ y: -5 }}
               onClick={(e) => toggleCard(item.id, e)}
               className="glass-panel"
               style={{
                 cursor: 'pointer',
-                padding: 'clamp(22px, 4vw, 30px) clamp(16px, 3.5vw, 26px)',
+                padding: 'clamp(24px, 4vw, 32px) clamp(18px, 3.5vw, 26px)',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 position: 'relative',
                 overflow: 'hidden',
-                minHeight: '220px',
-                border: isExpanded
-                  ? '1px solid rgba(223, 182, 91, 0.6)'
-                  : '1px solid rgba(255, 255, 255, 0.08)',
-                background: isExpanded
-                  ? 'linear-gradient(145deg, rgba(38, 20, 64, 0.9) 0%, rgba(20, 9, 36, 0.95) 100%)'
-                  : 'linear-gradient(145deg, rgba(28, 14, 48, 0.6) 0%, rgba(15, 6, 26, 0.75) 100%)',
+                minHeight: '230px',
+                borderRadius: '22px',
+                border: isExpanded ? '2px solid #A94B59' : '1.5px solid #F3DDE2',
+                background: isExpanded ? '#FFF9FA' : '#FFFFFF',
                 boxShadow: isExpanded
-                  ? '0 18px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(223, 182, 91, 0.25)'
-                  : '0 10px 25px rgba(0, 0, 0, 0.35)',
+                  ? '0 16px 36px rgba(169, 75, 89, 0.12), 0 2px 8px rgba(73, 59, 59, 0.04)'
+                  : '0 8px 24px rgba(73, 59, 59, 0.05)',
+                transition: 'all 0.35s ease',
               }}
             >
+              {/* Washi Tape Strip at top */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-10px',
+                  left: index % 2 === 0 ? '20px' : 'auto',
+                  right: index % 2 === 0 ? 'auto' : '20px',
+                  zIndex: 5,
+                }}
+              >
+                <WashiTape
+                  width={80}
+                  height={20}
+                  color={tapeStyle.color}
+                  pattern={tapeStyle.pattern}
+                  rotate={tapeStyle.angle}
+                />
+              </div>
+
               {/* Top Accent Icon & Badge */}
               <div>
                 <div
@@ -144,20 +171,22 @@ export default function BirthdayWishes() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    marginBottom: '20px',
+                    marginBottom: '16px',
+                    marginTop: '6px',
                   }}
                 >
                   <div
                     style={{
-                      width: '48px',
-                      height: '48px',
+                      width: '46px',
+                      height: '46px',
                       borderRadius: '14px',
-                      background: 'rgba(223, 182, 91, 0.12)',
-                      border: '1px solid rgba(223, 182, 91, 0.3)',
+                      background: isExpanded ? '#FDF2F4' : '#FFF8E9',
+                      border: '1.5px solid #F3DDE2',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#ffd166',
+                      color: '#A94B59',
+                      transition: 'all 0.3s ease',
                     }}
                   >
                     <IconComponent size={22} />
@@ -165,13 +194,13 @@ export default function BirthdayWishes() {
 
                   <span
                     style={{
-                      fontSize: '0.75rem',
-                      fontFamily: 'var(--font-sans)',
-                      color: '#9e8fb8',
-                      letterSpacing: '0.1em',
+                      fontSize: '0.78rem',
+                      fontFamily: 'var(--font-handwritten)',
+                      color: '#A94B59',
+                      fontWeight: 700,
                     }}
                   >
-                    0{item.id}
+                    Wish #{item.id}
                   </span>
                 </div>
 
@@ -180,8 +209,8 @@ export default function BirthdayWishes() {
                   style={{
                     fontFamily: 'var(--font-serif)',
                     fontSize: '1.35rem',
-                    marginBottom: '10px',
-                    color: '#faf8f5',
+                    marginBottom: '8px',
+                    color: '#493B3B',
                     letterSpacing: '-0.01em',
                   }}
                 >
@@ -192,9 +221,8 @@ export default function BirthdayWishes() {
                 <p
                   style={{
                     fontSize: '0.94rem',
-                    color: isExpanded ? '#faeed1' : '#c4b1fc',
+                    color: '#6E5D5D',
                     lineHeight: 1.65,
-                    transition: 'color 0.3s ease',
                   }}
                 >
                   {item.detail}
@@ -204,15 +232,15 @@ export default function BirthdayWishes() {
               {/* Bottom Expand Toggle Link */}
               <div
                 style={{
-                  marginTop: '22px',
-                  paddingTop: '16px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+                  marginTop: '20px',
+                  paddingTop: '14px',
+                  borderTop: '1px dashed #F3DDE2',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   fontSize: '0.82rem',
-                  fontWeight: 600,
-                  color: '#dfb65b',
+                  fontWeight: 700,
+                  color: '#A94B59',
                 }}
               >
                 <span>{isExpanded ? 'Wish active ✨' : 'Click to highlight'}</span>

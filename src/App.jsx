@@ -57,13 +57,15 @@ export default function App() {
         width: '100%',
         maxWidth: '100vw',
         overflowX: 'hidden',
+        backgroundColor: 'var(--butter-cream)',
+        color: 'var(--deep-brown)',
       }}
-      className="bg-[#07030d] text-[#faf8f5]"
+      className="journal-grid-pattern selection:bg-[#F3DDE2] selection:text-[#A94B59]"
     >
-      {/* Background Twinkling Starlight & Subtle Bokeh Particles */}
+      {/* Background Soft Pastel Twinkling Starlets & Petals */}
       <FloatingParticles />
 
-      {/* Opening Intro Gate */}
+      {/* Opening Intro Gate with Cute Scrapbook Envelope */}
       {!isCelebrationOpen && <OpeningScreen onOpen={handleOpenCelebration} />}
 
       {/* Main Birthday Experience */}
@@ -103,7 +105,7 @@ export default function App() {
           {/* 6. Birthday Wishes ("Here's To Your New Chapter!") */}
           <BirthdayWishes />
 
-          {/* 7. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz) */}
+          {/* 7. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz, Mystery Gift) */}
           <BirthdayFunZone />
 
           {/* 8. Grand Birthday Finale */}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PartyPopper, Sparkles, HelpCircle, Gift, Shuffle, CheckCircle, RefreshCw } from 'lucide-react';
+import { PartyPopper, Sparkles, HelpCircle, Gift, Shuffle, RefreshCw } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst, triggerCandleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
-import CountdownDivider from './svg/CountdownDivider';
+import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
+import WashiTape from './svg/WashiTape';
+import CuteBow from './svg/CuteBow';
 
 export default function BirthdayFunZone() {
   const { interactiveFun } = birthdayData;
@@ -75,30 +77,30 @@ export default function BirthdayFunZone() {
     >
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0.1, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "150px" }}
         transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '40px' }}
+        style={{ textAlign: 'center', marginBottom: '38px' }}
       >
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '6px 18px',
+            padding: '5px 16px',
             borderRadius: '9999px',
-            background: 'rgba(223, 182, 91, 0.12)',
-            border: '1px solid rgba(223, 182, 91, 0.35)',
-            color: '#dfb65b',
-            fontSize: '0.8rem',
-            fontWeight: 600,
+            background: '#FDF2F4',
+            border: '1.5px solid #F3DDE2',
+            color: '#A94B59',
+            fontSize: '0.78rem',
+            fontWeight: 700,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            marginBottom: '16px',
+            marginBottom: '14px',
           }}
         >
-          <PartyPopper size={14} />
+          <PartyPopper size={13} color="#A94B59" />
           <span>CELEBRATION ARCADE</span>
         </div>
 
@@ -107,22 +109,21 @@ export default function BirthdayFunZone() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '10px',
+            marginBottom: '8px',
+            color: '#493B3B',
           }}
-          className="text-gold-gradient"
         >
           {interactiveFun.heading}
         </h2>
 
-        {/* Hand-drawn SVG Decorative Line */}
-        <CountdownDivider delay={0.2} maxWidth={280} />
+        {/* Cute Stitched Scrapbook Divider */}
+        <CuteScrapbookDivider maxWidth={260} />
 
         <p
           style={{
-            fontFamily: 'var(--font-editorial)',
-            fontStyle: 'italic',
-            fontSize: 'clamp(1.12rem, 2.5vw, 1.4rem)',
-            color: '#d8c8ff',
+            fontFamily: 'var(--font-handwritten)',
+            fontSize: 'clamp(1.35rem, 3.2vw, 1.75rem)',
+            color: '#A94B59',
             maxWidth: '600px',
             margin: '0 auto',
           }}
@@ -135,29 +136,38 @@ export default function BirthdayFunZone() {
       <div className="arcade-grid">
         {/* Block 1: Interactive Click-to-Pop Balloons */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0.2, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "150px" }}
           transition={{ duration: 0.7 }}
           className="glass-panel"
           style={{
-            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
+            padding: 'clamp(24px, 4vw, 32px) clamp(18px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            background: 'linear-gradient(145deg, rgba(32, 14, 52, 0.65) 0%, rgba(18, 8, 32, 0.8) 100%)',
+            background: '#FFFFFF',
+            border: '2px solid #F3DDE2',
+            borderRadius: '22px',
+            boxShadow: '0 12px 30px rgba(73, 59, 59, 0.05)',
+            position: 'relative',
           }}
         >
+          <div style={{ position: 'absolute', top: '-10px', left: '20px', zIndex: 5 }}>
+            <WashiTape width={80} height={20} color="#F3DDE2" pattern="dots" rotate={-2} />
+          </div>
+
           <div>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '18px',
+                marginBottom: '16px',
+                marginTop: '6px',
               }}
             >
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', color: '#493B3B' }}>
                 🎈 Pop the Balloons
               </h3>
               <button
@@ -166,12 +176,13 @@ export default function BirthdayFunZone() {
                 style={{
                   background: 'transparent',
                   border: 'none',
-                  color: '#dfb65b',
+                  color: '#A94B59',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
                   fontSize: '0.8rem',
+                  fontWeight: 600,
                 }}
               >
                 <RefreshCw size={14} />
@@ -179,8 +190,8 @@ export default function BirthdayFunZone() {
               </button>
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: '#c4b1fc', marginBottom: '22px' }}>
-              Click on each balloon to pop it and reveal your birthday bonus perk!
+            <p style={{ fontSize: '0.9rem', color: '#6E5D5D', marginBottom: '20px' }}>
+              Click on each pastel balloon to pop it and reveal your birthday perk!
             </p>
 
             {/* Balloon Popping Area */}
@@ -215,8 +226,9 @@ export default function BirthdayFunZone() {
                           width: '52px',
                           height: '66px',
                           borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%',
-                          background: `radial-gradient(circle at 35% 35%, #ffffff 0%, ${balloon.color} 70%)`,
-                          boxShadow: `0 8px 18px ${balloon.color}40`,
+                          background: `radial-gradient(circle at 35% 35%, #ffffff 0%, ${balloon.color} 75%)`,
+                          boxShadow: '0 6px 14px rgba(73, 59, 59, 0.1)',
+                          border: '1px solid rgba(73, 59, 59, 0.1)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -227,7 +239,7 @@ export default function BirthdayFunZone() {
                           style={{
                             fontSize: '0.72rem',
                             fontWeight: 700,
-                            color: '#1a0b27',
+                            color: '#493B3B',
                             textTransform: 'uppercase',
                           }}
                         >
@@ -239,7 +251,7 @@ export default function BirthdayFunZone() {
                             bottom: '-6px',
                             width: '4px',
                             height: '6px',
-                            background: balloon.color,
+                            background: '#DDA6B0',
                           }}
                         />
                       </div>
@@ -250,11 +262,11 @@ export default function BirthdayFunZone() {
                         style={{
                           padding: '6px 10px',
                           borderRadius: '12px',
-                          background: 'rgba(255, 255, 255, 0.08)',
-                          border: `1px solid ${balloon.color}`,
-                          color: '#faeed1',
+                          background: '#FDF2F4',
+                          border: '1.5px solid #F3DDE2',
+                          color: '#A94B59',
                           fontSize: '0.78rem',
-                          fontWeight: 600,
+                          fontWeight: 700,
                         }}
                       >
                         {balloon.poppedText}
@@ -266,77 +278,86 @@ export default function BirthdayFunZone() {
             </div>
           </div>
 
-          <p style={{ marginTop: '16px', fontSize: '0.8rem', color: '#8d7a9f', textAlign: 'center' }}>
+          <p style={{ marginTop: '16px', fontSize: '0.8rem', color: '#857272', textAlign: 'center' }}>
             {Object.keys(poppedBalloons).length === interactiveFun.balloons.length
-              ? '🎉 All balloons popped! Supercharged for the year!'
+              ? '🎉 All balloons popped! Fully recharged for the year!'
               : 'Tap any floating balloon to pop it!'}
           </p>
         </motion.div>
 
-        {/* Block 2: Random Positive Fortune Generator */}
+        {/* Block 2: Random Cheerful Fortune Generator */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0.2, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "150px" }}
           transition={{ duration: 0.7, delay: 0.1 }}
           className="glass-panel"
           style={{
-            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
+            padding: 'clamp(24px, 4vw, 32px) clamp(18px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            background: 'linear-gradient(145deg, rgba(32, 14, 52, 0.65) 0%, rgba(18, 8, 32, 0.8) 100%)',
+            background: '#FFFFFF',
+            border: '2px solid #F3DDE2',
+            borderRadius: '22px',
+            boxShadow: '0 12px 30px rgba(73, 59, 59, 0.05)',
+            position: 'relative',
           }}
         >
+          <div style={{ position: 'absolute', top: '-10px', right: '20px', zIndex: 5 }}>
+            <WashiTape width={80} height={20} color="#E9E2F5" pattern="stripes" rotate={2} />
+          </div>
+
           <div>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '18px',
+                marginBottom: '16px',
+                marginTop: '6px',
               }}
             >
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', color: '#493B3B' }}>
                 🌟 Birthday Vibe Dispenser
               </h3>
-              <Sparkles size={20} color="#ffd166" />
+              <Sparkles size={18} color="#A94B59" />
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: '#c4b1fc', marginBottom: '20px' }}>
-              Tap below to draw a cheerful fortune and positive prediction for your new chapter:
+            <p style={{ fontSize: '0.9rem', color: '#6E5D5D', marginBottom: '18px' }}>
+              Tap below to draw a cheerful prediction for your upcoming chapter:
             </p>
 
             {/* Current Fortune Card */}
             <div
               style={{
-                minHeight: '80px',
-                padding: '18px',
+                minHeight: '84px',
+                padding: '16px 18px',
                 borderRadius: '16px',
-                background: 'rgba(15, 6, 26, 0.65)',
-                border: '1px solid rgba(223, 182, 91, 0.3)',
+                background: '#FFF8E9',
+                border: '1.5px dashed #DDA6B0',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
-                marginBottom: '20px',
+                marginBottom: '18px',
               }}
             >
               <AnimatePresence mode="wait">
                 <motion.p
                   key={currentFortuneIndex}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.35 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3 }}
                   style={{
-                    fontFamily: 'var(--font-editorial)',
-                    fontSize: '1.18rem',
-                    color: '#faeed1',
-                    lineHeight: 1.45,
+                    fontFamily: 'var(--font-handwritten)',
+                    fontSize: '1.35rem',
+                    color: '#A94B59',
+                    lineHeight: 1.4,
                   }}
                 >
-                  {interactiveFun.fortunes[currentFortuneIndex]}
+                  “{interactiveFun.fortunes[currentFortuneIndex]}”
                 </motion.p>
               </AnimatePresence>
             </div>
@@ -344,11 +365,15 @@ export default function BirthdayFunZone() {
 
           <button
             onClick={handleDrawFortune}
-            className="btn-gold"
+            className="btn-cherry"
             style={{
               padding: '12px 24px',
               fontSize: '0.92rem',
               width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
             }}
           >
             <Shuffle size={16} />
@@ -358,47 +383,56 @@ export default function BirthdayFunZone() {
 
         {/* Block 3: Lighthearted Birthday Mini-Quiz */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0.2, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "150px" }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="glass-panel arcade-quiz-card"
           style={{
-            padding: 'clamp(22px, 4vw, 32px) clamp(16px, 3.5vw, 26px)',
+            padding: 'clamp(24px, 4vw, 32px) clamp(18px, 3.5vw, 26px)',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            background: 'linear-gradient(145deg, rgba(32, 14, 52, 0.65) 0%, rgba(18, 8, 32, 0.8) 100%)',
+            background: '#FFFFFF',
+            border: '2px solid #F3DDE2',
+            borderRadius: '22px',
+            boxShadow: '0 12px 30px rgba(73, 59, 59, 0.05)',
+            position: 'relative',
           }}
         >
+          <div style={{ position: 'absolute', top: '-10px', left: '20px', zIndex: 5 }}>
+            <WashiTape width={80} height={20} color="#F7D6BD" pattern="dots" rotate={-3} />
+          </div>
+
           <div>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '18px',
+                marginBottom: '16px',
+                marginTop: '6px',
               }}
             >
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', color: '#493B3B' }}>
                 🎯 Birthday Quick Quiz
               </h3>
-              <HelpCircle size={20} color="#f4b4cb" />
+              <HelpCircle size={18} color="#A94B59" />
             </div>
 
             <p
               style={{
                 fontSize: '0.92rem',
                 fontWeight: 600,
-                color: '#faf8f5',
-                marginBottom: '16px',
+                color: '#493B3B',
+                marginBottom: '14px',
               }}
             >
               {interactiveFun.quiz.question}
             </p>
 
             {/* Quiz Options */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {interactiveFun.quiz.options.map((option, idx) => {
                 const isSelected = selectedOption === idx;
 
@@ -411,20 +445,21 @@ export default function BirthdayFunZone() {
                       if (option.isCorrect) triggerCandleConfetti();
                     }}
                     style={{
-                      padding: '12px 16px',
+                      padding: '11px 14px',
                       borderRadius: '12px',
                       background: isSelected
                         ? option.isCorrect
-                          ? 'rgba(46, 204, 113, 0.2)'
-                          : 'rgba(231, 76, 60, 0.2)'
-                        : 'rgba(255, 255, 255, 0.05)',
+                          ? '#E8F8F0'
+                          : '#FDF0F3'
+                        : '#FFFDF9',
                       border: isSelected
                         ? option.isCorrect
-                          ? '1px solid #2ecc71'
-                          : '1px solid #e74c3c'
-                        : '1px solid rgba(255, 255, 255, 0.1)',
-                      color: '#faf8f5',
+                          ? '1.5px solid #2ECC71'
+                          : '1.5px solid #E74C3C'
+                        : '1px solid #F3DDE2',
+                      color: '#493B3B',
                       fontSize: '0.86rem',
+                      fontWeight: isSelected ? 600 : 450,
                       textAlign: 'left',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
@@ -439,12 +474,12 @@ export default function BirthdayFunZone() {
 
           {selectedOption !== null && (
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               style={{
-                marginTop: '16px',
+                marginTop: '14px',
                 fontSize: '0.85rem',
-                color: interactiveFun.quiz.options[selectedOption].isCorrect ? '#ffd166' : '#f4b4cb',
+                color: interactiveFun.quiz.options[selectedOption].isCorrect ? '#27AE60' : '#A94B59',
                 fontWeight: 600,
               }}
             >

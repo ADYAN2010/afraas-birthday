@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, Sparkles } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
-import CountdownDivider from './svg/CountdownDivider';
+import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
+import WashiTape from './svg/WashiTape';
 
 export default function Countdown() {
   const { countdown, recipient } = birthdayData;
@@ -53,8 +54,8 @@ export default function Countdown() {
       id="countdown-section"
       style={{
         position: 'relative',
-        padding: 'clamp(48px, 8vw, 70px) clamp(12px, 3vw, 20px)',
-        maxWidth: '1100px',
+        padding: 'clamp(44px, 7vw, 68px) clamp(12px, 3vw, 20px)',
+        maxWidth: '1060px',
         margin: '0 auto',
         zIndex: 2,
         width: '100%',
@@ -63,32 +64,30 @@ export default function Countdown() {
       <div
         className="glass-panel"
         style={{
-          padding: 'clamp(26px, 5vw, 56px) clamp(14px, 4vw, 48px)',
+          padding: 'clamp(28px, 5vw, 52px) clamp(16px, 4vw, 44px)',
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden',
-          border: '1px solid rgba(223, 182, 91, 0.25)',
-          background: 'linear-gradient(145deg, rgba(28, 14, 48, 0.7) 0%, rgba(18, 8, 32, 0.8) 100%)',
+          border: '2px solid #F3DDE2',
+          background: 'rgba(255, 253, 248, 0.94)',
+          borderRadius: '24px',
+          boxShadow: '0 16px 40px rgba(73, 59, 59, 0.06), 0 2px 8px rgba(169, 75, 89, 0.04)',
         }}
       >
-        {/* Soft Radial Backlight */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 'min(600px, 90vw)',
-            height: '250px',
-            background: 'radial-gradient(ellipse, rgba(223, 182, 91, 0.12) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }}
-        />
+        {/* Washi Tape Strip at top left */}
+        <div style={{ position: 'absolute', top: '-10px', left: '20px', zIndex: 10 }}>
+          <WashiTape width={100} height={22} color="#F3DDE2" pattern="dots" rotate={-3} />
+        </div>
+
+        {/* Washi Tape Strip at top right */}
+        <div style={{ position: 'absolute', top: '-10px', right: '20px', zIndex: 10 }}>
+          <WashiTape width={100} height={22} color="#E9E2F5" pattern="stripes" rotate={3} />
+        </div>
 
         {timeLeft.isArrived ? (
           /* Birthday Arrived State */
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
             style={{ position: 'relative', zIndex: 2 }}
@@ -98,13 +97,13 @@ export default function Countdown() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '8px 20px',
+                padding: '6px 18px',
                 borderRadius: '9999px',
-                background: 'rgba(224, 104, 140, 0.15)',
-                border: '1px solid rgba(224, 104, 140, 0.4)',
-                color: '#f4b4cb',
-                fontSize: '0.88rem',
-                fontWeight: 600,
+                background: '#FDF2F4',
+                border: '1.5px solid #F3DDE2',
+                color: '#A94B59',
+                fontSize: '0.86rem',
+                fontWeight: 700,
                 letterSpacing: '0.1em',
                 marginBottom: '16px',
               }}
@@ -117,27 +116,27 @@ export default function Countdown() {
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(2.4rem, 6vw, 3.8rem)',
-                marginBottom: '16px',
+                marginBottom: '14px',
+                color: '#493B3B',
                 letterSpacing: '-0.02em',
               }}
-              className="text-gold-gradient"
             >
               {countdown.celebrationTitle}
             </h2>
 
-            <CountdownDivider delay={0.2} maxWidth={320} />
+            <CuteScrapbookDivider maxWidth={320} />
 
             <p
               style={{
-                fontFamily: 'var(--font-editorial)',
-                fontStyle: 'italic',
-                fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
-                color: '#ece6ff',
+                fontFamily: 'var(--font-handwritten)',
+                fontSize: 'clamp(1.35rem, 3.2vw, 1.8rem)',
+                color: '#A94B59',
                 maxWidth: '600px',
                 margin: '0 auto',
+                lineHeight: 1.4,
               }}
             >
-              {countdown.celebrationSubtitle}
+              “{countdown.celebrationSubtitle}”
             </p>
           </motion.div>
         ) : (
@@ -148,27 +147,28 @@ export default function Countdown() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '6px 18px',
+                padding: '5px 16px',
                 borderRadius: '9999px',
-                background: 'rgba(223, 182, 91, 0.1)',
-                border: '1px solid rgba(223, 182, 91, 0.3)',
-                color: '#dfb65b',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                letterSpacing: '0.18em',
+                background: '#FDF2F4',
+                border: '1.5px solid #F3DDE2',
+                color: '#A94B59',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                letterSpacing: '0.16em',
                 textTransform: 'uppercase',
-                marginBottom: '18px',
+                marginBottom: '16px',
               }}
             >
-              <Calendar size={14} />
+              <Calendar size={13} />
               <span>{recipient.displayDate}</span>
             </div>
 
             <h2
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
-                marginBottom: '10px',
+                fontSize: 'clamp(1.8rem, 4vw, 2.7rem)',
+                marginBottom: '8px',
+                color: '#493B3B',
                 letterSpacing: '-0.01em',
               }}
             >
@@ -177,34 +177,34 @@ export default function Countdown() {
 
             <p
               style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.95rem',
-                color: '#bfaecf',
+                fontFamily: 'var(--font-handwritten)',
+                fontSize: 'clamp(1.2rem, 2.5vw, 1.55rem)',
+                color: '#A94B59',
                 marginBottom: '10px',
               }}
             >
-              Counting down every second until the birthday celebrations begin!
+              Counting down every second until the birthday celebrations begin! 🌸
             </p>
 
-            {/* Subtle Animated SVG Separator */}
-            <CountdownDivider delay={0.2} maxWidth={420} />
+            {/* Cute Hand-drawn Stitched Divider */}
+            <CuteScrapbookDivider maxWidth={400} />
 
             {/* Countdown Grid - 2x2 on Mobile, 4-col on Tablet/Desktop */}
             <div className="countdown-grid">
               {timeUnits.map((unit, index) => (
                 <motion.div
                   key={unit.label}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0.2, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "150px" }}
                   transition={{ delay: index * 0.1, duration: 0.6 }}
                   style={{
-                    background: 'rgba(15, 6, 26, 0.75)',
-                    border: '1px solid rgba(223, 182, 91, 0.25)',
-                    borderRadius: '16px',
-                    padding: 'clamp(14px, 3vw, 24px) clamp(8px, 2vw, 16px)',
+                    background: '#FFFFFF',
+                    border: '1.5px solid #F3DDE2',
+                    borderRadius: '18px',
+                    padding: 'clamp(16px, 3vw, 24px) clamp(8px, 2vw, 16px)',
                     position: 'relative',
-                    boxShadow: 'inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 10px 24px rgba(0, 0, 0, 0.35)',
+                    boxShadow: '0 6px 18px rgba(73, 59, 59, 0.05)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -212,8 +212,20 @@ export default function Countdown() {
                     overflow: 'hidden',
                   }}
                 >
+                  {/* Scalloped / Perforated Stamp Top Accent */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '4px',
+                      background: 'linear-gradient(90deg, #F3DDE2 0%, #DDA6B0 100%)',
+                    }}
+                  />
+
                   {/* Number with smooth height/opacity tick */}
-                  <div style={{ height: 'clamp(2.2rem, 5vw, 3.4rem)', overflow: 'hidden' }}>
+                  <div style={{ height: 'clamp(2.3rem, 5vw, 3.4rem)', overflow: 'hidden' }}>
                     <AnimatePresence mode="popLayout">
                       <motion.span
                         key={unit.value}
@@ -224,12 +236,12 @@ export default function Countdown() {
                         style={{
                           display: 'block',
                           fontFamily: 'var(--font-serif)',
-                          fontSize: 'clamp(2.1rem, 5vw, 3.4rem)',
+                          fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
                           fontWeight: 700,
                           lineHeight: 1,
                           marginBottom: '4px',
+                          color: '#493B3B',
                         }}
-                        className="text-gold-gradient"
                       >
                         {String(unit.value).padStart(2, '0')}
                       </motion.span>
@@ -238,13 +250,13 @@ export default function Countdown() {
 
                   <span
                     style={{
-                      fontSize: 'clamp(0.72rem, 1.8vw, 0.8rem)',
+                      fontSize: 'clamp(0.72rem, 1.8vw, 0.78rem)',
                       fontFamily: 'var(--font-sans)',
                       letterSpacing: '0.14em',
                       textTransform: 'uppercase',
-                      color: '#c4b1fc',
-                      fontWeight: 600,
-                      marginTop: '4px',
+                      color: '#A94B59',
+                      fontWeight: 700,
+                      marginTop: '6px',
                     }}
                   >
                     {unit.label}
@@ -253,21 +265,18 @@ export default function Countdown() {
               ))}
             </div>
 
-            {/* Bottom Subtle Animated SVG Separator */}
-            <CountdownDivider delay={0.4} maxWidth={260} />
-
             {/* Timezone Note */}
             <div
               style={{
-                marginTop: '12px',
+                marginTop: '16px',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
                 fontSize: '0.8rem',
-                color: '#8d7a9f',
+                color: '#857272',
               }}
             >
-              <Clock size={13} />
+              <Clock size={13} color="#A94B59" />
               <span>{countdown.footerNote}</span>
             </div>
           </div>

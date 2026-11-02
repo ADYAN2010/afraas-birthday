@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, PartyPopper } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
+import CuteFlower from './svg/CuteFlower';
 
 export default function Footer() {
   const { footer } = birthdayData;
@@ -13,16 +14,16 @@ export default function Footer() {
     <footer
       style={{
         position: 'relative',
-        padding: 'clamp(40px, 6vw, 60px) clamp(16px, 4vw, 24px) clamp(30px, 5vw, 50px)',
+        padding: 'clamp(44px, 6vw, 64px) clamp(16px, 4vw, 24px) clamp(32px, 5vw, 52px)',
         textAlign: 'center',
-        borderTop: '1px solid rgba(223, 182, 91, 0.18)',
-        background: 'linear-gradient(180deg, transparent 0%, rgba(13, 6, 23, 0.8) 100%)',
+        borderTop: '2px dashed #F3DDE2',
+        background: 'linear-gradient(180deg, transparent 0%, rgba(243, 221, 226, 0.25) 100%)',
         zIndex: 2,
         width: '100%',
       }}
     >
       <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-        {/* Back to top star button */}
+        {/* Back to top button */}
         <div
           onClick={scrollToTop}
           title="Back to top"
@@ -39,12 +40,15 @@ export default function Footer() {
             minWidth: '46px',
             minHeight: '46px',
             borderRadius: '50%',
-            background: 'rgba(223, 182, 91, 0.1)',
-            border: '1px solid rgba(223, 182, 91, 0.3)',
-            color: '#dfb65b',
-            marginBottom: '20px',
+            background: '#FFFFFF',
+            border: '1.5px solid #F3DDE2',
+            color: '#A94B59',
+            marginBottom: '18px',
+            boxShadow: '0 4px 12px rgba(73, 59, 59, 0.06)',
             transition: 'transform 0.3s ease',
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-3px)')}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
         >
           <Sparkles size={18} />
         </div>
@@ -54,8 +58,8 @@ export default function Footer() {
           style={{
             fontFamily: 'var(--font-serif)',
             fontSize: '1.35rem',
-            color: '#faeed1',
-            marginBottom: '10px',
+            color: '#493B3B',
+            marginBottom: '6px',
           }}
         >
           {footer.heading}
@@ -64,11 +68,10 @@ export default function Footer() {
         {/* Closing Tagline */}
         <p
           style={{
-            fontFamily: 'var(--font-editorial)',
-            fontStyle: 'italic',
-            fontSize: '1.15rem',
-            color: '#c4b1fc',
-            marginBottom: '20px',
+            fontFamily: 'var(--font-handwritten)',
+            fontSize: '1.35rem',
+            color: '#A94B59',
+            marginBottom: '18px',
           }}
         >
           “{footer.tagline}”
@@ -81,12 +84,13 @@ export default function Footer() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '8px',
-            fontSize: '0.84rem',
-            color: '#8d7a9f',
+            fontSize: '0.86rem',
+            color: '#6E5D5D',
             letterSpacing: '0.04em',
+            fontWeight: 500,
           }}
         >
-          <PartyPopper size={14} color="#dfb65b" />
+          <PartyPopper size={14} color="#A94B59" />
           <span>{footer.date}</span>
           <span>•</span>
           <span>Happy Birthday, Afraa! 🎂</span>
@@ -95,9 +99,9 @@ export default function Footer() {
         {footer.signatureNote && (
           <p
             style={{
-              marginTop: '12px',
-              fontSize: '0.78rem',
-              color: '#7b6890',
+              marginTop: '10px',
+              fontSize: '0.8rem',
+              color: '#857272',
               fontStyle: 'italic',
               letterSpacing: '0.03em',
             }}

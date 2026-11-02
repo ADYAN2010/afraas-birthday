@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, PartyPopper, Star, X } from 'lucide-react';
+import { Sparkles, PartyPopper, X } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerFinaleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
-import CelebrationEmblem from './svg/CelebrationEmblem';
+import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
+import CuteBow from './svg/CuteBow';
+import CuteFlower from './svg/CuteFlower';
+import WashiTape from './svg/WashiTape';
 
 export default function FinalSurprise() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,54 +29,34 @@ export default function FinalSurprise() {
       id="final-celebration-section"
       style={{
         position: 'relative',
-        padding: 'clamp(60px, 10vw, 110px) clamp(14px, 3.5vw, 24px) clamp(70px, 12vw, 130px)',
-        maxWidth: '900px',
+        padding: 'clamp(60px, 10vw, 100px) clamp(14px, 3.5vw, 24px) clamp(60px, 10vw, 110px)',
+        maxWidth: '880px',
         margin: '0 auto',
         textAlign: 'center',
         zIndex: 2,
         width: '100%',
       }}
     >
-      {/* Background Soft Glow */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 'min(500px, 85vw)',
-          height: '350px',
-          background: 'radial-gradient(circle, rgba(223, 182, 91, 0.15) 0%, rgba(196, 177, 252, 0.12) 50%, transparent 80%)',
-          filter: 'blur(60px)',
-          pointerEvents: 'none',
-        }}
-      />
-
       {/* Intro Teaser */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
+      <div style={{ position: 'relative', zIndex: 3 }}>
         <div
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            padding: '6px 20px',
+            padding: '5px 18px',
             borderRadius: '9999px',
-            background: 'rgba(223, 182, 91, 0.1)',
-            border: '1px solid rgba(223, 182, 91, 0.3)',
-            color: '#dfb65b',
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            letterSpacing: '0.2em',
+            background: '#FDF2F4',
+            border: '1.5px solid #F3DDE2',
+            color: '#A94B59',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            marginBottom: '20px',
+            marginBottom: '18px',
           }}
         >
-          <Sparkles size={14} />
+          <Sparkles size={13} color="#A94B59" />
           <span>{finalCelebration.intro}</span>
         </div>
 
@@ -82,45 +65,47 @@ export default function FinalSurprise() {
             fontFamily: 'var(--font-serif)',
             fontSize: 'clamp(2.4rem, 6vw, 3.8rem)',
             letterSpacing: '-0.02em',
-            marginBottom: '22px',
+            marginBottom: '16px',
+            color: '#493B3B',
           }}
-          className="text-gold-gradient"
         >
           {finalCelebration.heading}
         </h2>
 
+        {/* Cute Stitched Scrapbook Divider */}
+        <CuteScrapbookDivider maxWidth={320} />
+
         {/* Narrative Message */}
         <p
           style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(1.05rem, 2.4vw, 1.25rem)',
-            color: '#d8c8ff',
+            fontFamily: 'var(--font-handwritten)',
+            fontSize: 'clamp(1.4rem, 3.2vw, 1.85rem)',
+            color: '#A94B59',
             maxWidth: '680px',
-            margin: '0 auto 38px',
-            lineHeight: 1.8,
-            fontWeight: 400,
+            margin: '0 auto 34px',
+            lineHeight: 1.5,
           }}
         >
           “{finalCelebration.closingMessage}”
         </p>
 
-        {/* Surprise Fireworks Trigger Button */}
+        {/* Surprise Celebration Trigger Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.96 }}
           onClick={handleOpenSurprise}
-          className="btn-gold"
+          className="btn-cherry"
           style={{
-            padding: '16px clamp(24px, 5vw, 46px)',
-            fontSize: 'clamp(0.98rem, 2.2vw, 1.1rem)',
-            minHeight: '48px',
-            boxShadow: '0 12px 35px rgba(223, 182, 91, 0.4), 0 0 30px rgba(196, 177, 252, 0.3)',
+            padding: '16px clamp(28px, 5vw, 48px)',
+            fontSize: 'clamp(1rem, 2.2vw, 1.12rem)',
+            minHeight: '52px',
+            boxShadow: '0 12px 30px rgba(169, 75, 89, 0.25)',
           }}
         >
-          <PartyPopper size={22} />
+          <PartyPopper size={20} />
           <span>{finalCelebration.buttonText}</span>
         </motion.button>
-      </motion.div>
+      </div>
 
       {/* Full-Screen Celebratory Modal */}
       <AnimatePresence>
@@ -129,7 +114,7 @@ export default function FinalSurprise() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             style={{
               position: 'fixed',
               inset: 0,
@@ -137,68 +122,83 @@ export default function FinalSurprise() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(7, 3, 13, 0.92)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              background: 'rgba(73, 59, 59, 0.65)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
               padding: 'clamp(14px, 3vw, 24px)',
             }}
           >
             {/* Modal Card */}
             <motion.div
-              initial={{ scale: 0.88, y: 30, opacity: 0 }}
+              initial={{ scale: 0.88, y: 25, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="celebration-modal-card"
+              exit={{ scale: 0.9, y: 15, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 position: 'relative',
-                maxWidth: '680px',
+                maxWidth: '640px',
                 width: '100%',
                 maxHeight: '92vh',
                 overflowY: 'auto',
-                background: 'linear-gradient(145deg, #1f0c38 0%, #120622 60%, #0d0417 100%)',
-                border: '1px solid rgba(223, 182, 91, 0.45)',
-                borderRadius: 'clamp(20px, 5vw, 30px)',
-                padding: 'clamp(28px, 6vw, 60px) clamp(16px, 4vw, 48px)',
+                background: '#FFFDF9',
+                border: '2px solid #F3DDE2',
+                borderRadius: 'clamp(20px, 4vw, 28px)',
+                padding: 'clamp(28px, 6vw, 54px) clamp(18px, 4vw, 44px)',
                 textAlign: 'center',
-                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(223, 182, 91, 0.25)',
+                boxShadow: '0 30px 70px rgba(0, 0, 0, 0.25)',
               }}
             >
+              {/* Washi Tape Strip at top */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-12px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 5,
+                }}
+              >
+                <WashiTape width={120} height={24} color="#F3DDE2" pattern="dots" rotate={-1} />
+              </div>
+
               {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Close celebration"
                 style={{
                   position: 'absolute',
-                  top: 'clamp(12px, 2vh, 20px)',
-                  right: 'clamp(12px, 2vw, 20px)',
-                  background: 'rgba(255, 255, 255, 0.12)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  top: '16px',
+                  right: '16px',
+                  background: '#FDF2F4',
+                  border: '1.5px solid #F3DDE2',
                   borderRadius: '50%',
-                  width: '44px',
-                  height: '44px',
+                  width: '38px',
+                  height: '38px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#faeed1',
+                  color: '#A94B59',
                   cursor: 'pointer',
                   transition: 'background 0.2s',
                   zIndex: 10,
                 }}
               >
-                <X size={20} />
+                <X size={18} />
               </button>
 
-              {/* Custom Animated SVG Progressive Drawing Celebration Emblem */}
-              <CelebrationEmblem />
+              {/* Cute Bow on Top */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px', marginTop: '6px' }}>
+                <CuteBow size={64} color="#DDA6B0" />
+              </div>
 
               {/* Tagline */}
               <div
                 style={{
-                  fontSize: '0.85rem',
-                  letterSpacing: '0.2em',
-                  color: '#dfb65b',
-                  fontWeight: 600,
+                  fontSize: '0.8rem',
+                  letterSpacing: '0.18em',
+                  color: '#A94B59',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
                   marginBottom: '10px',
                 }}
               >
@@ -211,23 +211,22 @@ export default function FinalSurprise() {
                   fontFamily: 'var(--font-serif)',
                   fontSize: 'clamp(2.1rem, 5.5vw, 3.2rem)',
                   lineHeight: 1.15,
-                  marginBottom: '20px',
+                  marginBottom: '14px',
+                  color: '#493B3B',
                   letterSpacing: '-0.02em',
                 }}
-                className="text-gold-gradient"
               >
                 {finalCelebration.heading}
               </h2>
 
-              {/* Closing Message */}
+              {/* Closing Message in Caveat */}
               <p
                 style={{
-                  fontFamily: 'var(--font-editorial)',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(1.2rem, 2.8vw, 1.55rem)',
-                  color: '#faeed1',
-                  marginBottom: '28px',
-                  lineHeight: 1.5,
+                  fontFamily: 'var(--font-handwritten)',
+                  fontSize: 'clamp(1.35rem, 3vw, 1.7rem)',
+                  color: '#A94B59',
+                  marginBottom: '20px',
+                  lineHeight: 1.4,
                 }}
               >
                 “{finalCelebration.closingMessage}”
@@ -237,15 +236,15 @@ export default function FinalSurprise() {
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(0.96rem, 2vw, 1.08rem)',
-                  color: '#c4b1fc',
-                  lineHeight: 1.75,
-                  marginBottom: '36px',
-                  maxWidth: '540px',
-                  margin: '0 auto 36px',
+                  fontSize: 'clamp(0.96rem, 2vw, 1.05rem)',
+                  color: '#6E5D5D',
+                  lineHeight: 1.7,
+                  marginBottom: '30px',
+                  maxWidth: '520px',
+                  margin: '0 auto 30px',
                 }}
               >
-                Wishing you a fantastic year ahead packed with success, good health, great friends, and reasons to celebrate every single day!
+                Wishing you a fantastic year ahead packed with success, good health, great memories, and reasons to celebrate every single day!
               </p>
 
               {/* Actions: Replay Confetti & Close */}
@@ -260,17 +259,17 @@ export default function FinalSurprise() {
               >
                 <button
                   onClick={handleReplayConfetti}
-                  className="btn-gold"
-                  style={{ padding: '14px 30px' }}
+                  className="btn-cherry"
+                  style={{ padding: '13px 28px' }}
                 >
-                  <Sparkles size={18} />
+                  <Sparkles size={16} />
                   <span>{finalCelebration.replayText}</span>
                 </button>
 
                 <button
                   onClick={() => setIsOpen(false)}
                   className="btn-glass"
-                  style={{ padding: '14px 28px' }}
+                  style={{ padding: '13px 26px', color: '#493B3B', borderColor: '#F3DDE2' }}
                 >
                   <span>{finalCelebration.closeText}</span>
                 </button>

@@ -1,22 +1,31 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, PartyPopper, Star } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
+import CuteEnvelope from './svg/CuteEnvelope';
+import WashiTape from './svg/WashiTape';
+import CuteFlower from './svg/CuteFlower';
 
 export default function OpeningScreen({ onOpen }) {
   const [isOpening, setIsOpening] = useState(false);
+  const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const { openingScreen } = birthdayData;
 
-  const handleOpen = () => {
-    setIsOpening(true);
+  const handleTriggerOpen = () => {
+    if (isOpening) return;
+    setEnvelopeOpen(true);
     soundCtrl.playMagicalSparkle();
-    triggerSparkleBurst(0.5, 0.55);
+    triggerSparkleBurst(0.5, 0.52);
 
+    // Give time for envelope animation before transitioning
     setTimeout(() => {
-      onOpen();
-    }, 700);
+      setIsOpening(true);
+      setTimeout(() => {
+        onOpen();
+      }, 750);
+    }, 650);
   };
 
   return (
@@ -27,8 +36,8 @@ export default function OpeningScreen({ onOpen }) {
           animate={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.06,
-            filter: 'blur(8px)',
+            scale: 1.05,
+            filter: 'blur(10px)',
             transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
           }}
           style={{
@@ -38,158 +47,160 @@ export default function OpeningScreen({ onOpen }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'radial-gradient(ellipse at center, #1d0935 0%, #0d0617 70%, #06020c 100%)',
+            background: 'radial-gradient(ellipse at center, #FFFDF8 0%, #FFF8E9 65%, #F5ECDD 100%)',
             padding: 'clamp(14px, 4vw, 24px)',
             overflow: 'hidden',
           }}
+          className="journal-grid-pattern"
         >
-          {/* Subtle Ambient Glows */}
+          {/* Soft Pastel Ambient Glows */}
           <div
             style={{
               position: 'absolute',
-              width: 'min(520px, 90vw)',
-              height: 'min(520px, 90vw)',
+              width: 'min(480px, 85vw)',
+              height: 'min(480px, 85vw)',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(196, 177, 252, 0.2) 0%, transparent 70%)',
-              filter: 'blur(75px)',
+              background: 'radial-gradient(circle, rgba(243, 221, 226, 0.6) 0%, transparent 70%)',
+              filter: 'blur(60px)',
               pointerEvents: 'none',
-              transform: 'translate(-25%, -30%)',
+              transform: 'translate(-30%, -25%)',
             }}
           />
           <div
             style={{
               position: 'absolute',
-              width: 'min(460px, 85vw)',
-              height: 'min(460px, 85vw)',
+              width: 'min(420px, 80vw)',
+              height: 'min(420px, 80vw)',
               borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(223, 182, 91, 0.2) 0%, transparent 70%)',
-              filter: 'blur(75px)',
+              background: 'radial-gradient(circle, rgba(233, 226, 245, 0.6) 0%, transparent 70%)',
+              filter: 'blur(60px)',
               pointerEvents: 'none',
               transform: 'translate(30%, 30%)',
             }}
           />
 
-          {/* Main Card Container */}
+          {/* Floating Hand-Drawn Floral Accents */}
+          <div style={{ position: 'absolute', top: '12%', left: '8%', pointerEvents: 'none', opacity: 0.85 }}>
+            <CuteFlower size={36} color="#DDA6B0" />
+          </div>
+          <div style={{ position: 'absolute', bottom: '14%', right: '10%', pointerEvents: 'none', opacity: 0.85 }}>
+            <CuteFlower size={42} color="#F7D6BD" centerColor="#A94B59" />
+          </div>
+
+          {/* Main Scrapbook Stationery Card Container */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
+            initial={{ y: 24, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
             style={{
               position: 'relative',
-              maxWidth: '560px',
+              maxWidth: '520px',
               width: '100%',
-              background: 'rgba(23, 11, 41, 0.72)',
-              border: '1px solid rgba(223, 182, 91, 0.32)',
-              borderRadius: 'clamp(20px, 5vw, 28px)',
-              padding: 'clamp(28px, 6vw, 56px) clamp(16px, 5vw, 44px)',
+              background: 'rgba(255, 253, 248, 0.92)',
+              border: '2px solid #F3DDE2',
+              borderRadius: 'clamp(20px, 4vw, 28px)',
+              padding: 'clamp(32px, 6vw, 52px) clamp(18px, 5vw, 42px)',
               textAlign: 'center',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(223, 182, 91, 0.15)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 20px 48px rgba(73, 59, 59, 0.08), 0 4px 16px rgba(169, 75, 89, 0.06)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
             }}
           >
-            {/* Top Ornamental Party Icon */}
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut' }}
+            {/* Washi Tape across Top Center */}
+            <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '52px',
-                height: '52px',
-                borderRadius: '50%',
-                background: 'rgba(223, 182, 91, 0.12)',
-                border: '1px solid rgba(223, 182, 91, 0.4)',
-                marginBottom: '20px',
-                boxShadow: '0 0 20px rgba(223, 182, 91, 0.25)',
-                color: '#ffd166',
+                position: 'absolute',
+                top: '-14px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10,
               }}
             >
-              <PartyPopper size={24} />
-            </motion.div>
+              <WashiTape width={120} height={26} color="#F3DDE2" pattern="dots" rotate={-2} />
+            </div>
 
             {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.8 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
               style={{
-                fontSize: 'clamp(0.72rem, 2vw, 0.8rem)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: 'clamp(0.72rem, 1.8vw, 0.78rem)',
                 fontFamily: 'var(--font-sans)',
-                letterSpacing: 'clamp(0.12em, 2vw, 0.22em)',
+                letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                color: '#dfb65b',
-                fontWeight: 600,
-                marginBottom: '14px',
+                color: '#A94B59',
+                background: '#FDF2F4',
+                padding: '4px 14px',
+                borderRadius: '9999px',
+                border: '1px solid #F3DDE2',
+                fontWeight: 700,
+                marginBottom: '16px',
               }}
             >
-              {openingScreen.badge}
+              <Sparkles size={12} color="#A94B59" />
+              <span>{openingScreen.badge}</span>
+              <Sparkles size={12} color="#A94B59" />
             </motion.div>
 
-            {/* Recipient Name in Luxury Editorial Serif */}
+            {/* Recipient Name in Graceful DM Serif Display */}
             <motion.h1
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.9 }}
+              transition={{ delay: 0.45, duration: 0.8 }}
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2.1rem, 7vw, 3.4rem)',
+                fontSize: 'clamp(2.3rem, 7vw, 3.6rem)',
                 fontWeight: 600,
                 lineHeight: 1.15,
-                marginBottom: '16px',
+                color: '#493B3B',
+                marginBottom: '8px',
                 letterSpacing: '-0.02em',
               }}
-              className="text-gold-gradient"
             >
               {openingScreen.title}
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Handwritten Caveat Subtitle */}
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.65, duration: 0.8 }}
+              transition={{ delay: 0.55, duration: 0.7 }}
               style={{
-                fontFamily: 'var(--font-editorial)',
-                fontStyle: 'italic',
-                fontSize: 'clamp(1.05rem, 3vw, 1.4rem)',
-                color: '#d8c8ff',
-                lineHeight: 1.5,
-                marginBottom: '28px',
+                fontFamily: 'var(--font-handwritten)',
+                fontSize: 'clamp(1.25rem, 3.2vw, 1.65rem)',
+                color: '#A94B59',
+                lineHeight: 1.4,
+                marginBottom: '20px',
               }}
             >
               “{openingScreen.subtitle}”
             </motion.p>
 
-            {/* Divider Flourish */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                marginBottom: '28px',
-              }}
-            >
-              <div style={{ height: '1px', width: 'clamp(40px, 12vw, 60px)', background: 'linear-gradient(to right, transparent, rgba(223, 182, 91, 0.4))' }} />
-              <Star size={14} color="#ffd166" fill="#ffd166" style={{ opacity: 0.85 }} />
-              <div style={{ height: '1px', width: 'clamp(40px, 12vw, 60px)', background: 'linear-gradient(to left, transparent, rgba(223, 182, 91, 0.4))' }} />
-            </div>
+            {/* Interactive Cute Envelope Illustration */}
+            <CuteEnvelope isOpen={envelopeOpen} onClick={handleTriggerOpen} />
 
-            {/* Animated Celebration Button */}
+            {/* Call-to-Action Pill Button */}
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              onClick={handleOpen}
-              className="btn-gold"
+              onClick={handleTriggerOpen}
+              className="btn-cherry"
               style={{
-                fontSize: 'clamp(0.96rem, 2.5vw, 1.05rem)',
-                padding: '14px 32px',
+                fontSize: 'clamp(0.96rem, 2.2vw, 1.05rem)',
+                padding: '13px 34px',
                 width: '100%',
                 maxWidth: '280px',
                 minHeight: '48px',
                 cursor: 'pointer',
+                margin: '0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
               }}
             >
               <span>{openingScreen.buttonText}</span>
@@ -198,10 +209,10 @@ export default function OpeningScreen({ onOpen }) {
             {/* Audio Hint */}
             <p
               style={{
-                marginTop: '22px',
-                fontSize: 'clamp(0.74rem, 2vw, 0.8rem)',
-                color: '#9e8fb8',
-                letterSpacing: '0.04em',
+                marginTop: '18px',
+                fontSize: 'clamp(0.72rem, 1.8vw, 0.78rem)',
+                color: '#857272',
+                letterSpacing: '0.03em',
               }}
             >
               {openingScreen.audioHint}

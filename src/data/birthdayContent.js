@@ -18,9 +18,9 @@ export const birthdayData = {
   openingScreen: {
     badge: "A LITTLE BIRTHDAY SURPRISE",
     title: "Afraa",
-    subtitle: "Today is your day! Let's make it memorable.",
-    buttonText: "Let's Celebrate ✨",
-    audioHint: "Click to enter with celebratory melody 🎵",
+    subtitle: "Ready for a little celebration?",
+    buttonText: "Open Your Surprise 💌",
+    audioHint: "Click to open with a sweet birthday melody 🎵",
   },
 
   hero: {
