@@ -1,5 +1,5 @@
 /**
- * Birthday Configuration & Content for Zarin Afra Rafa
+ * Birthday Configuration & Content for Afraa
  * Birthday Date: 15 November 2026 (Asia/Dhaka timezone)
  *
  * Friendly, cheerful, vibrant, and celebratory.
@@ -8,8 +8,8 @@
 
 export const birthdayData = {
   recipient: {
-    fullName: "Zarin Afra Rafa",
-    nickname: "Rafa",
+    fullName: "Afraa",
+    nickname: "Afraa",
     birthDate: "2026-11-15T00:00:00+06:00", // Asia/Dhaka (+06:00)
     timezone: "Asia/Dhaka",
     displayDate: "15 November 2026",
@@ -17,7 +17,7 @@ export const birthdayData = {
 
   openingScreen: {
     badge: "A LITTLE BIRTHDAY SURPRISE",
-    title: "Zarin Afra Rafa",
+    title: "Afraa",
     subtitle: "Today is your day! Let's make it memorable.",
     buttonText: "Let's Celebrate ✨",
     audioHint: "Click to enter with celebratory melody 🎵",
@@ -26,7 +26,7 @@ export const birthdayData = {
   hero: {
     badge: "15 NOVEMBER 2026 • CELEBRATION TIME",
     headingMain: "HAPPY BIRTHDAY",
-    name: "Zarin Afra Rafa",
+    name: "Afraa",
     subtitle: "Wishing you a wonderful year ahead, filled with happiness, laughter and success!",
     description:
       "A vibrant, handcrafted birthday experience made to celebrate your special day in style. Turn on the tunes, blow the candles, and enjoy the party!",
@@ -37,7 +37,7 @@ export const birthdayData = {
 
   countdown: {
     heading: "Countdown to the Big Day",
-    celebrationTitle: "HAPPY BIRTHDAY, ZARIN! 🎂",
+    celebrationTitle: "HAPPY BIRTHDAY, AFRAA! 🎂",
     celebrationSubtitle: "Today is officially your birthday! Wishing you the most incredible year ahead!",
     labels: {
       days: "Days",
@@ -64,7 +64,7 @@ export const birthdayData = {
         title: "Success in Everything You Pursue",
         icon: "Trophy",
         detail:
-          "Whatever academic goals, exciting projects, or bold challenges you tackle this year—may you crush them all with flying colors.",
+          "Whatever academic goals, exciting projects, or bold challenges you tackle this year—may you achieve them all with flying colors.",
       },
       {
         id: 3,
@@ -138,7 +138,7 @@ export const birthdayData = {
 
   finalCelebration: {
     intro: "ONCE AGAIN...",
-    heading: "HAPPY BIRTHDAY, ZARIN AFRA RAFA!",
+    heading: "HAPPY BIRTHDAY, AFRAA!",
     closingMessage:
       "May this year bring you endless smiles, incredible achievements and countless unforgettable memories.",
     buttonText: "Launch Birthday Fireworks 🎆",
@@ -147,7 +147,7 @@ export const birthdayData = {
   },
 
   footer: {
-    heading: "Wishing Zarin Afra Rafa the Happiest of Birthdays!",
+    heading: "Wishing Afraa the Happiest of Birthdays!",
     date: "15 November 2026",
     tagline: "Have an extraordinary day and an even better year ahead!",
   },

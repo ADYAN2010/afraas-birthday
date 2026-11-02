@@ -83,7 +83,7 @@ export default function Footer() {
           <PartyPopper size={14} color="#dfb65b" />
           <span>{footer.date}</span>
           <span>•</span>
-          <span>Happy Birthday, Rafa! 🎂</span>
+          <span>Happy Birthday, Afraa! 🎂</span>
         </div>
       </div>
     </footer>
