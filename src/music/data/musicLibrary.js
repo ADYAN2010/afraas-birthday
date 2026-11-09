@@ -35,6 +35,7 @@ export const musicLibrary = {
       category: "hindi",
       trackIds: [
         "track-hindi-1",
+        "track-hindi-13",
         "track-hindi-12",
         "track-hindi-11",
         "track-hindi-10",
@@ -85,6 +86,7 @@ export const musicLibrary = {
       tag: "SOFT HOURS",
       category: "chill",
       trackIds: [
+        "track-hindi-13",
         "track-hindi-10",
         "track-bangla-7",
         "track-hindi-6",
@@ -135,6 +137,7 @@ export const musicLibrary = {
       category: "blend",
       trackIds: [
         "track-hindi-1",
+        "track-hindi-13",
         "track-bangla-12",
         "track-hindi-12",
         "track-hindi-11",
@@ -479,6 +482,33 @@ export const musicLibrary = {
         { time: 168, text: "Love me love me, mama say that you love me!" },
       ],
       playlistIds: ["hindi-romance", "on-repeat", "a-little-bit-of-everything"],
+    },
+    {
+      id: "track-hindi-13",
+      title: "Zara Zara (Slowed + Reverb)",
+      artist: "Bombay Jayashri & Harris Jayaraj",
+      album: "Rehnaa Hai Terre Dil Mein (Lofi Edition)",
+      duration: 332,
+      genre: "Nostalgic Bollywood Lofi Romance",
+      language: "hindi",
+      year: 2001,
+      sourceType: "youtube",
+      youtubeId: "SLij_UWclOE",
+      isAvailable: true,
+      coverGradient: "linear-gradient(135deg, #1A2980, #26D0CE)",
+      accentColor: "#26D0CE",
+      spotifyUrl: "https://open.spotify.com/search/Zara%20Zara%20RHTDM",
+      youtubeUrl: "https://www.youtube.com/watch?v=SLij_UWclOE",
+      lyrics: [
+        { time: 0, text: "(Dreamy atmospheric rain & slowed keys intro)" },
+        { time: 22, text: "Zara zara behekta hai, mehekta hai aaj toh mera tan badan..." },
+        { time: 48, text: "Main pyaasa hoon, mujhe bhar le apni baahon mein." },
+        { time: 76, text: "Hai kasam tujhe sanam, door kahin na jaa..." },
+        { time: 105, text: "Yeh doori kehti hai paas mere aaja re." },
+        { time: 140, text: "Tadpaye mujhe teri sabhi baatein, ek baar aye deewani jhootha hi sahi pyar kar le..." },
+        { time: 185, text: "Zara zara behekta hai, mehekta hai aaj toh mera tan badan..." },
+      ],
+      playlistIds: ["hindi-romance", "soft-hours", "a-little-bit-of-everything"],
     },
 
     // -------------------------------------------------------------------------
