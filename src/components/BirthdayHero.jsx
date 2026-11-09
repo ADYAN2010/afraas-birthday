@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Cake, Feather, PartyPopper, ChevronDown, Camera } from 'lucide-react';
+import { Sparkles, Cake, Feather, PartyPopper, ChevronDown, Camera, Disc } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
@@ -8,8 +8,18 @@ import CuteButterfly from './svg/CuteButterfly';
 import CuteFlower from './svg/CuteFlower';
 import CuteBow from './svg/CuteBow';
 
-export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick, onFunClick }) {
+export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick, onFunClick, onSoundtrackClick }) {
   const { hero } = birthdayData;
+
+  const handleSoundtrack = () => {
+    soundCtrl.playTap();
+    if (onSoundtrackClick) {
+      onSoundtrackClick();
+    } else {
+      const el = document.getElementById('soundtrack-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleWish = (e) => {
     soundCtrl.playTap();
@@ -296,6 +306,18 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
           >
             <Camera size={17} color="#A94B59" />
             <span>Photo Corner 📸</span>
+          </button>
+
+          <button
+            onClick={handleSoundtrack}
+            className="hero-btn btn-glass"
+            style={{
+              padding: 'clamp(12px, 2.5vw, 15px) clamp(18px, 3vw, 28px)',
+              fontSize: 'clamp(0.9rem, 2vw, 0.98rem)',
+            }}
+          >
+            <Disc size={17} color="#A94B59" />
+            <span>Soundtrack 🎵</span>
           </button>
 
           <button

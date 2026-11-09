@@ -14,6 +14,7 @@ import BirthdayWishes from './components/BirthdayWishes';
 import BirthdayFunZone from './components/BirthdayFunZone';
 import FinalSurprise from './components/FinalSurprise';
 import Footer from './components/Footer';
+import AfraasSoundtrack from './music/components/AfraasSoundtrack';
 
 export default function App() {
   const [isCelebrationOpen, setIsCelebrationOpen] = useState(false);
@@ -22,6 +23,13 @@ export default function App() {
   const handleOpenCelebration = () => {
     setIsCelebrationOpen(true);
     setStartMusic(true);
+  };
+
+  const scrollToSoundtrack = () => {
+    const el = document.getElementById('soundtrack-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const scrollToCake = () => {
@@ -91,6 +99,7 @@ export default function App() {
             onNoteClick={scrollToNote}
             onGalleryClick={scrollToGallery}
             onFunClick={scrollToFun}
+            onSoundtrackClick={scrollToSoundtrack}
           />
 
           {/* 2. Live Countdown to 15 November 2026 (Asia/Dhaka) */}
@@ -111,7 +120,10 @@ export default function App() {
           {/* Editorial Pause: Artistic Reflection */}
           <EditorialQuote quote="Time moves fast, but the right moments stay anchored." />
 
-          {/* 7. Interactive Birthday Cake & Candle Blow */}
+          {/* 7. AFRAA'S SOUNDTRACK: Dedicated Spotify-Inspired Music Space */}
+          <AfraasSoundtrack />
+
+          {/* 8. Interactive Birthday Cake & Candle Blow */}
           <BirthdayCake />
 
           {/* 8. Birthday Wishes: Six specific, tangible milestones */}
