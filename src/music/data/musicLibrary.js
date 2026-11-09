@@ -35,6 +35,7 @@ export const musicLibrary = {
       category: "hindi",
       trackIds: [
         "track-hindi-1",
+        "track-hindi-14",
         "track-hindi-13",
         "track-hindi-12",
         "track-hindi-11",
@@ -110,6 +111,7 @@ export const musicLibrary = {
       tag: "ON REPEAT",
       category: "favorites",
       trackIds: [
+        "track-hindi-14",
         "track-bangla-12",
         "track-hindi-12",
         "track-hindi-11",
@@ -137,6 +139,7 @@ export const musicLibrary = {
       category: "blend",
       trackIds: [
         "track-hindi-1",
+        "track-hindi-14",
         "track-hindi-13",
         "track-bangla-12",
         "track-hindi-12",
@@ -509,6 +512,34 @@ export const musicLibrary = {
         { time: 185, text: "Zara zara behekta hai, mehekta hai aaj toh mera tan badan..." },
       ],
       playlistIds: ["hindi-romance", "soft-hours", "a-little-bit-of-everything"],
+    },
+    {
+      id: "track-hindi-14",
+      title: "Ishq De Fanniyar (Slowed + Reverb)",
+      artist: "Jyotica Tangri & Shaarib-Toshi",
+      album: "Fukrey Returns (Lofi Edition)",
+      duration: 224,
+      genre: "Soft Punjabi-Influenced Romance",
+      language: "hindi",
+      year: 2017,
+      sourceType: "youtube",
+      youtubeId: "1BqP-SUqtwg",
+      isAvailable: true,
+      coverGradient: "linear-gradient(135deg, #f12711, #f5af19)",
+      accentColor: "#f5af19",
+      spotifyUrl: "https://open.spotify.com/search/Ishq%20De%20Fanniyar%20Fukrey%20Returns",
+      youtubeUrl: "https://www.youtube.com/watch?v=1BqP-SUqtwg",
+      lyrics: [
+        { time: 0, text: "(Gentle harmonium chords & ambient acoustic strumming)" },
+        { time: 14, text: "Ishq de fanniyar lad gaye, naina yeh lad gaye re..." },
+        { time: 32, text: "Dil pe mere chha gaye, saanson mein samaa gaye." },
+        { time: 55, text: "Meri aashiqui tu ban gaya, mera chain o sukoon ban gaya." },
+        { time: 82, text: "Tera nasha aisa chadha, har pal tera zikr bada..." },
+        { time: 110, text: "Ishq de fanniyar lad gaye, naina yeh lad gaye re!" },
+        { time: 145, text: "Rabb kare yeh saath rahe, haathon mein yeh haath rahe..." },
+        { time: 180, text: "Ishq de fanniyar lad gaye re..." },
+      ],
+      playlistIds: ["hindi-romance", "on-repeat", "a-little-bit-of-everything"],
     },
 
     // -------------------------------------------------------------------------
