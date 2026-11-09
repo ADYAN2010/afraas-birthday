@@ -5,10 +5,14 @@ import MusicPlayer from './components/MusicPlayer';
 import BirthdayHero from './components/BirthdayHero';
 import Countdown from './components/Countdown';
 import PersonalNote from './components/PersonalNote';
+import ThoughtfulNotes from './components/ThoughtfulNotes';
 import PhotoGallery from './components/PhotoGallery';
+import HiddenNotes from './components/HiddenNotes';
+import EditorialQuote from './components/EditorialQuote';
 import BirthdayCake from './components/BirthdayCake';
 import BirthdayWishes from './components/BirthdayWishes';
 import BirthdayFunZone from './components/BirthdayFunZone';
+import FinalLittleMessage from './components/FinalLittleMessage';
 import FinalSurprise from './components/FinalSurprise';
 import Footer from './components/Footer';
 
@@ -93,25 +97,43 @@ export default function App() {
           {/* 2. Live Countdown to 15 November 2026 (Asia/Dhaka) */}
           <Countdown />
 
+          {/* Editorial Breath 1: Intentional Thoughtfulness */}
+          <EditorialQuote quote="The smallest details can carry the biggest amount of thought." />
+
           {/* 3. A Little Note For You (From Adyan to Afraa) */}
           <PersonalNote />
 
-          {/* 4. A Little Photo Corner (Afraa's Portrait & Scrapbook Collages) */}
+          {/* 4. A Few Thoughts for You (Handwritten Journal Notes) */}
+          <ThoughtfulNotes />
+
+          {/* 5. A Little Photo Corner (Afraa's Portrait & Scrapbook Collages) */}
           <PhotoGallery />
 
-          {/* 5. Interactive Birthday Cake & Candle Blow */}
+          {/* 6. Small Hidden Notes (Folded Paper Envelopes to Unfold) */}
+          <HiddenNotes />
+
+          {/* Editorial Breath 2: Celebration & Effort */}
+          <EditorialQuote quote="A little extra effort for a day worth celebrating." />
+
+          {/* 7. Interactive Birthday Cake & Candle Blow */}
           <BirthdayCake />
 
-          {/* 6. Birthday Wishes ("Here's To Your New Chapter!") */}
+          {/* 8. Birthday Wishes ("Here's To Your New Chapter!") */}
           <BirthdayWishes />
 
-          {/* 7. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz, Mystery Gift) */}
+          {/* Editorial Breath 3: Meaningful Wishes */}
+          <EditorialQuote quote="Some wishes deserve more than just a simple message." />
+
+          {/* 9. Birthday Fun Zone (Pop Balloons, Fortune Dispenser, Quick Quiz, Mystery Gift) */}
           <BirthdayFunZone />
 
-          {/* 8. Grand Birthday Finale */}
+          {/* 10. One Last Thought Before Finale */}
+          <FinalLittleMessage />
+
+          {/* 11. Grand Birthday Finale */}
           <FinalSurprise />
 
-          {/* 9. Friendly Footer */}
+          {/* 12. Friendly Footer */}
           <Footer />
         </main>
       )}

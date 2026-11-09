@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Sparkles, X, Maximize2 } from 'lucide-react';
-import { birthdayData } from '../data/birthdayContent';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import WashiTape from './svg/WashiTape';
-import CuteFlower from './svg/CuteFlower';
-import CuteBow from './svg/CuteBow';
 
 // Import images directly from assets for optimal Vite bundling & Vercel deployment
 import featuredPhoto from '../assets/images/afraa-featured-floral.png';

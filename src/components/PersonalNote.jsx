@@ -90,7 +90,7 @@ export default function PersonalNote() {
           borderRadius: '24px',
           boxShadow: '0 18px 45px rgba(73, 59, 59, 0.08), 0 2px 10px rgba(169, 75, 89, 0.05)',
           position: 'relative',
-          overflow: 'hidden',
+          overflow: 'visible',
         }}
       >
         {/* Washi Tape across Top Left */}
@@ -117,7 +117,7 @@ export default function PersonalNote() {
             fontFamily: 'var(--font-handwritten)',
             fontSize: 'clamp(2rem, 4vw, 2.6rem)',
             color: '#A94B59',
-            marginBottom: '26px',
+            marginBottom: '18px',
             fontWeight: 700,
             letterSpacing: '0.01em',
             paddingTop: '6px',
@@ -126,12 +126,45 @@ export default function PersonalNote() {
           {personalNote.salutation}
         </h3>
 
+        {/* Featured Handwritten Message from Adyan */}
+        {personalNote.specialMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            style={{
+              padding: 'clamp(18px, 3.5vw, 26px) clamp(16px, 3.5vw, 24px)',
+              borderRadius: '18px',
+              background: 'linear-gradient(135deg, #FFFDF8 0%, #FFF5F7 100%)',
+              border: '1.5px solid #F3DDE2',
+              boxShadow: '0 4px 14px rgba(169, 75, 89, 0.05)',
+              marginBottom: '22px',
+              position: 'relative',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: 'var(--font-handwritten)',
+                fontSize: 'clamp(1.35rem, 2.8vw, 1.7rem)',
+                color: '#493B3B',
+                lineHeight: 1.5,
+                fontWeight: 600,
+                letterSpacing: '0.01em',
+                margin: 0,
+              }}
+            >
+              “{personalNote.specialMessage}”
+            </p>
+          </motion.div>
+        )}
+
         {/* Note Messages */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '16px',
+            gap: '14px',
             maxWidth: '620px',
           }}
         >

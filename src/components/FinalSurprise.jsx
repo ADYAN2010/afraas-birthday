@@ -6,7 +6,6 @@ import { triggerFinaleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import CuteBow from './svg/CuteBow';
-import CuteFlower from './svg/CuteFlower';
 import WashiTape from './svg/WashiTape';
 
 export default function FinalSurprise() {

@@ -285,7 +285,7 @@ export default function BirthdayFunZone() {
           </p>
         </motion.div>
 
-        {/* Block 2: Random Cheerful Fortune Generator */}
+        {/* Block 2: Cheerful Birthday Fortune Dispenser */}
         <motion.div
           initial={{ opacity: 0.2, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
