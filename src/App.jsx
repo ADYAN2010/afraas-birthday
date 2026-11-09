@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import OpeningScreen from './components/OpeningScreen';
+import React, { useState, useEffect } from 'react';
+import LockScreen from './components/LockScreen';
 import FloatingParticles from './components/FloatingParticles';
 import MusicPlayer from './components/MusicPlayer';
 import BirthdayHero from './components/BirthdayHero';
@@ -17,11 +17,44 @@ import Footer from './components/Footer';
 import AfraasSoundtrack from './music/components/AfraasSoundtrack';
 
 export default function App() {
-  const [isCelebrationOpen, setIsCelebrationOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [startMusic, setStartMusic] = useState(false);
 
-  const handleOpenCelebration = () => {
-    setIsCelebrationOpen(true);
+  // Verify server-side session cookie on initial load
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkSession = async () => {
+      try {
+        const res = await fetch('/api/auth/session', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.authenticated) {
+            setIsAuthenticated(true);
+          }
+        }
+      } catch (err) {
+        // Fallback to lock screen if API unreachable or unauthenticated
+      } finally {
+        if (isMounted) {
+          setIsCheckingAuth(false);
+        }
+      }
+    };
+
+    checkSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleUnlock = () => {
+    setIsAuthenticated(true);
     setStartMusic(true);
   };
 
@@ -60,6 +93,48 @@ export default function App() {
     }
   };
 
+  // Smooth loading state while verifying secure session cookie
+  if (isCheckingAuth) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: '#FFF8E9',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          fontFamily: 'var(--font-serif)',
+          color: '#A94B59',
+          fontSize: '1.2rem',
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '42px',
+              height: '42px',
+              border: '3px solid #F3DDE2',
+              borderTopColor: '#A94B59',
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite',
+              margin: '0 auto 14px',
+            }}
+          />
+          <span style={{ fontFamily: 'var(--font-handwritten)', fontSize: '1.4rem' }}>
+            Preparing something special...
+          </span>
+        </div>
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -76,11 +151,11 @@ export default function App() {
       {/* Background Soft Pastel Twinkling Starlets & Petals */}
       <FloatingParticles />
 
-      {/* Opening Intro Gate with Cute Scrapbook Envelope */}
-      {!isCelebrationOpen && <OpeningScreen onOpen={handleOpenCelebration} />}
+      {/* 1. Website Lock Screen: Default Landing Page with Asia/Dhaka Countdown */}
+      {!isAuthenticated && <LockScreen onUnlock={handleUnlock} />}
 
-      {/* Main Birthday Experience */}
-      {isCelebrationOpen && (
+      {/* 2. Main Birthday Experience: Protected until Server Authentication */}
+      {isAuthenticated && (
         <main
           style={{
             position: 'relative',
@@ -90,7 +165,7 @@ export default function App() {
             overflowX: 'hidden',
           }}
         >
-          {/* Floating Music Player Toggle */}
+          {/* Floating Birthday Soundtrack Widget (Liborio Conti Official Instrumental) */}
           <MusicPlayer autoStarted={startMusic} />
 
           {/* 1. Main Birthday Hero */}
@@ -126,19 +201,19 @@ export default function App() {
           {/* 8. Interactive Birthday Cake & Candle Blow */}
           <BirthdayCake />
 
-          {/* 8. Birthday Wishes: Six specific, tangible milestones */}
+          {/* 9. Birthday Wishes: Six specific, tangible milestones */}
           <BirthdayWishes />
 
           {/* Editorial Pause: Witty transition into arcade */}
           <EditorialQuote quote="Growing older is inevitable. Being boring is completely optional." />
 
-          {/* 9. Birthday Fun Zone: Playful arcade & humor */}
+          {/* 10. Birthday Fun Zone: Playful arcade & humor */}
           <BirthdayFunZone />
 
-          {/* 10. Grand Birthday Finale: Memorable closing celebration & fireworks */}
+          {/* 11. Grand Birthday Finale: Memorable closing celebration & fireworks */}
           <FinalSurprise />
 
-          {/* 11. Friendly Footer */}
+          {/* 12. Friendly Footer */}
           <Footer />
         </main>
       )}

@@ -24,10 +24,10 @@ export default function Countdown() {
     }
 
     return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
+      days: Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24))),
+      hours: Math.max(0, Math.floor((difference / (1000 * 60 * 60)) % 24)),
+      minutes: Math.max(0, Math.floor((difference / 1000 / 60) % 60)),
+      seconds: Math.max(0, Math.floor((difference / 1000) % 60)),
       isArrived: false,
     };
   };
@@ -117,11 +117,11 @@ export default function Countdown() {
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(2.4rem, 6vw, 3.8rem)',
                 marginBottom: '14px',
-                color: '#493B3B',
+                color: '#A94B59',
                 letterSpacing: '-0.02em',
               }}
             >
-              {countdown.celebrationTitle}
+              IT'S BIRTHDAY TIME! 🎂
             </h2>
 
             <CuteScrapbookDivider maxWidth={320} />

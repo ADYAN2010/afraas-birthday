@@ -1,28 +1,187 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Volume1, Play, Pause, Bell, BellOff, ChevronDown, Sliders } from 'lucide-react';
+import {
+  Volume2,
+  VolumeX,
+  Volume1,
+  Play,
+  Pause,
+  Bell,
+  BellOff,
+  ChevronDown,
+  Sliders,
+  ExternalLink,
+  Music2,
+  Sparkles,
+  AlertCircle,
+} from 'lucide-react';
 import { soundCtrl } from '../utils/audio';
+
+const YOUTUBE_VIDEO_ID = 'zcWrDar0Mkk';
+const TRACK_TITLE = 'Happy Birthday Background Music';
+const TRACK_ARTIST = 'Liborio Conti';
+const YOUTUBE_URL = 'https://www.youtube.com/watch?v=zcWrDar0Mkk';
 
 export default function MusicPlayer({ autoStarted = false }) {
   const [audioState, setAudioState] = useState(soundCtrl.getState());
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const containerRef = useRef(null);
+  const ytPlayerRef = useRef(null);
+  const autoStartedRef = useRef(autoStarted);
 
   useEffect(() => {
-    // Subscribe to soundCtrl updates
-    const unsubscribe = soundCtrl.subscribe((state) => {
-      setAudioState(state);
-    });
-
-    // Start music only after explicit user gate interaction
-    if (autoStarted && !soundCtrl.isPlayingMusic) {
-      soundCtrl.startAmbientMusic();
-    }
-
-    return () => unsubscribe();
+    autoStartedRef.current = autoStarted;
   }, [autoStarted]);
 
-  // Click outside to collapse detailed panel
+  // Subscribe to central soundCtrl state updates
+  useEffect(() => {
+    const unsubscribe = soundCtrl.subscribe((state) => {
+      setAudioState(state);
+
+      // Auto-pause background YouTube player whenever dedicated music library track plays
+      if (state.isMusicPlayerActive && ytPlayerRef.current) {
+        try {
+          if (typeof ytPlayerRef.current.pauseVideo === 'function') {
+            ytPlayerRef.current.pauseVideo();
+          }
+        } catch (e) {
+          // Ignore pause errors
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Initialize YouTube IFrame Player API
+  useEffect(() => {
+    let isCancelled = false;
+
+    const setupPlayer = () => {
+      if (isCancelled) return;
+      if (!window.YT || !window.YT.Player) return;
+
+      const mount = document.getElementById('bg-youtube-player-mount');
+      if (!mount) return;
+
+      try {
+        ytPlayerRef.current = new window.YT.Player('bg-youtube-player-mount', {
+          videoId: YOUTUBE_VIDEO_ID,
+          playerVars: {
+            autoplay: 0,
+            controls: 1,
+            rel: 0,
+            playsinline: 1,
+            modestbranding: 1,
+            origin: typeof window !== 'undefined' ? window.location.origin : '',
+          },
+          events: {
+            onReady: (event) => {
+              if (isCancelled) return;
+              setIsPlayerReady(true);
+              soundCtrl.registerBgYouTubePlayer(event.target);
+
+              // Apply saved volume and mute preferences
+              const initialVol = Math.round(soundCtrl.musicVolume * 100);
+              event.target.setVolume(initialVol);
+              if (soundCtrl.isMusicMuted) {
+                event.target.mute();
+              } else {
+                event.target.unMute();
+              }
+
+              // If triggered after explicit unlock button interaction
+              if (autoStartedRef.current && !soundCtrl.isMusicPlayerActive) {
+                try {
+                  event.target.playVideo();
+                } catch (e) {
+                  // User interaction restrictions handled gracefully
+                }
+              }
+            },
+            onStateChange: (event) => {
+              if (isCancelled) return;
+              // 1: PLAYING, 2: PAUSED, 0: ENDED, 3: BUFFERING
+              if (event.data === 1) {
+                setIsPlaying(true);
+                setIsBuffering(false);
+                soundCtrl.isPlayingMusic = true;
+                soundCtrl.updateSfxGain();
+                soundCtrl.notify();
+              } else if (event.data === 2) {
+                setIsPlaying(false);
+                setIsBuffering(false);
+                soundCtrl.isPlayingMusic = false;
+                soundCtrl.updateSfxGain();
+                soundCtrl.notify();
+              } else if (event.data === 0) {
+                // Loop continuous background playback
+                event.target.playVideo();
+              } else if (event.data === 3) {
+                setIsBuffering(true);
+              }
+            },
+            onError: (event) => {
+              if (isCancelled) return;
+              console.warn('YouTube Background Player Error code:', event.data);
+              setHasError(true);
+              setErrorMessage('Playback restricted or unavailable. Tap link to listen on YouTube.');
+            },
+          },
+        });
+      } catch (err) {
+        console.warn('Failed to initialize YouTube IFrame Player:', err);
+      }
+    };
+
+    // Load YouTube API script if not present
+    if (typeof window !== 'undefined') {
+      if (window.YT && window.YT.Player) {
+        setupPlayer();
+      } else {
+        const existingScript = document.querySelector('script[src*="youtube.com/iframe_api"]');
+        if (!existingScript) {
+          const tag = document.createElement('script');
+          tag.src = 'https://www.youtube.com/iframe_api';
+          document.head.appendChild(tag);
+        }
+
+        const prevReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (prevReady) prevReady();
+          setupPlayer();
+        };
+      }
+    }
+
+    return () => {
+      isCancelled = true;
+      if (ytPlayerRef.current && typeof ytPlayerRef.current.destroy === 'function') {
+        try {
+          ytPlayerRef.current.destroy();
+        } catch (e) {}
+      }
+    };
+  }, []);
+
+  // Handle autoStarted trigger from explicit unlock click
+  useEffect(() => {
+    if (autoStarted && isPlayerReady && ytPlayerRef.current && !soundCtrl.isMusicPlayerActive) {
+      try {
+        ytPlayerRef.current.playVideo();
+      } catch (e) {
+        // Handled
+      }
+    }
+  }, [autoStarted, isPlayerReady]);
+
+  // Click outside listener to collapse settings panel
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -33,16 +192,39 @@ export default function MusicPlayer({ autoStarted = false }) {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
+  // Controls Handlers
   const handleTogglePlay = (e) => {
     e.stopPropagation();
     soundCtrl.playTap();
-    soundCtrl.toggleMusic();
+
+    if (!ytPlayerRef.current || !isPlayerReady) return;
+
+    try {
+      if (isPlaying) {
+        ytPlayerRef.current.pauseVideo();
+      } else {
+        // When starting background music, pause dedicated music player if active
+        ytPlayerRef.current.playVideo();
+      }
+    } catch (err) {
+      console.warn('Play/pause error:', err);
+    }
   };
 
   const handleToggleMusicMute = (e) => {
     e.stopPropagation();
     soundCtrl.playTap();
-    soundCtrl.toggleMusicMute();
+    const newMuted = soundCtrl.toggleMusicMute();
+    if (ytPlayerRef.current) {
+      try {
+        if (newMuted) {
+          ytPlayerRef.current.mute();
+        } else {
+          ytPlayerRef.current.unMute();
+          ytPlayerRef.current.setVolume(Math.round(soundCtrl.musicVolume * 100));
+        }
+      } catch (err) {}
+    }
   };
 
   const handleToggleSfx = (e) => {
@@ -54,15 +236,23 @@ export default function MusicPlayer({ autoStarted = false }) {
   const handleVolumeChange = (e) => {
     const val = parseFloat(e.target.value);
     soundCtrl.setMusicVolume(val);
+    if (ytPlayerRef.current) {
+      try {
+        ytPlayerRef.current.setVolume(Math.round(val * 100));
+        if (soundCtrl.isMusicMuted && val > 0) {
+          soundCtrl.toggleMusicMute();
+          ytPlayerRef.current.unMute();
+        }
+      } catch (err) {}
+    }
   };
 
-  const isPlaying = audioState.isPlaying && !audioState.isMusicMuted;
   const currentVolume = audioState.isMusicMuted ? 0 : audioState.volume;
 
   const getVolumeIcon = () => {
-    if (audioState.isMusicMuted || currentVolume === 0) return <VolumeX size={16} />;
-    if (currentVolume < 0.4) return <Volume1 size={16} />;
-    return <Volume2 size={16} />;
+    if (audioState.isMusicMuted || currentVolume === 0) return <VolumeX size={15} />;
+    if (currentVolume < 0.4) return <Volume1 size={15} />;
+    return <Volume2 size={15} />;
   };
 
   return (
@@ -74,9 +264,9 @@ export default function MusicPlayer({ autoStarted = false }) {
         right: 'clamp(12px, 2.5vw, 22px)',
         zIndex: 90,
       }}
-      aria-label="Audio & Music Controls"
+      aria-label="Birthday Soundtrack Controls"
     >
-      {/* Main Floating Pill Trigger */}
+      {/* Floating Pill Trigger */}
       <motion.div
         id="music-player-widget"
         whileHover={{ scale: 1.02 }}
@@ -85,10 +275,10 @@ export default function MusicPlayer({ autoStarted = false }) {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          padding: '7px 14px',
+          padding: '6px 14px',
           minHeight: '42px',
           borderRadius: '9999px',
-          background: 'rgba(255, 253, 248, 0.95)',
+          background: 'rgba(255, 253, 248, 0.96)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           border: '1.5px solid #F3DDE2',
@@ -101,10 +291,10 @@ export default function MusicPlayer({ autoStarted = false }) {
         }}
         onClick={() => setIsExpanded((prev) => !prev)}
       >
-        {/* Play / Pause Quick Button */}
+        {/* Play / Pause Button */}
         <button
           onClick={handleTogglePlay}
-          aria-label={audioState.isPlaying ? 'Pause music' : 'Play music'}
+          aria-label={isPlaying ? 'Pause birthday music' : 'Play birthday music'}
           style={{
             background: isPlaying ? '#FDF2F4' : '#FFF8E9',
             border: '1px solid #F3DDE2',
@@ -120,15 +310,15 @@ export default function MusicPlayer({ autoStarted = false }) {
             flexShrink: 0,
           }}
         >
-          {audioState.isPlaying ? <Pause size={13} fill="#A94B59" /> : <Play size={13} fill="#A94B59" style={{ marginLeft: '1px' }} />}
+          {isPlaying ? <Pause size={13} fill="#A94B59" /> : <Play size={13} fill="#A94B59" style={{ marginLeft: '1px' }} />}
         </button>
 
         {/* Animated Equalizer Bars */}
         {isPlaying ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '14px' }}>
-            <span className="equalizer-bar bar-1" />
-            <span className="equalizer-bar bar-2" />
-            <span className="equalizer-bar bar-3" />
+            <span className="bg-eq-bar bar-1" />
+            <span className="bg-eq-bar bar-2" />
+            <span className="bg-eq-bar bar-3" />
           </div>
         ) : (
           <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '14px', opacity: 0.4 }}>
@@ -138,21 +328,36 @@ export default function MusicPlayer({ autoStarted = false }) {
           </div>
         )}
 
-        {/* Status Text */}
-        <span
-          style={{
-            fontSize: '0.8rem',
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 700,
-            color: isPlaying ? '#A94B59' : '#857272',
-            letterSpacing: '0.01em',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {isPlaying ? 'Melody Playing' : audioState.isMusicMuted ? 'Muted' : 'Music Paused'}
-        </span>
+        {/* Track Label */}
+        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', minWidth: 0 }}>
+          <span
+            style={{
+              fontSize: '0.78rem',
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 700,
+              color: isPlaying ? '#A94B59' : '#493B3B',
+              letterSpacing: '0.01em',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: '150px',
+            }}
+          >
+            {isPlaying ? 'Birthday Soundtrack' : audioState.isMusicMuted ? 'Muted' : 'Soundtrack Paused'}
+          </span>
+          <span
+            style={{
+              fontSize: '0.66rem',
+              color: '#857272',
+              whiteSpace: 'nowrap',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            Liborio Conti
+          </span>
+        </div>
 
-        {/* Expand / Details Toggle Chevron */}
+        {/* Expand / Collapse Chevron */}
         <div
           style={{
             color: '#A94B59',
@@ -160,13 +365,14 @@ export default function MusicPlayer({ autoStarted = false }) {
             alignItems: 'center',
             transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
             transition: 'transform 0.3s ease',
+            marginLeft: '2px',
           }}
         >
           <ChevronDown size={14} />
         </div>
       </motion.div>
 
-      {/* Expanded Audio Settings Panel */}
+      {/* Expanded Visible Player & Controls Panel */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -179,11 +385,11 @@ export default function MusicPlayer({ autoStarted = false }) {
               position: 'absolute',
               top: 'calc(100% + 8px)',
               right: 0,
-              width: 'min(300px, 86vw)',
-              background: '#FFFDF9',
+              width: 'min(310px, 90vw)',
+              background: '#FFFDF8',
               border: '1.5px solid #F3DDE2',
               borderRadius: '20px',
-              padding: '18px 20px',
+              padding: '16px 18px',
               boxShadow: '0 16px 36px rgba(73, 59, 59, 0.12), 0 2px 8px rgba(169, 75, 89, 0.05)',
               zIndex: 95,
               backdropFilter: 'blur(20px)',
@@ -196,24 +402,24 @@ export default function MusicPlayer({ autoStarted = false }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '14px',
+                marginBottom: '12px',
                 paddingBottom: '8px',
                 borderBottom: '1px dashed #F3DDE2',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Sliders size={14} color="#A94B59" />
+                <Music2 size={15} color="#A94B59" />
                 <span
                   style={{
                     fontSize: '0.74rem',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: 700,
-                    letterSpacing: '0.12em',
+                    letterSpacing: '0.1em',
                     textTransform: 'uppercase',
                     color: '#A94B59',
                   }}
                 >
-                  Sound Settings
+                  Birthday Music
                 </span>
               </div>
 
@@ -224,32 +430,129 @@ export default function MusicPlayer({ autoStarted = false }) {
                   color: '#857272',
                 }}
               >
-                handcrafted tunes 🎵
+                Official Instrumental ✨
               </span>
             </div>
 
-            {/* Music Controls Row: Play/Pause + Mute */}
+            {/* Official Visible YouTube IFrame Player Container */}
+            <div
+              style={{
+                width: '100%',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                backgroundColor: '#000000',
+                aspectRatio: '16 / 9',
+                marginBottom: '12px',
+                border: '1px solid #F3DDE2',
+                position: 'relative',
+              }}
+            >
+              <div id="bg-youtube-player-mount" style={{ width: '100%', height: '100%' }} />
+              {isBuffering && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(0,0,0,0.4)',
+                    color: '#FFF',
+                    fontSize: '0.75rem',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  Buffering...
+                </div>
+              )}
+            </div>
+
+            {/* Track Info & Official YouTube Link */}
+            <div style={{ marginBottom: '12px' }}>
+              <div
+                style={{
+                  fontSize: '0.84rem',
+                  fontWeight: 700,
+                  color: '#493B3B',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+                title={TRACK_TITLE}
+              >
+                {TRACK_TITLE}
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginTop: '2px',
+                }}
+              >
+                <span style={{ fontSize: '0.74rem', color: '#857272' }}>{TRACK_ARTIST}</span>
+                <a
+                  href={YOUTUBE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: '0.7rem',
+                    color: '#A94B59',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                    fontWeight: 600,
+                  }}
+                  title="Open video on YouTube"
+                >
+                  <span>YouTube</span>
+                  <ExternalLink size={10} />
+                </a>
+              </div>
+            </div>
+
+            {/* Error Message Notice if any */}
+            {hasError && (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 10px',
+                  borderRadius: '8px',
+                  background: '#FFF5F5',
+                  border: '1px solid #FFD1D1',
+                  color: '#C53030',
+                  fontSize: '0.72rem',
+                  marginBottom: '12px',
+                }}
+              >
+                <AlertCircle size={13} flexShrink={0} />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* Play/Pause & Mute Buttons */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                marginBottom: '14px',
+                marginBottom: '12px',
               }}
             >
-              <span style={{ fontSize: '0.85rem', color: '#493B3B', fontWeight: 600 }}>
-                Background Music
-              </span>
+              <span style={{ fontSize: '0.82rem', color: '#493B3B', fontWeight: 600 }}>Playback</span>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <button
                   onClick={handleTogglePlay}
                   style={{
-                    background: audioState.isPlaying ? '#FDF2F4' : '#FFF8E9',
+                    background: isPlaying ? '#FDF2F4' : '#FFF8E9',
                     border: '1px solid #F3DDE2',
                     borderRadius: '8px',
                     padding: '5px 10px',
-                    fontSize: '0.75rem',
+                    fontSize: '0.74rem',
                     fontWeight: 700,
                     color: '#A94B59',
                     cursor: 'pointer',
@@ -258,13 +561,13 @@ export default function MusicPlayer({ autoStarted = false }) {
                     gap: '4px',
                   }}
                 >
-                  {audioState.isPlaying ? <Pause size={12} /> : <Play size={12} />}
-                  <span>{audioState.isPlaying ? 'Pause' : 'Play'}</span>
+                  {isPlaying ? <Pause size={12} /> : <Play size={12} />}
+                  <span>{isPlaying ? 'Pause' : 'Play'}</span>
                 </button>
 
                 <button
                   onClick={handleToggleMusicMute}
-                  aria-label={audioState.isMusicMuted ? 'Unmute music' : 'Mute music'}
+                  aria-label={audioState.isMusicMuted ? 'Unmute' : 'Mute'}
                   style={{
                     background: audioState.isMusicMuted ? '#FDF2F4' : '#FFFDF8',
                     border: '1px solid #F3DDE2',
@@ -283,14 +586,14 @@ export default function MusicPlayer({ autoStarted = false }) {
             </div>
 
             {/* Volume Slider Control */}
-            <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: '14px' }}>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  marginBottom: '6px',
-                  fontSize: '0.76rem',
+                  marginBottom: '5px',
+                  fontSize: '0.74rem',
                   color: '#857272',
                 }}
               >
@@ -308,7 +611,7 @@ export default function MusicPlayer({ autoStarted = false }) {
                 step="0.05"
                 value={currentVolume}
                 onChange={handleVolumeChange}
-                aria-label="Music volume slider"
+                aria-label="Volume slider"
                 style={{
                   width: '100%',
                   height: '6px',
@@ -322,120 +625,66 @@ export default function MusicPlayer({ autoStarted = false }) {
               />
             </div>
 
-            {/* Sound Effects (SFX) Independent Toggle */}
+            {/* Sound Effects Toggle */}
             <div
               style={{
                 display: 'flex',
-                flexDirection: 'column',
-                gap: '6px',
+                alignItems: 'center',
+                justifyContent: 'space-between',
                 paddingTop: '10px',
                 borderTop: '1px dashed #F3DDE2',
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  {!audioState.isSfxUserEnabled ? (
-                    <BellOff size={14} color="#857272" />
-                  ) : audioState.isMusicPriorityActive ? (
-                    <BellOff size={14} color="#A94B59" />
-                  ) : (
-                    <Bell size={14} color="#A94B59" />
-                  )}
-                  <span style={{ fontSize: '0.82rem', color: '#493B3B', fontWeight: 600 }}>
-                    Sound Effects
-                  </span>
-                </div>
-
-                <button
-                  onClick={handleToggleSfx}
-                  title={
-                    !audioState.isSfxUserEnabled
-                      ? 'Sound effects disabled'
-                      : audioState.isMusicPriorityActive
-                      ? 'Temporarily suppressed while music is playing'
-                      : 'Sound effects enabled'
-                  }
-                  style={{
-                    background: !audioState.isSfxUserEnabled
-                      ? '#FFF8E9'
-                      : audioState.isMusicPriorityActive
-                      ? '#FFF4ED'
-                      : '#FDF2F4',
-                    border: `1px solid ${
-                      !audioState.isSfxUserEnabled
-                        ? '#F3DDE2'
-                        : audioState.isMusicPriorityActive
-                        ? '#FCD5B5'
-                        : '#DDA6B0'
-                    }`,
-                    borderRadius: '9999px',
-                    padding: '3px 10px',
-                    fontSize: '0.7rem',
-                    fontWeight: 700,
-                    color: !audioState.isSfxUserEnabled
-                      ? '#857272'
-                      : audioState.isMusicPriorityActive
-                      ? '#B25E1A'
-                      : '#A94B59',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {!audioState.isSfxUserEnabled
-                    ? 'SFX: OFF'
-                    : audioState.isMusicPriorityActive
-                    ? 'MUTED (MUSIC ACTIVE)'
-                    : 'SFX: ON'}
-                </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                {!audioState.isSfxUserEnabled ? (
+                  <BellOff size={13} color="#857272" />
+                ) : (
+                  <Bell size={13} color="#A94B59" />
+                )}
+                <span style={{ fontSize: '0.8rem', color: '#493B3B', fontWeight: 600 }}>
+                  Sound Effects
+                </span>
               </div>
 
-              {/* Informative helper note explaining priority mode */}
-              <div
+              <button
+                onClick={handleToggleSfx}
                 style={{
+                  background: !audioState.isSfxUserEnabled ? '#FFF8E9' : '#FDF2F4',
+                  border: `1px solid ${!audioState.isSfxUserEnabled ? '#F3DDE2' : '#DDA6B0'}`,
+                  borderRadius: '9999px',
+                  padding: '3px 10px',
                   fontSize: '0.68rem',
-                  color: audioState.isMusicPriorityActive && audioState.isSfxUserEnabled ? '#B25E1A' : '#857272',
-                  lineHeight: 1.3,
-                  fontFamily: 'var(--font-sans)',
-                  paddingLeft: '20px',
+                  fontWeight: 700,
+                  color: !audioState.isSfxUserEnabled ? '#857272' : '#A94B59',
+                  cursor: 'pointer',
                 }}
               >
-                {!audioState.isSfxUserEnabled
-                  ? 'Disabled by user preference.'
-                  : audioState.isMusicPriorityActive
-                  ? 'Auto-muted to protect music — restores automatically when paused.'
-                  : 'Active & will play with taps, candles, and cards.'}
-              </div>
+                {!audioState.isSfxUserEnabled ? 'SFX: OFF' : 'SFX: ON'}
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <style>{`
-        .equalizer-bar {
+        .bg-eq-bar {
           display: inline-block;
           width: 2.5px;
           background: #A94B59;
           border-radius: 2px;
-          animation: eqBounce 1.2s ease-in-out infinite alternate;
+          animation: bgEqBounce 1.2s ease-in-out infinite alternate;
         }
         .bar-1 { height: 6px; animation-delay: 0.1s; }
         .bar-2 { height: 13px; animation-delay: 0.3s; }
         .bar-3 { height: 9px; animation-delay: 0.2s; }
 
-        @keyframes eqBounce {
+        @keyframes bgEqBounce {
           0% { height: 3px; }
           100% { height: 13px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .equalizer-bar {
+          .bg-eq-bar {
             animation: none !important;
             height: 8px !important;
           }

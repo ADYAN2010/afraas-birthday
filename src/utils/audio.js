@@ -39,6 +39,7 @@ class SoundController {
     this.melodyTimer = null;
     this.audioElement = null;
     this.usingCustomAudio = false;
+    this.bgYtPlayer = null; // Background YouTube instrumental player (zcWrDar0Mkk)
 
     // Rate limiter for sound effects to prevent overlapping clutter
     this.lastSfxTime = {};
@@ -228,6 +229,19 @@ class SoundController {
     }
   }
 
+  // Register YouTube Background Instrumental Player
+  registerBgYouTubePlayer(player) {
+    this.bgYtPlayer = player;
+    if (this.bgYtPlayer && typeof this.bgYtPlayer.setVolume === 'function') {
+      try {
+        this.bgYtPlayer.setVolume(Math.round(this.musicVolume * 100));
+        if (this.isMusicMuted && typeof this.bgYtPlayer.mute === 'function') {
+          this.bgYtPlayer.mute();
+        }
+      } catch (e) {}
+    }
+  }
+
   // Smooth Volume Control
   setMusicVolume(volume) {
     this.musicVolume = Math.max(0, Math.min(1, volume));
@@ -238,6 +252,11 @@ class SoundController {
     }
     if (this.audioElement) {
       this.audioElement.volume = this.isMusicMuted ? 0 : this.musicVolume;
+    }
+    if (this.bgYtPlayer && typeof this.bgYtPlayer.setVolume === 'function') {
+      try {
+        this.bgYtPlayer.setVolume(Math.round(this.musicVolume * 100));
+      } catch (e) {}
     }
     this.savePrefs();
     this.notify();
@@ -253,6 +272,15 @@ class SoundController {
     }
     if (this.audioElement) {
       this.audioElement.volume = this.isMusicMuted ? 0 : this.musicVolume;
+    }
+    if (this.bgYtPlayer) {
+      try {
+        if (this.isMusicMuted && typeof this.bgYtPlayer.mute === 'function') {
+          this.bgYtPlayer.mute();
+        } else if (!this.isMusicMuted && typeof this.bgYtPlayer.unMute === 'function') {
+          this.bgYtPlayer.unMute();
+        }
+      } catch (e) {}
     }
     this.savePrefs();
     this.notify();
@@ -350,6 +378,17 @@ class SoundController {
     this.initContext();
     this.isPlayingMusic = true;
     this.updateSfxGain();
+
+    // Check if YouTube background player is registered
+    if (this.bgYtPlayer && typeof this.bgYtPlayer.playVideo === 'function') {
+      try {
+        this.bgYtPlayer.playVideo();
+        this.isPlayingMusic = true;
+        this.updateSfxGain();
+        this.notify();
+        return;
+      } catch (e) {}
+    }
 
     // Check for custom audio file in /music/birthday.wav or /music/birthday.mp3
     if (!this.audioElement && typeof Audio !== 'undefined') {
@@ -469,6 +508,11 @@ class SoundController {
     }
     if (this.audioElement) {
       this.audioElement.pause();
+    }
+    if (this.bgYtPlayer && typeof this.bgYtPlayer.pauseVideo === 'function') {
+      try {
+        this.bgYtPlayer.pauseVideo();
+      } catch (e) {}
     }
     this.updateSfxGain();
     this.notify();
