@@ -61,6 +61,7 @@ export const musicLibrary = {
       category: "bangla",
       trackIds: [
         "track-bangla-1",
+        "track-bangla-12",
         "track-bangla-10",
         "track-bangla-11",
         "track-bangla-2",
@@ -107,6 +108,7 @@ export const musicLibrary = {
       tag: "ON REPEAT",
       category: "favorites",
       trackIds: [
+        "track-bangla-12",
         "track-hindi-12",
         "track-hindi-11",
         "track-hindi-2",
@@ -133,6 +135,7 @@ export const musicLibrary = {
       category: "blend",
       trackIds: [
         "track-hindi-1",
+        "track-bangla-12",
         "track-hindi-12",
         "track-hindi-11",
         "track-hindi-10",
@@ -787,6 +790,34 @@ export const musicLibrary = {
         { time: 198, text: "ঘুম ভালোবাসি রে আমি ঘুম ভালোবাসি রে..." },
       ],
       playlistIds: ["bangla-monsoon", "soft-hours", "a-little-bit-of-everything"],
+    },
+    {
+      id: "track-bangla-12",
+      title: "Bilet Raja",
+      bengaliTitle: "বিলেত রাজা",
+      artist: "G M Ashraf & Dola",
+      album: "Rakkhosh",
+      duration: 155,
+      genre: "Catchy Contemporary Bangla Pop",
+      language: "bangla",
+      year: 2019,
+      sourceType: "youtube",
+      youtubeId: "oimtknXFil4",
+      isAvailable: true,
+      coverGradient: "linear-gradient(135deg, #FFB300, #F77737)",
+      accentColor: "#FFB300",
+      spotifyUrl: "https://open.spotify.com/search/Bilet%20Raja%20G%20M%20Ashraf",
+      youtubeUrl: "https://www.youtube.com/watch?v=oimtknXFil4",
+      lyrics: [
+        { time: 0, text: "(Upbeat infectious folk-pop rhythm intro)" },
+        { time: 12, text: "বিলেত রাজা গো, ও বিলেত রাজা..." },
+        { time: 26, text: "তোমার দেশে যাবো আমি, বাঁধবো সুখের বাসা।" },
+        { time: 44, text: "মন ভেসে যায় দূর সীমানায় রূপকথারই দেশে," },
+        { time: 62, text: "ভালোবাসার পাল তুলে যাই তোমার কাছে এসে।" },
+        { time: 85, text: "বিলেত রাজা গো, ও বিলেত রাজা..." },
+        { time: 108, text: "হৃদয় মাঝে সুর বাঁধিলে নতুন ভালোবাসার।" },
+      ],
+      playlistIds: ["bangla-monsoon", "on-repeat", "a-little-bit-of-everything"],
     },
 
     // -------------------------------------------------------------------------

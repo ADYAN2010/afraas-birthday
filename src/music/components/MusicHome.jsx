@@ -17,7 +17,7 @@ export default function MusicHome() {
 
   const featuredPlaylist = playlists.find((p) => p.id === 'hindi-romance') || playlists[0];
   const quickPickTracks = tracks.filter((t) =>
-    ['track-hindi-1', 'track-hindi-12', 'track-hindi-11', 'track-hindi-10', 'track-bangla-10', 'track-bangla-11', 'track-bangla-1'].includes(t.id)
+    ['track-hindi-1', 'track-bangla-12', 'track-hindi-12', 'track-hindi-11', 'track-hindi-10', 'track-bangla-10', 'track-bangla-11'].includes(t.id)
   );
 
   const handleFeaturedPlay = () => {
