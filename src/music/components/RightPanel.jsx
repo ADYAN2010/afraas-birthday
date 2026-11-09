@@ -97,7 +97,16 @@ export default function RightPanel() {
       </div>
 
       {/* Large Cover Art with Ambient Shadow */}
-      <div style={{ position: 'relative', width: '100%', marginBottom: '14px' }}>
+      <div
+        style={{
+          width: '100%',
+          aspectRatio: '1 / 1',
+          marginBottom: '12px',
+          flexShrink: 0,
+          borderRadius: '12px',
+          overflow: 'hidden',
+        }}
+      >
         <AlbumArt
           title={currentTrack.title}
           gradient={currentTrack.coverGradient}
@@ -106,36 +115,6 @@ export default function RightPanel() {
           size="100%"
           borderRadius={12}
         />
-
-        {/* Video Mode Quick Button for YouTube Tracks */}
-        {currentTrack.sourceType === 'youtube' && (
-          <button
-            onClick={() => {
-              soundCtrl.playTap();
-              toggleShowVideo();
-            }}
-            style={{
-              marginTop: '10px',
-              width: '100%',
-              padding: '6px 12px',
-              borderRadius: '8px',
-              background: showVideoScreen ? 'var(--soundtrack-green)' : 'rgba(255, 255, 255, 0.08)',
-              color: showVideoScreen ? '#121212' : 'var(--soundtrack-text-primary)',
-              border: '1px solid var(--soundtrack-border)',
-              fontSize: '0.76rem',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              transition: 'all 0.2s',
-            }}
-          >
-            <Video size={14} />
-            <span>{showVideoScreen ? 'Hide Video Screen' : 'Watch Official Music Video'}</span>
-          </button>
-        )}
       </div>
 
       {/* Track Title, Artist, & Like Button */}
@@ -145,20 +124,24 @@ export default function RightPanel() {
           alignItems: 'flex-start',
           justifyContent: 'space-between',
           gap: '8px',
-          marginBottom: '14px',
+          marginBottom: '10px',
+          flexShrink: 0,
         }}
       >
         <div style={{ flex: 1, minWidth: 0 }}>
           <h3
             style={{
-              fontSize: '1.05rem',
+              fontSize: '1.08rem',
               fontWeight: 700,
               color: '#FFFFFF',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               marginBottom: '3px',
+              letterSpacing: '-0.01em',
+              lineHeight: 1.25,
             }}
+            title={currentTrack.title}
           >
             {currentTrack.title}
           </h3>
@@ -170,6 +153,9 @@ export default function RightPanel() {
                 color: 'var(--soundtrack-green)',
                 marginBottom: '3px',
                 fontWeight: 600,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }}
             >
               {currentTrack.bengaliTitle}
@@ -182,7 +168,9 @@ export default function RightPanel() {
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              margin: 0,
             }}
+            title={currentTrack.artist}
           >
             {currentTrack.artist}
           </p>
@@ -199,23 +187,61 @@ export default function RightPanel() {
             padding: '4px',
             display: 'flex',
             alignItems: 'center',
+            flexShrink: 0,
           }}
         >
-          <Heart size={20} fill={isLiked ? 'var(--soundtrack-green)' : 'none'} />
+          <Heart size={20} fill={isLiked ? 'var(--soundtrack-green)' : 'none'} color={isLiked ? 'var(--soundtrack-green)' : 'var(--soundtrack-text-muted)'} />
         </button>
       </div>
 
+      {/* Video Mode Quick Button for YouTube Tracks */}
+      {currentTrack.sourceType === 'youtube' && (
+        <button
+          onClick={() => {
+            soundCtrl.playTap();
+            toggleShowVideo();
+          }}
+          style={{
+            marginBottom: '10px',
+            width: '100%',
+            padding: '7px 12px',
+            borderRadius: '8px',
+            background: showVideoScreen ? 'var(--soundtrack-green)' : 'rgba(255, 255, 255, 0.08)',
+            color: showVideoScreen ? '#121212' : '#FFFFFF',
+            border: showVideoScreen ? '1px solid var(--soundtrack-green)' : '1px solid var(--soundtrack-border)',
+            fontSize: '0.78rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '6px',
+            transition: 'all 0.2s',
+            flexShrink: 0,
+          }}
+          onMouseEnter={(e) => {
+            if (!showVideoScreen) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.14)';
+          }}
+          onMouseLeave={(e) => {
+            if (!showVideoScreen) e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+          }}
+        >
+          <Video size={14} color={showVideoScreen ? '#121212' : 'var(--soundtrack-green)'} />
+          <span>{showVideoScreen ? 'Hide Video Screen' : 'Watch Official Music Video'}</span>
+        </button>
+      )}
+
       {/* External Streaming Links */}
       {(currentTrack.spotifyUrl || currentTrack.youtubeUrl) && (
-        <div style={{ marginBottom: '14px' }}>
+        <div style={{ marginBottom: '10px', flexShrink: 0 }}>
           <div
             style={{
-              fontSize: '0.68rem',
+              fontSize: '0.66rem',
               fontWeight: 700,
               letterSpacing: '0.08em',
               color: 'var(--soundtrack-text-muted)',
               textTransform: 'uppercase',
-              marginBottom: '6px',
+              marginBottom: '5px',
             }}
           >
             Stream Studio Master
@@ -256,14 +282,15 @@ export default function RightPanel() {
         style={{
           background: 'var(--soundtrack-card)',
           borderRadius: '10px',
-          padding: '12px 14px',
-          fontSize: '0.8rem',
+          padding: '10px 12px',
+          fontSize: '0.78rem',
           color: 'var(--soundtrack-text-secondary)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px',
-          marginBottom: '16px',
+          gap: '6px',
+          marginBottom: '12px',
           border: '1px solid var(--soundtrack-border)',
+          flexShrink: 0,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -291,7 +318,7 @@ export default function RightPanel() {
       </div>
 
       {/* Lyrics / Queue Quick Toggle Buttons */}
-      <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
+      <div style={{ display: 'flex', gap: '8px', marginTop: 'auto', flexShrink: 0 }}>
         <button
           onClick={handleOpenLyrics}
           style={{
@@ -300,18 +327,18 @@ export default function RightPanel() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '6px',
-            padding: '8px 12px',
+            padding: '7px 10px',
             borderRadius: '8px',
             background: isLyricsOpen ? 'var(--soundtrack-elevated)' : 'transparent',
             border: '1px solid var(--soundtrack-border)',
             color: isLyricsOpen ? 'var(--soundtrack-green)' : 'var(--soundtrack-text-secondary)',
-            fontSize: '0.8rem',
+            fontSize: '0.78rem',
             fontWeight: 600,
             cursor: 'pointer',
             transition: 'all 0.2s',
           }}
         >
-          <Mic2 size={14} />
+          <Mic2 size={13} />
           <span>Lyrics</span>
         </button>
 
@@ -323,18 +350,18 @@ export default function RightPanel() {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '6px',
-            padding: '8px 12px',
+            padding: '7px 10px',
             borderRadius: '8px',
             background: isQueueOpen ? 'var(--soundtrack-elevated)' : 'transparent',
             border: '1px solid var(--soundtrack-border)',
             color: isQueueOpen ? 'var(--soundtrack-green)' : 'var(--soundtrack-text-secondary)',
-            fontSize: '0.8rem',
+            fontSize: '0.78rem',
             fontWeight: 600,
             cursor: 'pointer',
             transition: 'all 0.2s',
           }}
         >
-          <ListMusic size={14} />
+          <ListMusic size={13} />
           <span>Queue</span>
         </button>
       </div>

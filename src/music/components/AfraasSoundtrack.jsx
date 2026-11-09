@@ -20,6 +20,7 @@ function SoundtrackApp() {
   const {
     activeTab,
     setActiveTab,
+    currentPlaylist,
     isLyricsOpen,
     setIsLyricsOpen,
     isQueueOpen,
@@ -47,14 +48,57 @@ function SoundtrackApp() {
 
         {/* 2. Main Content Viewport */}
         <main className="soundtrack-main-content">
-          {activeTab === 'home' && <MusicHome />}
-          {activeTab === 'search' && <MusicSearch />}
-          {activeTab === 'library' && <MusicLibraryView />}
-          {activeTab === 'playlist' && <PlaylistView />}
+          {/* Sticky Top Navigation Context Bar */}
+          <div className="soundtrack-sticky-header">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+              <span
+                style={{
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {activeTab === 'home' && "Afraa's Soundtrack"}
+                {activeTab === 'search' && 'Search Library'}
+                {activeTab === 'library' && 'Your Library'}
+                {activeTab === 'playlist' && (currentPlaylist?.title || 'Playlist')}
+              </span>
+            </div>
 
-          {/* Overlays inside main viewport */}
-          {isLyricsOpen && <LyricsPanel />}
-          {isQueueOpen && <MusicQueue />}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+              <span
+                style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  color: 'var(--soundtrack-green)',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  background: 'rgba(184, 233, 134, 0.1)',
+                  padding: '2px 8px',
+                  borderRadius: '9999px',
+                  border: '1px solid rgba(184, 233, 134, 0.25)',
+                }}
+              >
+                Curated for Afraa
+              </span>
+            </div>
+          </div>
+
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {activeTab === 'home' && <MusicHome />}
+            {activeTab === 'search' && <MusicSearch />}
+            {activeTab === 'library' && <MusicLibraryView />}
+            {activeTab === 'playlist' && <PlaylistView />}
+
+            {/* Overlays inside main viewport */}
+            {isLyricsOpen && <LyricsPanel />}
+            {isQueueOpen && <MusicQueue />}
+          </div>
         </main>
 
         {/* 3. Right Side Panel (Now Playing / Track details) */}

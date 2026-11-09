@@ -32,7 +32,7 @@ export default function AlbumArt({
       className={className}
       style={{
         width: typeof size === 'number' ? `${size}px` : size,
-        height: typeof size === 'number' ? `${size}px` : size,
+        height: typeof size === 'number' ? `${size}px` : 'auto',
         aspectRatio: '1 / 1',
         borderRadius: `${borderRadius}px`,
         background: gradient,
