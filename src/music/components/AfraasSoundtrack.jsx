@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MusicProvider, useMusic } from '../context/MusicContext';
 import MusicSidebar from './MusicSidebar';
 import MusicHome from './MusicHome';
@@ -11,7 +11,7 @@ import ExpandedPlayer from './ExpandedPlayer';
 import LyricsPanel from './LyricsPanel';
 import MusicQueue from './MusicQueue';
 import AddSongsModal from './AddSongsModal';
-import { Home, Search, Library, Mic2, Disc } from 'lucide-react';
+import { Home, Search, Library, Mic2, Disc, X } from 'lucide-react';
 import { soundCtrl } from '../../utils/audio';
 import CuteScrapbookDivider from '../../components/svg/CuteScrapbookDivider';
 import '../styles/music.css';
@@ -24,7 +24,14 @@ function SoundtrackApp() {
     setIsLyricsOpen,
     isQueueOpen,
     isSoundtrackFullscreen,
+    showVideoScreen,
+    setShowVideoScreen,
+    initYouTubePlayer,
   } = useMusic();
+
+  useEffect(() => {
+    initYouTubePlayer();
+  }, [initYouTubePlayer]);
 
   const handleMobileNav = (tab) => {
     soundCtrl.playTap();
@@ -56,6 +63,50 @@ function SoundtrackApp() {
 
       {/* Persistent Bottom MiniPlayer */}
       <MiniPlayer />
+
+      {/* Persistent Docked Media Player (YouTube Mount) */}
+      <div
+        id="soundtrack-media-dock"
+        className={`soundtrack-media-dock ${showVideoScreen ? 'visible' : 'docked-minimized'}`}
+        aria-hidden={!showVideoScreen}
+      >
+        {showVideoScreen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '6px',
+              right: '6px',
+              zIndex: 10,
+              display: 'flex',
+              gap: '4px',
+            }}
+          >
+            <button
+              onClick={() => {
+                soundCtrl.playTap();
+                setShowVideoScreen(false);
+              }}
+              title="Minimize video to audio background"
+              aria-label="Minimize video"
+              style={{
+                background: 'rgba(0, 0, 0, 0.7)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '50%',
+                width: '24px',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+        <div id="soundtrack-youtube-player-mount" style={{ width: '100%', height: '100%' }} />
+      </div>
 
       {/* Mobile Bottom Navigation Bar (Hidden on Desktop) */}
       <nav className="soundtrack-mobile-bottom-nav">

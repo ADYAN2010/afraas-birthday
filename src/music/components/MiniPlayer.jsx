@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Volume2, VolumeX, Volume1, Maximize2, Mic2, ListMusic, Play, Pause } from 'lucide-react';
+import { Heart, Volume2, VolumeX, Volume1, Maximize2, Mic2, ListMusic, Play, Pause, AlertCircle, Video, Loader2 } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import MusicControls from './MusicControls';
 import AlbumArt from './AlbumArt';
@@ -9,7 +9,11 @@ export default function MiniPlayer() {
   const {
     currentTrack,
     isPlaying,
+    isLoading,
+    playbackError,
+    retryPlayback,
     togglePlay,
+    nextTrack,
     currentTime,
     duration,
     seekTo,
@@ -24,6 +28,8 @@ export default function MiniPlayer() {
     isQueueOpen,
     setIsQueueOpen,
     setIsExpandedPlayerOpen,
+    showVideoScreen,
+    toggleShowVideo,
     formatTime,
   } = useMusic();
 
@@ -73,6 +79,74 @@ export default function MiniPlayer() {
 
   return (
     <footer className="soundtrack-mini-player">
+      {/* Playback Error Notification Banner */}
+      {playbackError && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '100%',
+            left: 0,
+            right: 0,
+            background: 'linear-gradient(90deg, #d32f2f, #c62828)',
+            color: '#FFFFFF',
+            padding: '7px 16px',
+            fontSize: '0.78rem',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            zIndex: 100,
+            boxShadow: '0 -4px 14px rgba(0,0,0,0.4)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
+            <AlertCircle size={15} style={{ flexShrink: 0 }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {playbackError}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                retryPlayback();
+              }}
+              style={{
+                background: 'rgba(255,255,255,0.25)',
+                border: 'none',
+                color: '#fff',
+                padding: '3px 10px',
+                borderRadius: '9999px',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Retry
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                nextTrack();
+              }}
+              style={{
+                background: 'rgba(255,255,255,0.25)',
+                border: 'none',
+                color: '#fff',
+                padding: '3px 10px',
+                borderRadius: '9999px',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Top Hairline Progress Bar */}
       <div
         style={{
@@ -277,6 +351,34 @@ export default function MiniPlayer() {
           />
         </div>
 
+        {/* Video Mode Toggle (YouTube tracks) */}
+        {currentTrack.sourceType === 'youtube' && (
+          <button
+            onClick={() => {
+              soundCtrl.playTap();
+              toggleShowVideo();
+            }}
+            title={showVideoScreen ? 'Hide video dock' : 'Watch music video'}
+            aria-label="Toggle video"
+            style={{
+              background: showVideoScreen ? 'rgba(184, 233, 134, 0.15)' : 'transparent',
+              border: showVideoScreen ? '1px solid var(--soundtrack-green)' : 'none',
+              borderRadius: '6px',
+              color: showVideoScreen ? 'var(--soundtrack-green)' : 'var(--soundtrack-text-secondary)',
+              cursor: 'pointer',
+              padding: '4px 6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '0.74rem',
+              fontWeight: 600,
+            }}
+          >
+            <Video size={15} />
+            <span className="desktop-only-text">{showVideoScreen ? 'Hide Video' : 'Video'}</span>
+          </button>
+        )}
+
         {/* Expand Player Button */}
         <button
           onClick={handleOpenExpand}
@@ -337,7 +439,9 @@ export default function MiniPlayer() {
             boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
           }}
         >
-          {isPlaying ? (
+          {isLoading ? (
+            <Loader2 size={16} className="soundtrack-spinner" color="#121212" />
+          ) : isPlaying ? (
             <Pause size={16} fill="#121212" />
           ) : (
             <Play size={16} fill="#121212" style={{ marginLeft: '2px' }} />

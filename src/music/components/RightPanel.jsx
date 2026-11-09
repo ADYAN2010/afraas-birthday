@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Mic2, Maximize2, Music, ListMusic, ExternalLink, Disc, Radio } from 'lucide-react';
+import { Heart, Mic2, Maximize2, Music, ListMusic, ExternalLink, Disc, Radio, Video } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import AlbumArt from './AlbumArt';
 import { soundCtrl } from '../../utils/audio';
@@ -15,6 +15,8 @@ export default function RightPanel() {
     isQueueOpen,
     setIsQueueOpen,
     setIsExpandedPlayerOpen,
+    showVideoScreen,
+    toggleShowVideo,
   } = useMusic();
 
   if (!currentTrack) {
@@ -95,7 +97,7 @@ export default function RightPanel() {
       </div>
 
       {/* Large Cover Art with Ambient Shadow */}
-      <div style={{ position: 'relative', width: '100%', marginBottom: '16px' }}>
+      <div style={{ position: 'relative', width: '100%', marginBottom: '14px' }}>
         <AlbumArt
           title={currentTrack.title}
           gradient={currentTrack.coverGradient}
@@ -104,6 +106,36 @@ export default function RightPanel() {
           size="100%"
           borderRadius={12}
         />
+
+        {/* Video Mode Quick Button for YouTube Tracks */}
+        {currentTrack.sourceType === 'youtube' && (
+          <button
+            onClick={() => {
+              soundCtrl.playTap();
+              toggleShowVideo();
+            }}
+            style={{
+              marginTop: '10px',
+              width: '100%',
+              padding: '6px 12px',
+              borderRadius: '8px',
+              background: showVideoScreen ? 'var(--soundtrack-green)' : 'rgba(255, 255, 255, 0.08)',
+              color: showVideoScreen ? '#121212' : 'var(--soundtrack-text-primary)',
+              border: '1px solid var(--soundtrack-border)',
+              fontSize: '0.76rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              transition: 'all 0.2s',
+            }}
+          >
+            <Video size={14} />
+            <span>{showVideoScreen ? 'Hide Video Screen' : 'Watch Official Music Video'}</span>
+          </button>
+        )}
       </div>
 
       {/* Track Title, Artist, & Like Button */}
@@ -244,8 +276,12 @@ export default function RightPanel() {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>Source</span>
-          <span style={{ color: 'var(--soundtrack-text-primary)' }}>
-            {currentTrack.audioUrl ? 'Local Audio' : 'Acoustic Synthesizer'}
+          <span style={{ color: 'var(--soundtrack-green)', fontWeight: 600 }}>
+            {currentTrack.sourceType === 'youtube'
+              ? 'YouTube Official Stream'
+              : currentTrack.sourceType === 'audio'
+              ? 'Local Audio File'
+              : 'External Master'}
           </span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

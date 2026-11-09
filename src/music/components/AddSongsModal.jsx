@@ -42,11 +42,21 @@ export default function AddSongsModal() {
     );
   };
 
+  const extractYoutubeId = (url) => {
+    if (!url) return '';
+    const trimmed = url.trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+    const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    return match ? match[1] : '';
+  };
+
   const handleAddSubmit = (e) => {
     e.preventDefault();
     if (!title.trim() || !artist.trim()) return;
 
     soundCtrl.playTap();
+
+    const ytId = extractYoutubeId(youtubeUrl);
 
     addCustomTrack({
       title: title.trim(),
@@ -56,10 +66,11 @@ export default function AddSongsModal() {
       language,
       genre: language === 'bangla' ? 'Contemporary Bangla' : 'Hindi Romantic',
       playlistIds: selectedPlaylists,
+      youtubeId: ytId,
+      sourceType: ytId ? 'youtube' : audioUrl.trim() ? 'audio' : 'external',
       spotifyUrl: spotifyUrl.trim() || `https://open.spotify.com/search/${encodeURIComponent(title.trim())}`,
-      youtubeUrl: youtubeUrl.trim() || `https://music.youtube.com/search?q=${encodeURIComponent(title.trim() + ' ' + artist.trim())}`,
+      youtubeUrl: youtubeUrl.trim() || (ytId ? `https://www.youtube.com/watch?v=${ytId}` : `https://music.youtube.com/search?q=${encodeURIComponent(title.trim() + ' ' + artist.trim())}`),
       audioUrl: audioUrl.trim(),
-      proceduralPreset: language === 'bangla' ? 'rainPiano' : 'acousticWarm',
       coverGradient:
         language === 'bangla'
           ? 'linear-gradient(135deg, #0575E6, #00F260)'

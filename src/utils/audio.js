@@ -351,10 +351,10 @@ class SoundController {
     this.isPlayingMusic = true;
     this.updateSfxGain();
 
-    // Check for optional custom audio file in /music/birthday.mp3
+    // Check for custom audio file in /music/birthday.wav or /music/birthday.mp3
     if (!this.audioElement && typeof Audio !== 'undefined') {
       try {
-        const audio = new Audio('/music/birthday.mp3');
+        const audio = new Audio('/music/birthday.wav');
         audio.loop = true;
         audio.volume = this.isMusicMuted ? 0 : this.musicVolume;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Heart, Volume2, VolumeX, Mic2, ListMusic, ExternalLink, Disc, Radio } from 'lucide-react';
+import { ChevronDown, Heart, Volume2, VolumeX, Mic2, ListMusic, ExternalLink, Disc, Radio, AlertCircle, Video } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import MusicControls from './MusicControls';
 import AlbumArt from './AlbumArt';
@@ -26,6 +26,11 @@ export default function ExpandedPlayer() {
     setIsLyricsOpen,
     isQueueOpen,
     setIsQueueOpen,
+    playbackError,
+    retryPlayback,
+    nextTrack,
+    showVideoScreen,
+    toggleShowVideo,
     formatTime,
   } = useMusic();
 
@@ -126,6 +131,64 @@ export default function ExpandedPlayer() {
           <div style={{ width: '40px' }} />
         </div>
 
+        {/* Playback Error Alert in Expanded View */}
+        {playbackError && (
+          <div
+            style={{
+              maxWidth: '460px',
+              width: '100%',
+              margin: '0 auto 16px',
+              background: 'rgba(211, 47, 47, 0.9)',
+              color: '#FFFFFF',
+              borderRadius: '10px',
+              padding: '10px 16px',
+              fontSize: '0.82rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '12px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={18} style={{ flexShrink: 0 }} />
+              <span>{playbackError}</span>
+            </div>
+            <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+              <button
+                onClick={retryPlayback}
+                style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  border: 'none',
+                  color: '#fff',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                Retry
+              </button>
+              <button
+                onClick={nextTrack}
+                style={{
+                  background: 'rgba(255,255,255,0.25)',
+                  border: 'none',
+                  color: '#fff',
+                  padding: '4px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                }}
+              >
+                Skip
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Central Content Box */}
         <div
           style={{
@@ -147,7 +210,7 @@ export default function ExpandedPlayer() {
               width: '100%',
               maxWidth: '360px',
               aspectRatio: '1 / 1',
-              marginBottom: '28px',
+              marginBottom: currentTrack.sourceType === 'youtube' ? '12px' : '28px',
               borderRadius: '16px',
               overflow: 'hidden',
               boxShadow: `0 24px 60px ${currentTrack.accentColor}33, 0 12px 24px rgba(0,0,0,0.6)`,
@@ -162,6 +225,34 @@ export default function ExpandedPlayer() {
               borderRadius={16}
             />
           </motion.div>
+
+          {/* Video Mode Toggle for YouTube Tracks */}
+          {currentTrack.sourceType === 'youtube' && (
+            <button
+              onClick={() => {
+                soundCtrl.playTap();
+                toggleShowVideo();
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 16px',
+                borderRadius: '9999px',
+                background: showVideoScreen ? 'var(--soundtrack-green)' : 'rgba(255, 255, 255, 0.1)',
+                color: showVideoScreen ? '#121212' : '#FFFFFF',
+                border: 'none',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                marginBottom: '20px',
+                transition: 'all 0.2s',
+              }}
+            >
+              <Video size={14} />
+              <span>{showVideoScreen ? 'Hide Video Dock' : 'Watch Official Music Video'}</span>
+            </button>
+          )}
 
           {/* Title, Artist, & Like */}
           <div

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Play, Pause, SkipBack, SkipForward, Shuffle, Repeat, Repeat1 } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Shuffle, Repeat, Repeat1, Loader2 } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import { soundCtrl } from '../../utils/audio';
 
 export default function MusicControls({ size = 'medium', showShuffleRepeat = true }) {
   const {
     isPlaying,
+    isLoading,
     togglePlay,
     nextTrack,
     prevTrack,
@@ -131,7 +132,9 @@ export default function MusicControls({ size = 'medium', showShuffleRepeat = tru
         onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.06)')}
         onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
       >
-        {isPlaying ? (
+        {isLoading ? (
+          <Loader2 size={iconSize} className="soundtrack-spinner" color="#121212" />
+        ) : isPlaying ? (
           <Pause size={iconSize} fill="#121212" />
         ) : (
           <Play size={iconSize} fill="#121212" style={{ marginLeft: isLarge ? '3px' : '2px' }} />
