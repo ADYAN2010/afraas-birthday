@@ -348,6 +348,79 @@
   opacity: 1;
 }
 
+/* Bengali Typography Support */
+.bengali-text {
+  font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* Language & Source Badges */
+.track-language-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+.track-language-badge.bangla {
+  background: rgba(30, 215, 96, 0.15);
+  color: #55f388;
+  border: 1px solid rgba(30, 215, 96, 0.3);
+  font-family: 'Hind Siliguri', sans-serif;
+}
+
+.track-language-badge.hindi {
+  background: rgba(255, 179, 71, 0.15);
+  color: #ffb347;
+  border: 1px solid rgba(255, 179, 71, 0.3);
+}
+
+.track-language-badge.custom {
+  background: rgba(184, 233, 134, 0.15);
+  color: var(--soundtrack-green);
+  border: 1px solid rgba(184, 233, 134, 0.3);
+}
+
+/* Streaming Link Action Pills */
+.soundtrack-stream-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid var(--soundtrack-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--soundtrack-text-secondary);
+}
+
+.soundtrack-stream-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border-color: var(--soundtrack-border-bright);
+  transform: translateY(-1px);
+}
+
+.soundtrack-stream-btn.spotify:hover {
+  color: #1ED760;
+  border-color: rgba(30, 215, 96, 0.5);
+  background: rgba(30, 215, 96, 0.12);
+}
+
+.soundtrack-stream-btn.youtube:hover {
+  color: #FF4E45;
+  border-color: rgba(255, 78, 69, 0.5);
+  background: rgba(255, 78, 69, 0.12);
+}
+
 /* Mobile Bottom Navigation */
 .soundtrack-mobile-bottom-nav {
   display: none;

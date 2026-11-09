@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Mic2, Maximize2, Music, ListMusic } from 'lucide-react';
+import { Heart, Mic2, Maximize2, Music, ListMusic, ExternalLink, Disc, Radio } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import AlbumArt from './AlbumArt';
 import { soundCtrl } from '../../utils/audio';
@@ -130,6 +130,19 @@ export default function RightPanel() {
           >
             {currentTrack.title}
           </h3>
+          {currentTrack.bengaliTitle && (
+            <div
+              className="bengali-text"
+              style={{
+                fontSize: '0.86rem',
+                color: 'var(--soundtrack-green)',
+                marginBottom: '3px',
+                fontWeight: 600,
+              }}
+            >
+              {currentTrack.bengaliTitle}
+            </div>
+          )}
           <p
             style={{
               fontSize: '0.84rem',
@@ -160,6 +173,52 @@ export default function RightPanel() {
         </button>
       </div>
 
+      {/* External Streaming Links */}
+      {(currentTrack.spotifyUrl || currentTrack.youtubeUrl) && (
+        <div style={{ marginBottom: '14px' }}>
+          <div
+            style={{
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              color: 'var(--soundtrack-text-muted)',
+              textTransform: 'uppercase',
+              marginBottom: '6px',
+            }}
+          >
+            Stream Studio Master
+          </div>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            {currentTrack.spotifyUrl && (
+              <a
+                href={currentTrack.spotifyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="soundtrack-stream-btn spotify"
+                title="Open in Spotify"
+              >
+                <Disc size={13} />
+                <span>Spotify</span>
+                <ExternalLink size={10} />
+              </a>
+            )}
+            {currentTrack.youtubeUrl && (
+              <a
+                href={currentTrack.youtubeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="soundtrack-stream-btn youtube"
+                title="Open in YouTube Music"
+              >
+                <Radio size={13} />
+                <span>YouTube</span>
+                <ExternalLink size={10} />
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Track Details Card */}
       <div
         style={{
@@ -182,6 +241,12 @@ export default function RightPanel() {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>Genre</span>
           <span style={{ color: 'var(--soundtrack-green)', fontWeight: 600 }}>{currentTrack.genre || 'Acoustic'}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>Source</span>
+          <span style={{ color: 'var(--soundtrack-text-primary)' }}>
+            {currentTrack.audioUrl ? 'Local Audio' : 'Acoustic Synthesizer'}
+          </span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <span>Year</span>

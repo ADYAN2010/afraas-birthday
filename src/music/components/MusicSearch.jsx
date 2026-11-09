@@ -6,12 +6,12 @@ import PlaylistCard from './PlaylistCard';
 import { soundCtrl } from '../../utils/audio';
 
 const BROWSE_GENRES = [
-  { name: 'Acoustic & Celesta', color: 'linear-gradient(135deg, #FF7E5F, #FEB47B)', query: 'Acoustic' },
-  { name: 'Lofi Chill', color: 'linear-gradient(135deg, #1A1E2E, #7077A1)', query: 'Lofi' },
-  { name: 'Solo Piano', color: 'linear-gradient(135deg, #5C258D, #4389A2)', query: 'Piano' },
-  { name: 'Traditional & Strings', color: 'linear-gradient(135deg, #8E0E00, #1F1C18)', query: 'Strings' },
-  { name: 'Late Night Reverie', color: 'linear-gradient(135deg, #0F2027, #2C5364)', query: 'Midnight' },
-  { name: 'Birthday Vibes', color: 'linear-gradient(135deg, #FA709A, #FEE140)', query: 'Birthday' },
+  { name: 'Hindi Romance', color: 'linear-gradient(135deg, #FF416C, #FF4B2B)', query: 'Hindi' },
+  { name: 'Bangla Monsoon', color: 'linear-gradient(135deg, #0575E6, #00F260)', query: 'Bangla' },
+  { name: 'Soft Hours', color: 'linear-gradient(135deg, #654ea3, #eaafc8)', query: 'Soft' },
+  { name: 'Acoustic Love', color: 'linear-gradient(135deg, #11998E, #38EF7D)', query: 'Acoustic' },
+  { name: 'Bollywood Gold', color: 'linear-gradient(135deg, #FF7E5F, #FEB47B)', query: 'Bollywood' },
+  { name: 'On Repeat', color: 'linear-gradient(135deg, #8A2387, #E94057)', query: 'Repeat' },
 ];
 
 export default function MusicSearch() {
@@ -19,14 +19,16 @@ export default function MusicSearch() {
 
   const trimmedQuery = searchQuery.trim().toLowerCase();
 
-  // Filter tracks
+  // Filter tracks (matches English title, Bengali title, artist, album, genre, or language)
   const matchedTracks = trimmedQuery
     ? tracks.filter(
         (t) =>
           t.title.toLowerCase().includes(trimmedQuery) ||
+          (t.bengaliTitle && t.bengaliTitle.toLowerCase().includes(trimmedQuery)) ||
           t.artist.toLowerCase().includes(trimmedQuery) ||
           t.album.toLowerCase().includes(trimmedQuery) ||
-          (t.genre && t.genre.toLowerCase().includes(trimmedQuery))
+          (t.genre && t.genre.toLowerCase().includes(trimmedQuery)) ||
+          (t.language && t.language.toLowerCase().includes(trimmedQuery))
       )
     : [];
 

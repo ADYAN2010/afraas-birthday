@@ -15,8 +15,10 @@ export default function MusicHome() {
     setIsAddSongsModalOpen,
   } = useMusic();
 
-  const featuredPlaylist = playlists[0];
-  const birthdayVibesTracks = tracks.filter((t) => t.playlistIds.includes('a-little-birthday-mix')).slice(0, 4);
+  const featuredPlaylist = playlists.find((p) => p.id === 'hindi-romance') || playlists[0];
+  const quickPickTracks = tracks.filter((t) =>
+    ['track-hindi-1', 'track-bangla-1', 'track-hindi-2', 'track-hindi-3', 'track-bangla-2', 'track-bangla-3'].includes(t.id)
+  );
 
   const handleFeaturedPlay = () => {
     soundCtrl.playTap();
@@ -145,7 +147,7 @@ export default function MusicHome() {
                 marginBottom: '4px',
               }}
             >
-              FEATURED BIRTHDAY PLAYLIST
+              FEATURED PLAYLIST • AFRAA'S TASTE
             </span>
             <h3
               style={{
@@ -222,18 +224,18 @@ export default function MusicHome() {
         </div>
       </div>
 
-      {/* Section: Just Press Play (Quick Picks) */}
+      {/* Section: Afraa's Heavy Rotation (Quick Picks) */}
       <div style={{ marginBottom: '34px' }}>
         <div style={{ marginBottom: '14px' }}>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF' }}>
-            Just Press Play
+            Afraa's Heavy Rotation
           </h3>
           <span style={{ fontSize: '0.78rem', color: 'var(--soundtrack-text-secondary)' }}>
-            Selected acoustic tracks to start listening immediately
+            Melodious Hindi favorites & contemporary Bangla anthems
           </span>
         </div>
 
-        <TrackList tracks={birthdayVibesTracks} playlist={featuredPlaylist} showAlbum={false} />
+        <TrackList tracks={quickPickTracks} playlist={featuredPlaylist} showAlbum={false} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Music, Sparkles, Heart, Moon, Coffee, Cake, Sun, Repeat } from 'lucide-react';
+import { Music, Sparkles, Heart, Moon, Coffee, Cake, Sun, Repeat, CloudRain, Flame, Radio, Compass } from 'lucide-react';
 
 const iconComponents = {
   Cake: Cake,
@@ -10,6 +10,10 @@ const iconComponents = {
   Sparkles: Sparkles,
   Music: Music,
   Heart: Heart,
+  CloudRain: CloudRain,
+  Flame: Flame,
+  Radio: Radio,
+  Compass: Compass,
 };
 
 export default function AlbumArt({

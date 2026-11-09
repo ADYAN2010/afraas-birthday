@@ -12,12 +12,15 @@ export default function PlaylistCard({ playlist }) {
     selectPlaylist(playlist.id);
   };
 
+  const matchingTracks = tracks.filter(
+    (t) => playlist.trackIds.includes(t.id) || (t.playlistIds && t.playlistIds.includes(playlist.id))
+  );
+
   const handleQuickPlay = (e) => {
     e.stopPropagation();
     soundCtrl.playTap();
-    const firstTrack = tracks.find((t) => playlist.trackIds.includes(t.id));
-    if (firstTrack) {
-      playTrack(firstTrack, playlist);
+    if (matchingTracks.length > 0) {
+      playTrack(matchingTracks[0], playlist);
     }
   };
 
@@ -96,7 +99,7 @@ export default function PlaylistCard({ playlist }) {
           fontWeight: 600,
         }}
       >
-        {playlist.trackIds.length} tracks
+        {matchingTracks.length} tracks
       </span>
     </div>
   );

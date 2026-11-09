@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Heart, Volume2, VolumeX, Mic2, ListMusic } from 'lucide-react';
+import { ChevronDown, Heart, Volume2, VolumeX, Mic2, ListMusic, ExternalLink, Disc, Radio } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import MusicControls from './MusicControls';
 import AlbumArt from './AlbumArt';
@@ -188,6 +188,19 @@ export default function ExpandedPlayer() {
               >
                 {currentTrack.title}
               </h2>
+              {currentTrack.bengaliTitle && (
+                <div
+                  className="bengali-text"
+                  style={{
+                    fontSize: '1rem',
+                    color: 'var(--soundtrack-green)',
+                    fontWeight: 600,
+                    marginBottom: '4px',
+                  }}
+                >
+                  {currentTrack.bengaliTitle}
+                </div>
+              )}
               <p
                 style={{
                   fontSize: '0.96rem',
@@ -217,6 +230,57 @@ export default function ExpandedPlayer() {
               <Heart size={26} fill={isLiked ? 'var(--soundtrack-green)' : 'none'} />
             </button>
           </div>
+
+          {/* External Streaming Quick Links */}
+          {(currentTrack.spotifyUrl || currentTrack.youtubeUrl) && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                width: '100%',
+                marginBottom: '16px',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '0.7rem',
+                  color: 'var(--soundtrack-text-muted)',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                }}
+              >
+                Studio:
+              </span>
+              {currentTrack.spotifyUrl && (
+                <a
+                  href={currentTrack.spotifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="soundtrack-stream-btn spotify"
+                  title="Open original master in Spotify"
+                >
+                  <Disc size={13} />
+                  <span>Spotify</span>
+                  <ExternalLink size={10} />
+                </a>
+              )}
+              {currentTrack.youtubeUrl && (
+                <a
+                  href={currentTrack.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="soundtrack-stream-btn youtube"
+                  title="Open original master in YouTube Music"
+                >
+                  <Radio size={13} />
+                  <span>YouTube Music</span>
+                  <ExternalLink size={10} />
+                </a>
+              )}
+            </div>
+          )}
 
           {/* Scrubbable Seekbar Timeline */}
           <div style={{ width: '100%', marginBottom: '24px' }}>

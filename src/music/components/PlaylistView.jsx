@@ -21,9 +21,11 @@ export default function PlaylistView() {
 
   if (!currentPlaylist) return null;
 
-  const playlistTracks = tracks.filter((t) => currentPlaylist.trackIds.includes(t.id));
+  const playlistTracks = tracks.filter(
+    (t) => currentPlaylist.trackIds.includes(t.id) || (t.playlistIds && t.playlistIds.includes(currentPlaylist.id))
+  );
   const isThisPlaylistPlaying =
-    isPlaying && currentPlaylist.trackIds.includes(currentTrack?.id);
+    isPlaying && playlistTracks.some((t) => t.id === currentTrack?.id);
 
   const totalSeconds = playlistTracks.reduce((acc, t) => acc + (t.duration || 0), 0);
   const totalMinutes = Math.round(totalSeconds / 60);
@@ -128,9 +130,25 @@ export default function PlaylistView() {
               color: '#FFFFFF',
               letterSpacing: '-0.02em',
               marginBottom: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
             }}
           >
-            {currentPlaylist.title}
+            <span>{currentPlaylist.title}</span>
+            {currentPlaylist.bengaliTitle && (
+              <span
+                style={{
+                  fontSize: 'clamp(1.2rem, 2.6vw, 1.8rem)',
+                  color: 'var(--soundtrack-green)',
+                  fontFamily: 'var(--font-bengali, "Hind Siliguri", sans-serif)',
+                  fontWeight: 600,
+                }}
+              >
+                ({currentPlaylist.bengaliTitle})
+              </span>
+            )}
           </h2>
 
           <p

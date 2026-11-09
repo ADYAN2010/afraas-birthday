@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Clock } from 'lucide-react';
+import { Heart, Clock, ExternalLink } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import AlbumArt from './AlbumArt';
 import { soundCtrl } from '../../utils/audio';
@@ -134,9 +134,40 @@ export default function TrackList({ tracks = [], playlist = null, showAlbum = tr
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}
                 >
-                  {track.title}
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{track.title}</span>
+                  {track.bengaliTitle && (
+                    <span
+                      className="bengali-text"
+                      style={{
+                        fontSize: '0.78rem',
+                        color: 'var(--soundtrack-text-muted)',
+                        fontWeight: 500,
+                        flexShrink: 0,
+                      }}
+                    >
+                      • {track.bengaliTitle}
+                    </span>
+                  )}
+                  {track.language === 'bangla' && (
+                    <span className="track-language-badge bangla" title="Bangla Collection">
+                      বাংলা
+                    </span>
+                  )}
+                  {track.language === 'hindi' && (
+                    <span className="track-language-badge hindi" title="Hindi Romantic Collection">
+                      Hindi
+                    </span>
+                  )}
+                  {track.isCustom && (
+                    <span className="track-language-badge custom" title="Custom Added Track">
+                      Added
+                    </span>
+                  )}
                 </div>
                 <div
                   style={{
@@ -145,9 +176,43 @@ export default function TrackList({ tracks = [], playlist = null, showAlbum = tr
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginTop: '2px',
                   }}
                 >
-                  {track.artist}
+                  <span>{track.artist}</span>
+                  {(track.spotifyUrl || track.youtubeUrl) && (
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        marginLeft: '4px',
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {track.spotifyUrl && (
+                        <a
+                          href={track.spotifyUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Listen official master on Spotify"
+                          style={{
+                            color: 'var(--soundtrack-text-muted)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            transition: 'color 0.2s',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#1ED760')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--soundtrack-text-muted)')}
+                        >
+                          <ExternalLink size={11} />
+                        </a>
+                      )}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

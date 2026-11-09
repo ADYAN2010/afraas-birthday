@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Play } from 'lucide-react';
+import { Heart, Play, FolderPlus } from 'lucide-react';
 import { useMusic } from '../context/MusicContext';
 import PlaylistCard from './PlaylistCard';
 import TrackList from './TrackList';
@@ -7,7 +7,7 @@ import { soundCtrl } from '../../utils/audio';
 
 export default function MusicLibraryView() {
   const [filter, setFilter] = useState('all'); // 'all' | 'liked' | 'playlists'
-  const { playlists, tracks, likedTrackIds, playTrack } = useMusic();
+  const { playlists, tracks, likedTrackIds, playTrack, setIsAddSongsModalOpen } = useMusic();
 
   const likedTracks = tracks.filter((t) => likedTrackIds.includes(t.id));
 
@@ -21,13 +21,56 @@ export default function MusicLibraryView() {
   return (
     <div style={{ padding: 'clamp(16px, 3vw, 28px)' }}>
       {/* Title */}
-      <div style={{ marginBottom: '20px' }}>
-        <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#FFFFFF', marginBottom: '6px' }}>
-          Your Library
-        </h2>
-        <span style={{ fontSize: '0.84rem', color: 'var(--soundtrack-text-secondary)' }}>
-          Your saved music, favourite mixes, and customized collections
-        </span>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          marginBottom: '20px',
+          flexWrap: 'wrap',
+          gap: '12px',
+        }}
+      >
+        <div>
+          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, color: '#FFFFFF', marginBottom: '6px' }}>
+            Your Library
+          </h2>
+          <span style={{ fontSize: '0.84rem', color: 'var(--soundtrack-text-secondary)' }}>
+            Your saved music, favourite mixes, and customized collections
+          </span>
+        </div>
+
+        <button
+          onClick={() => {
+            soundCtrl.playTap();
+            setIsAddSongsModalOpen(true);
+          }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            borderRadius: '9999px',
+            background: 'var(--soundtrack-elevated)',
+            border: '1px solid var(--soundtrack-border)',
+            color: 'var(--soundtrack-text-primary)',
+            fontSize: '0.82rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.borderColor = 'var(--soundtrack-green)';
+            e.currentTarget.style.color = 'var(--soundtrack-green)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.borderColor = 'var(--soundtrack-border)';
+            e.currentTarget.style.color = 'var(--soundtrack-text-primary)';
+          }}
+        >
+          <FolderPlus size={15} color="var(--soundtrack-green)" />
+          <span>Add Songs / Guide</span>
+        </button>
       </div>
 
       {/* Filter Chips */}

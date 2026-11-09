@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { musicLibrary } from '../data/musicLibrary';
 import { musicSynth } from '../data/musicSynth';
 import { soundCtrl } from '../../utils/audio';
@@ -8,7 +8,7 @@ const MusicContext = createContext(null);
 export function MusicProvider({ children }) {
   // Navigation & View State
   const [activeTab, setActiveTab] = useState('home'); // 'home' | 'search' | 'library' | 'playlist'
-  const [selectedPlaylistId, setSelectedPlaylistId] = useState('a-little-birthday-mix');
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState('hindi-romance');
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpandedPlayerOpen, setIsExpandedPlayerOpen] = useState(false);
   const [isLyricsOpen, setIsLyricsOpen] = useState(false);
@@ -17,12 +17,27 @@ export function MusicProvider({ children }) {
   const [isSoundtrackFullscreen, setIsSoundtrackFullscreen] = useState(false);
   const [isSpotifyEmbedActive, setIsSpotifyEmbedActive] = useState(false);
 
+  // Dynamic Custom Tracks (Supports user editing & persistence in localStorage)
+  const [customTracks, setCustomTracks] = useState(() => {
+    try {
+      const stored = localStorage.getItem('afraa_custom_tracks');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Combined Catalog: Curated Library + User-Added Custom Tracks
+  const tracks = useMemo(() => {
+    return [...musicLibrary.tracks, ...customTracks];
+  }, [customTracks]);
+
   // Playback State
   const [currentTrack, setCurrentTrack] = useState(musicLibrary.tracks[0]);
   const [currentPlaylist, setCurrentPlaylist] = useState(musicLibrary.playlists[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(musicLibrary.tracks[0]?.duration || 188);
+  const [duration, setDuration] = useState(musicLibrary.tracks[0]?.duration || 295);
   const [volume, setVolumeState] = useState(0.75);
   const [isMuted, setIsMutedState] = useState(false);
   const [isShuffle, setIsShuffle] = useState(false);
@@ -33,9 +48,11 @@ export function MusicProvider({ children }) {
   const [likedTrackIds, setLikedTrackIds] = useState(() => {
     try {
       const stored = localStorage.getItem('afraa_soundtrack_likes');
-      return stored ? JSON.parse(stored) : ['track-1', 'track-4', 'track-9'];
+      return stored
+        ? JSON.parse(stored)
+        : ['track-hindi-1', 'track-hindi-2', 'track-hindi-3', 'track-bangla-1', 'track-bangla-2'];
     } catch {
-      return ['track-1', 'track-4', 'track-9'];
+      return ['track-hindi-1', 'track-hindi-2', 'track-hindi-3', 'track-bangla-1', 'track-bangla-2'];
     }
   });
 
@@ -47,6 +64,7 @@ export function MusicProvider({ children }) {
   const liveStateRef = useRef({
     currentTrack,
     currentPlaylist,
+    tracks,
     queue,
     isShuffle,
     repeatMode,
@@ -61,6 +79,7 @@ export function MusicProvider({ children }) {
     liveStateRef.current = {
       currentTrack,
       currentPlaylist,
+      tracks,
       queue,
       isShuffle,
       repeatMode,
@@ -70,7 +89,7 @@ export function MusicProvider({ children }) {
       isMuted,
       isPlaying,
     };
-  }, [currentTrack, currentPlaylist, queue, isShuffle, repeatMode, currentTime, duration, volume, isMuted, isPlaying]);
+  }, [currentTrack, currentPlaylist, tracks, queue, isShuffle, repeatMode, currentTime, duration, volume, isMuted, isPlaying]);
 
   // Sync likes to localStorage
   useEffect(() => {
@@ -189,10 +208,11 @@ export function MusicProvider({ children }) {
       return;
     }
 
-    // 2. From Current Playlist
+    // 2. From Current Playlist (supports both library & custom tracks)
+    const all = s.tracks || musicLibrary.tracks;
     const trackList = s.currentPlaylist
-      ? musicLibrary.tracks.filter((t) => s.currentPlaylist.trackIds.includes(t.id))
-      : musicLibrary.tracks;
+      ? all.filter((t) => s.currentPlaylist.trackIds.includes(t.id) || (t.playlistIds && t.playlistIds.includes(s.currentPlaylist.id)))
+      : all;
 
     if (!trackList.length) return;
 
@@ -227,9 +247,10 @@ export function MusicProvider({ children }) {
       return;
     }
 
+    const all = s.tracks || musicLibrary.tracks;
     const trackList = s.currentPlaylist
-      ? musicLibrary.tracks.filter((t) => s.currentPlaylist.trackIds.includes(t.id))
-      : musicLibrary.tracks;
+      ? all.filter((t) => s.currentPlaylist.trackIds.includes(t.id) || (t.playlistIds && t.playlistIds.includes(s.currentPlaylist.id)))
+      : all;
 
     if (!trackList.length) return;
 
@@ -240,6 +261,50 @@ export function MusicProvider({ children }) {
       playTrack(trackList[currentIndex - 1], s.currentPlaylist);
     }
   }, [playTrack, seekTo]);
+
+  // Dynamic Custom Track Management (Library Editing)
+  const addCustomTrack = useCallback((trackData) => {
+    const newTrack = {
+      id: `custom-${Date.now()}`,
+      title: trackData.title?.trim() || 'Untitled Track',
+      bengaliTitle: trackData.bengaliTitle?.trim() || '',
+      artist: trackData.artist?.trim() || 'Custom Artist',
+      album: trackData.album?.trim() || "Afraa's Collection",
+      duration: parseInt(trackData.duration, 10) || 215,
+      genre: trackData.genre?.trim() || 'Romantic',
+      language: trackData.language || 'hindi',
+      year: parseInt(trackData.year, 10) || 2026,
+      proceduralPreset: trackData.proceduralPreset || 'acousticWarm',
+      coverGradient: trackData.coverGradient || 'linear-gradient(135deg, #FF416C, #FF4B2B)',
+      accentColor: trackData.accentColor || '#FF4B2B',
+      spotifyUrl: trackData.spotifyUrl?.trim() || `https://open.spotify.com/search/${encodeURIComponent(trackData.title || '')}`,
+      youtubeUrl: trackData.youtubeUrl?.trim() || `https://music.youtube.com/search?q=${encodeURIComponent(trackData.title || '')}`,
+      audioUrl: trackData.audioUrl?.trim() || '',
+      lyrics: trackData.lyrics || null,
+      playlistIds: trackData.playlistIds && trackData.playlistIds.length ? trackData.playlistIds : ['hindi-romance'],
+      isCustom: true,
+    };
+
+    setCustomTracks((prev) => {
+      const updated = [newTrack, ...prev];
+      try {
+        localStorage.setItem('afraa_custom_tracks', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+
+    return newTrack;
+  }, []);
+
+  const removeCustomTrack = useCallback((trackId) => {
+    setCustomTracks((prev) => {
+      const updated = prev.filter((t) => t.id !== trackId);
+      try {
+        localStorage.setItem('afraa_custom_tracks', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+  }, []);
 
   // Track Ended handler
   const handleTrackEnded = useCallback(() => {
@@ -368,7 +433,10 @@ export function MusicProvider({ children }) {
   const value = {
     branding: musicLibrary.branding,
     playlists: musicLibrary.playlists,
-    tracks: musicLibrary.tracks,
+    tracks,
+    customTracks,
+    addCustomTrack,
+    removeCustomTrack,
     currentTrack,
     currentPlaylist,
     isPlaying,
