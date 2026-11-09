@@ -41,6 +41,7 @@ export function MusicProvider({ children }) {
 
   const audioElementRef = useRef(null);
   const isUsingAudioElementRef = useRef(false);
+  const handleTrackEndedRef = useRef(null);
 
   // Live state reference to prevent circular closures
   const liveStateRef = useRef({
@@ -81,6 +82,8 @@ export function MusicProvider({ children }) {
   // Core Playback Functions
   const pauseTrack = useCallback(() => {
     setIsPlaying(false);
+    soundCtrl.setMusicPlayerActive(false);
+    soundCtrl.setMusicPlayerSwitching(false);
     if (isUsingAudioElementRef.current && audioElementRef.current) {
       audioElementRef.current.pause();
     } else {
@@ -102,6 +105,7 @@ export function MusicProvider({ children }) {
       soundCtrl.stopAmbientMusic();
     }
 
+    soundCtrl.setMusicPlayerActive(true);
     setIsPlaying(true);
     if (isUsingAudioElementRef.current && audioElementRef.current) {
       audioElementRef.current.play().catch(() => {});
@@ -116,6 +120,10 @@ export function MusicProvider({ children }) {
     if (soundCtrl && soundCtrl.isPlayingMusic) {
       soundCtrl.stopAmbientMusic();
     }
+
+    // Suppress SFX immediately during track loading / transition
+    soundCtrl.setMusicPlayerSwitching(true, 500);
+    soundCtrl.setMusicPlayerActive(true);
 
     setCurrentTrack(track);
     if (playlist) setCurrentPlaylist(playlist);
@@ -133,7 +141,9 @@ export function MusicProvider({ children }) {
           }
         });
         audioElementRef.current.addEventListener('ended', () => {
-          handleTrackEndedRef.current();
+          if (handleTrackEndedRef.current) {
+            handleTrackEndedRef.current();
+          }
         });
       }
 
@@ -146,10 +156,14 @@ export function MusicProvider({ children }) {
         .then(() => {
           isUsingAudioElementRef.current = true;
           musicSynth.stop();
+          soundCtrl.setMusicPlayerActive(true);
+          soundCtrl.setMusicPlayerSwitching(false);
         })
         .catch(() => {
           isUsingAudioElementRef.current = false;
           musicSynth.startTrack(track, 0);
+          soundCtrl.setMusicPlayerActive(true);
+          soundCtrl.setMusicPlayerSwitching(false);
         });
     } else {
       if (audioElementRef.current) {
@@ -157,10 +171,14 @@ export function MusicProvider({ children }) {
       }
       isUsingAudioElementRef.current = false;
       musicSynth.startTrack(track, 0);
+      soundCtrl.setMusicPlayerActive(true);
+      soundCtrl.setMusicPlayerSwitching(false);
     }
   }, []);
 
   const nextTrack = useCallback(() => {
+    // Keep SFX suppressed during track switch
+    soundCtrl.setMusicPlayerSwitching(true, 500);
     const s = liveStateRef.current;
 
     // 1. From Queue if available
@@ -201,6 +219,8 @@ export function MusicProvider({ children }) {
   }, [playTrack, pauseTrack, seekTo]);
 
   const prevTrack = useCallback(() => {
+    // Keep SFX suppressed during track switch
+    soundCtrl.setMusicPlayerSwitching(true, 500);
     const s = liveStateRef.current;
     if (s.currentTime > 4) {
       seekTo(0);
@@ -223,6 +243,7 @@ export function MusicProvider({ children }) {
 
   // Track Ended handler
   const handleTrackEnded = useCallback(() => {
+    soundCtrl.setMusicPlayerSwitching(true, 500);
     const s = liveStateRef.current;
     if (s.repeatMode === 'one') {
       seekTo(0);
@@ -232,6 +253,10 @@ export function MusicProvider({ children }) {
     nextTrack();
   }, [nextTrack, resumeTrack, seekTo]);
 
+  useEffect(() => {
+    handleTrackEndedRef.current = handleTrackEnded;
+  }, [handleTrackEnded]);
+
   // Connect Synth events
   useEffect(() => {
     musicSynth.onTimeUpdate = (time, total) => {
@@ -240,14 +265,24 @@ export function MusicProvider({ children }) {
     };
 
     musicSynth.onEnded = () => {
-      handleTrackEnded();
+      if (handleTrackEndedRef.current) {
+        handleTrackEndedRef.current();
+      }
     };
 
     return () => {
       musicSynth.onTimeUpdate = null;
       musicSynth.onEnded = null;
     };
-  }, [handleTrackEnded]);
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      soundCtrl.setMusicPlayerActive(false);
+      soundCtrl.setMusicPlayerSwitching(false);
+    };
+  }, []);
 
   const togglePlay = useCallback(() => {
     const s = liveStateRef.current;

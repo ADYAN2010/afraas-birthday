@@ -48,7 +48,7 @@ export default function MusicPlayer({ autoStarted = false }) {
   const handleToggleSfx = (e) => {
     e.stopPropagation();
     soundCtrl.playTap();
-    soundCtrl.toggleSfxMute();
+    soundCtrl.toggleSfxUserEnabled();
   };
 
   const handleVolumeChange = (e) => {
@@ -326,35 +326,92 @@ export default function MusicPlayer({ autoStarted = false }) {
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                flexDirection: 'column',
+                gap: '6px',
                 paddingTop: '10px',
                 borderTop: '1px dashed #F3DDE2',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {audioState.isSfxMuted ? <BellOff size={14} color="#857272" /> : <Bell size={14} color="#A94B59" />}
-                <span style={{ fontSize: '0.82rem', color: '#493B3B', fontWeight: 600 }}>
-                  Sound Effects
-                </span>
-              </div>
-
-              <button
-                onClick={handleToggleSfx}
+              <div
                 style={{
-                  background: audioState.isSfxMuted ? '#FFF8E9' : '#FDF2F4',
-                  border: `1px solid ${audioState.isSfxMuted ? '#F3DDE2' : '#DDA6B0'}`,
-                  borderRadius: '9999px',
-                  padding: '3px 12px',
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  color: audioState.isSfxMuted ? '#857272' : '#A94B59',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                {audioState.isSfxMuted ? 'SFX: OFF' : 'SFX: ON'}
-              </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {!audioState.isSfxUserEnabled ? (
+                    <BellOff size={14} color="#857272" />
+                  ) : audioState.isMusicPriorityActive ? (
+                    <BellOff size={14} color="#A94B59" />
+                  ) : (
+                    <Bell size={14} color="#A94B59" />
+                  )}
+                  <span style={{ fontSize: '0.82rem', color: '#493B3B', fontWeight: 600 }}>
+                    Sound Effects
+                  </span>
+                </div>
+
+                <button
+                  onClick={handleToggleSfx}
+                  title={
+                    !audioState.isSfxUserEnabled
+                      ? 'Sound effects disabled'
+                      : audioState.isMusicPriorityActive
+                      ? 'Temporarily suppressed while music is playing'
+                      : 'Sound effects enabled'
+                  }
+                  style={{
+                    background: !audioState.isSfxUserEnabled
+                      ? '#FFF8E9'
+                      : audioState.isMusicPriorityActive
+                      ? '#FFF4ED'
+                      : '#FDF2F4',
+                    border: `1px solid ${
+                      !audioState.isSfxUserEnabled
+                        ? '#F3DDE2'
+                        : audioState.isMusicPriorityActive
+                        ? '#FCD5B5'
+                        : '#DDA6B0'
+                    }`,
+                    borderRadius: '9999px',
+                    padding: '3px 10px',
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    color: !audioState.isSfxUserEnabled
+                      ? '#857272'
+                      : audioState.isMusicPriorityActive
+                      ? '#B25E1A'
+                      : '#A94B59',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {!audioState.isSfxUserEnabled
+                    ? 'SFX: OFF'
+                    : audioState.isMusicPriorityActive
+                    ? 'MUTED (MUSIC ACTIVE)'
+                    : 'SFX: ON'}
+                </button>
+              </div>
+
+              {/* Informative helper note explaining priority mode */}
+              <div
+                style={{
+                  fontSize: '0.68rem',
+                  color: audioState.isMusicPriorityActive && audioState.isSfxUserEnabled ? '#B25E1A' : '#857272',
+                  lineHeight: 1.3,
+                  fontFamily: 'var(--font-sans)',
+                  paddingLeft: '20px',
+                }}
+              >
+                {!audioState.isSfxUserEnabled
+                  ? 'Disabled by user preference.'
+                  : audioState.isMusicPriorityActive
+                  ? 'Auto-muted to protect music — restores automatically when paused.'
+                  : 'Active & will play with taps, candles, and cards.'}
+              </div>
             </div>
           </motion.div>
         )}

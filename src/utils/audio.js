@@ -24,9 +24,18 @@ class SoundController {
     // Preferences (loaded from localStorage if available)
     this.musicVolume = this.loadNumberPref('afraa_music_vol', 0.45);
     this.isMusicMuted = this.loadBoolPref('afraa_music_muted', false);
-    this.isSfxMuted = this.loadBoolPref('afraa_sfx_muted', false);
 
-    this.isPlayingMusic = false;
+    // SFX User Preference: User explicitly enabling or disabling sound effects
+    // Backwards compatible with legacy 'afraa_sfx_muted'
+    const legacySfxMuted = this.loadBoolPref('afraa_sfx_muted', false);
+    this.isSfxUserEnabled = this.loadBoolPref('afraa_sfx_user_enabled', !legacySfxMuted);
+
+    // Runtime state tracking for Centralized Audio Priority
+    this.isPlayingMusic = false; // Background music active
+    this.isMusicPlayerActive = false; // Afraa's Soundtrack music active
+    this.isMusicPlayerSwitching = false; // Guard during track transitions
+    this.switchingTimer = null;
+
     this.melodyTimer = null;
     this.audioElement = null;
     this.usingCustomAudio = false;
@@ -36,6 +45,24 @@ class SoundController {
 
     // Subscribers for state changes (UI reactivity)
     this.listeners = new Set();
+  }
+
+  // Centralized Audio Priority State Getters
+  get isBackgroundMusicActive() {
+    return Boolean(this.isPlayingMusic);
+  }
+
+  get isMusicPriorityActive() {
+    return Boolean(this.isPlayingMusic || this.isMusicPlayerActive || this.isMusicPlayerSwitching);
+  }
+
+  get isSfxSuppressed() {
+    return this.isMusicPriorityActive;
+  }
+
+  get isSfxMuted() {
+    // SFX is effectively muted either if user disabled it OR if music priority is active
+    return !this.isSfxUserEnabled || this.isMusicPriorityActive;
   }
 
   loadNumberPref(key, defaultVal) {
@@ -63,7 +90,8 @@ class SoundController {
     try {
       localStorage.setItem('afraa_music_vol', this.musicVolume.toString());
       localStorage.setItem('afraa_music_muted', this.isMusicMuted.toString());
-      localStorage.setItem('afraa_sfx_muted', this.isSfxMuted.toString());
+      localStorage.setItem('afraa_sfx_user_enabled', this.isSfxUserEnabled.toString());
+      localStorage.setItem('afraa_sfx_muted', (!this.isSfxUserEnabled).toString());
     } catch {
       // Storage unavailable fallback
     }
@@ -86,12 +114,77 @@ class SoundController {
 
   getState() {
     return {
-      isPlaying: this.isPlayingMusic,
+      // 4 Centralized Audio States required:
+      // 1. Background music playback
+      isBackgroundMusicActive: this.isBackgroundMusicActive,
+      isPlaying: this.isPlayingMusic, // alias for backwards compatibility
+
+      // 2. Music-player playback
+      isMusicPlayerActive: this.isMusicPlayerActive,
+      isMusicPlayerSwitching: this.isMusicPlayerSwitching,
+
+      // 3. Website sound effects enabled/disabled by user
+      isSfxUserEnabled: this.isSfxUserEnabled,
+
+      // 4. Music priority mode (suppression active)
+      isMusicPriorityActive: this.isMusicPriorityActive,
+      isSfxSuppressed: this.isSfxSuppressed,
+
+      // Auxiliary states
+      isSfxMuted: this.isSfxMuted,
       volume: this.musicVolume,
       isMusicMuted: this.isMusicMuted,
-      isSfxMuted: this.isSfxMuted,
       usingCustomAudio: this.usingCustomAudio,
     };
+  }
+
+  // Smoothly ramps SFX gain node to eliminate clicks & enforce suppression
+  updateSfxGain() {
+    if (!this.sfxGain || !this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      // Target gain is 0 if user disabled SFX OR music priority is active; 0.42 when active & enabled
+      const targetGain = (!this.isSfxUserEnabled || this.isMusicPriorityActive) ? 0 : 0.42;
+      this.sfxGain.gain.cancelScheduledValues(now);
+      this.sfxGain.gain.setValueAtTime(this.sfxGain.gain.value, now);
+      this.sfxGain.gain.linearRampToValueAtTime(targetGain, now + 0.04);
+    } catch {
+      // Safe fallback
+    }
+  }
+
+  // Music Player (Afraa's Soundtrack) Playback State Hook
+  setMusicPlayerActive(isActive) {
+    const nextState = Boolean(isActive);
+    if (this.isMusicPlayerActive === nextState) return;
+    this.isMusicPlayerActive = nextState;
+    if (nextState && this.switchingTimer) {
+      clearTimeout(this.switchingTimer);
+      this.switchingTimer = null;
+      this.isMusicPlayerSwitching = false;
+    }
+    this.updateSfxGain();
+    this.notify();
+  }
+
+  // Smooth guard during track transitions to prevent click leaks
+  setMusicPlayerSwitching(isSwitching, autoResetMs = 450) {
+    if (this.switchingTimer) {
+      clearTimeout(this.switchingTimer);
+      this.switchingTimer = null;
+    }
+
+    this.isMusicPlayerSwitching = Boolean(isSwitching);
+    this.updateSfxGain();
+    this.notify();
+
+    if (isSwitching && autoResetMs > 0) {
+      this.switchingTimer = setTimeout(() => {
+        this.isMusicPlayerSwitching = false;
+        this.updateSfxGain();
+        this.notify();
+      }, autoResetMs);
+    }
   }
 
   // Initialize Web Audio Context and audio graph
@@ -125,7 +218,7 @@ class SoundController {
 
       // SFX Gain Node (keeps sound effects softer than main background music)
       this.sfxGain = this.ctx.createGain();
-      const initialSfxLevel = this.isSfxMuted ? 0 : 0.42;
+      const initialSfxLevel = (!this.isSfxUserEnabled || this.isMusicPriorityActive) ? 0 : 0.42;
       this.sfxGain.gain.setValueAtTime(initialSfxLevel, this.ctx.currentTime);
       this.sfxGain.connect(this.masterGain);
     }
@@ -166,17 +259,19 @@ class SoundController {
     return this.isMusicMuted;
   }
 
-  // Toggle Sound Effects Mute independently
-  toggleSfxMute() {
-    this.isSfxMuted = !this.isSfxMuted;
+  // Toggle Sound Effects independently (User Preference)
+  toggleSfxUserEnabled() {
+    this.isSfxUserEnabled = !this.isSfxUserEnabled;
     this.initContext();
-    if (this.sfxGain && this.ctx) {
-      const target = this.isSfxMuted ? 0 : 0.42;
-      this.sfxGain.gain.linearRampToValueAtTime(target, this.ctx.currentTime + 0.08);
-    }
+    this.updateSfxGain();
     this.savePrefs();
     this.notify();
-    return this.isSfxMuted;
+    return this.isSfxUserEnabled;
+  }
+
+  // Backwards-compatible alias for toggleSfxUserEnabled
+  toggleSfxMute() {
+    return !this.toggleSfxUserEnabled();
   }
 
   // =========================================================================
@@ -254,6 +349,7 @@ class SoundController {
     if (this.isPlayingMusic) return;
     this.initContext();
     this.isPlayingMusic = true;
+    this.updateSfxGain();
 
     // Check for optional custom audio file in /music/birthday.mp3
     if (!this.audioElement && typeof Audio !== 'undefined') {
@@ -267,12 +363,15 @@ class SoundController {
           .then(() => {
             this.audioElement = audio;
             this.usingCustomAudio = true;
+            this.updateSfxGain();
             this.notify();
           })
           .catch(() => {
             // Audio file unavailable: use procedural music box
             this.startMusicBoxLoop();
+            this.updateSfxGain();
           });
+        this.updateSfxGain();
         this.notify();
         return;
       } catch {
@@ -280,11 +379,13 @@ class SoundController {
       }
     } else if (this.audioElement && this.usingCustomAudio) {
       this.audioElement.play().catch(() => {});
+      this.updateSfxGain();
       this.notify();
       return;
     }
 
     this.startMusicBoxLoop();
+    this.updateSfxGain();
     this.notify();
   }
 
@@ -369,6 +470,7 @@ class SoundController {
     if (this.audioElement) {
       this.audioElement.pause();
     }
+    this.updateSfxGain();
     this.notify();
   }
 
@@ -386,18 +488,43 @@ class SoundController {
   // REFINED UI SOUND EFFECTS
   // =========================================================================
 
-  shouldThrottle(type, minIntervalMs = 80) {
-    const now = Date.now();
-    if (this.lastSfxTime[type] && now - this.lastSfxTime[type] < minIntervalMs) {
-      return true;
+  isThrottled(type, minIntervalMs = 80) {
+    if (!type || !this.lastSfxTime[type]) return false;
+    return (Date.now() - this.lastSfxTime[type]) < minIntervalMs;
+  }
+
+  // Centralized Gate for All Sound Effects:
+  // Strictly suppresses all sound effects whenever any music is playing
+  // or user disabled sound effects.
+  canPlaySfx(type, minIntervalMs = 80) {
+    // 1. Strict Music Priority: if any music is active or switching, suppress all SFX
+    if (this.isMusicPriorityActive) {
+      return false;
     }
-    this.lastSfxTime[type] = now;
-    return false;
+
+    // 2. User preference: if user explicitly disabled SFX, do not play
+    if (!this.isSfxUserEnabled) {
+      return false;
+    }
+
+    // 3. Rate limiting / throttling
+    if (type && this.isThrottled(type, minIntervalMs)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  recordSfxPlay(type) {
+    if (type) {
+      this.lastSfxTime[type] = Date.now();
+    }
   }
 
   // 1. Tactile UI Click / Button Tap
   playTap() {
-    if (this.isSfxMuted || this.shouldThrottle('tap', 70)) return;
+    if (!this.canPlaySfx('tap', 70)) return;
+    this.recordSfxPlay('tap');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -433,7 +560,8 @@ class SoundController {
 
   // 2. Soft Paper Envelope Opening Sound
   playEnvelopeOpen() {
-    if (this.isSfxMuted || this.shouldThrottle('envelope', 300)) return;
+    if (!this.canPlaySfx('envelope', 300)) return;
+    this.recordSfxPlay('envelope');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -499,7 +627,8 @@ class SoundController {
 
   // 4. Match Strike & Candle Lighting
   playCandleLight() {
-    if (this.isSfxMuted || this.shouldThrottle('candleLight', 250)) return;
+    if (!this.canPlaySfx('candleLight', 250)) return;
+    this.recordSfxPlay('candleLight');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -554,7 +683,8 @@ class SoundController {
 
   // 5. Candle Blow Puff & Wishing Stars Chime
   playCandleBlow() {
-    if (this.isSfxMuted || this.shouldThrottle('candleBlow', 400)) return;
+    if (!this.canPlaySfx('candleBlow', 400)) return;
+    this.recordSfxPlay('candleBlow');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -614,7 +744,8 @@ class SoundController {
 
   // 6. Sparkling Magical Chord Arpeggio (Surprises & Highlights)
   playMagicalSparkle() {
-    if (this.isSfxMuted || this.shouldThrottle('sparkle', 200)) return;
+    if (!this.canPlaySfx('sparkle', 200)) return;
+    this.recordSfxPlay('sparkle');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -647,7 +778,8 @@ class SoundController {
 
   // 7. Cheerful Grand Finale Fanfare & Celebration Chimes
   playCelebrationFinale() {
-    if (this.isSfxMuted || this.shouldThrottle('finale', 500)) return;
+    if (!this.canPlaySfx('finale', 500)) return;
+    this.recordSfxPlay('finale');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -687,7 +819,8 @@ class SoundController {
 
   // 8. Crisp Balloon Pop
   playBalloonPop() {
-    if (this.isSfxMuted || this.shouldThrottle('pop', 80)) return;
+    if (!this.canPlaySfx('pop', 80)) return;
+    this.recordSfxPlay('pop');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -716,7 +849,8 @@ class SoundController {
 
   // 9. Fortune Card Slide / Shuffle Tick
   playCardFlip() {
-    if (this.isSfxMuted || this.shouldThrottle('cardFlip', 120)) return;
+    if (!this.canPlaySfx('cardFlip', 120)) return;
+    this.recordSfxPlay('cardFlip');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
@@ -745,7 +879,8 @@ class SoundController {
 
   // 10. Quiz Success Chime
   playSuccessChime() {
-    if (this.isSfxMuted || this.shouldThrottle('quizSuccess', 250)) return;
+    if (!this.canPlaySfx('quizSuccess', 250)) return;
+    this.recordSfxPlay('quizSuccess');
     this.initContext();
     if (!this.ctx || !this.sfxGain) return;
 
