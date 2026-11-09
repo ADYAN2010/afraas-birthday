@@ -27,11 +27,11 @@ export const birthdayData = {
     badge: "15 NOVEMBER 2026 • CELEBRATION TIME",
     headingMain: "HAPPY BIRTHDAY",
     name: "Afraa",
-    subtitle: "Wishing you a wonderful year ahead, filled with happiness, laughter and success!",
+    subtitle: "Another lap around the sun, and plenty to celebrate.",
     description:
-      "A vibrant, handcrafted birthday experience made to celebrate your special day in style. Turn on the tunes, blow the candles, and enjoy the party!",
+      "Turn on the tunes, explore the scrapbook, blow the candles, and enjoy everything put together for your day.",
     ctaWish: "Make a Wish 🎂",
-    ctaNote: "A Little Note 💌",
+    ctaNote: "The Letter 💌",
     ctaExplore: "Fun & Games 🎈",
     scrollHint: "Scroll down to celebrate",
   },
@@ -51,16 +51,12 @@ export const birthdayData = {
 
   personalNote: {
     heading: "A Little Note For You",
-    subtitle: "A few words written with genuine care for your birthday.",
+    subtitle: "Written especially for your birthday.",
     salutation: "Hey Afraa,",
-    specialMessage:
-      "There's a little thought behind every detail here. I wanted to make something a bit different for your birthday, something you could enjoy and hopefully remember. I hope you love it!",
-    messages: [
-      "I didn't want your birthday to pass with just an ordinary wish.",
-      "Some people are worth putting a little extra effort into.",
-      "The smallest details can carry the biggest amount of thought.",
-      "You deserve a day as lovely as the memories you're yet to make.",
-      "I hope this brings a smile to your face. That was the whole idea.",
+    letterParagraphs: [
+      "I didn't want your birthday to pass by with just a standard text message.",
+      "There's a little thought behind every detail here. I wanted to build something a bit different for your birthday—something you could explore, look back on, and hopefully remember. I hope you love it!",
+      "I hope this year treats you exceptionally well, opens up exciting paths, and gives you plenty of room to grow at your own pace.",
     ],
     closing: "With warm wishes,",
     signature: "— Adyan",
@@ -69,11 +65,11 @@ export const birthdayData = {
   thoughtfulNotes: {
     heading: "A Few Thoughts for You",
     badge: "WRITTEN WITH CARE • FROM ADYAN",
-    subtitle: "A little time, a lot of thought, and a few notes written especially for you.",
+    subtitle: "A collection of perspectives on timing, personality, and milestones.",
     notes: [
       {
         id: 1,
-        quote: "Some people are worth putting a little extra effort into.",
+        quote: "The best things in life usually happen when you stop overthinking them.",
         paperColor: "#FFFDF8",
         borderColor: "#F3DDE2",
         tapeColor: "#DDA6B0",
@@ -82,7 +78,7 @@ export const birthdayData = {
       },
       {
         id: 2,
-        quote: "A little time, a lot of thought, and a birthday wish made especially for you.",
+        quote: "Some conversations have a way of quietly resetting your whole day.",
         paperColor: "#FDF5F7",
         borderColor: "#EACCD2",
         tapeColor: "#F7D6BD",
@@ -91,7 +87,7 @@ export const birthdayData = {
       },
       {
         id: 3,
-        quote: "I didn't want your birthday to pass with just an ordinary wish.",
+        quote: "Stay grounded, stay slightly chaotic, and never become predictable.",
         paperColor: "#FFF9F1",
         borderColor: "#F0DFD0",
         tapeColor: "#E9E2F5",
@@ -100,7 +96,7 @@ export const birthdayData = {
       },
       {
         id: 4,
-        quote: "The smallest details can carry the biggest amount of thought.",
+        quote: "Birthdays are a good excuse to pause, look back, and be proud of how far you've come.",
         paperColor: "#F7F4FB",
         borderColor: "#DDD4EC",
         tapeColor: "#F3DDE2",
@@ -109,7 +105,7 @@ export const birthdayData = {
       },
       {
         id: 5,
-        quote: "You deserve a day as lovely as the memories you're yet to make.",
+        quote: "Not everything requires a deep reason—sometimes things are just nice as they are.",
         paperColor: "#FFFDF8",
         borderColor: "#F3DDE2",
         tapeColor: "#DDA6B0",
@@ -118,7 +114,7 @@ export const birthdayData = {
       },
       {
         id: 6,
-        quote: "Some wishes deserve more than just a simple message.",
+        quote: "Some days don't look like much on a calendar, but they end up sticking with you anyway.",
         paperColor: "#FCFAF6",
         borderColor: "#E8DDD4",
         tapeColor: "#F7D6BD",
@@ -127,7 +123,7 @@ export const birthdayData = {
       },
       {
         id: 7,
-        quote: "A little extra effort for a day worth celebrating.",
+        quote: "Here's to a year where you get to say 'yes' to new adventures and 'no' to boring routines.",
         paperColor: "#FDF4F6",
         borderColor: "#EBCBD2",
         tapeColor: "#E9E2F5",
@@ -143,12 +139,13 @@ export const birthdayData = {
   hiddenNotes: {
     heading: "A Few Little Reminders",
     badge: "FOLDED NOTES",
-    subtitle: "Chosen with care, waiting to be opened.",
+    subtitle: "Four tiny folded notes waiting to be opened.",
     items: [
       {
         id: 1,
-        label: "A little reminder",
-        message: "You deserve a day as lovely as the memories you're yet to make.",
+        label: "A Gentle Reminder",
+        message: "Birthday calories don't count today. That's a verified scientific fact.",
+        tag: "scientific fact 🍰",
         paperColor: "#FFFDF8",
         accentColor: "#A94B59",
         tapeColor: "#F3DDE2",
@@ -156,8 +153,9 @@ export const birthdayData = {
       },
       {
         id: 2,
-        label: "Behind this page",
-        message: "I hope you notice all the little details. They were chosen with care.",
+        label: "Behind This Tab",
+        message: "Yes, I spent an embarrassing amount of time picking out these colors.",
+        tag: "true story 🎨",
         paperColor: "#FDF5F7",
         accentColor: "#C86070",
         tapeColor: "#DDA6B0",
@@ -165,8 +163,9 @@ export const birthdayData = {
       },
       {
         id: 3,
-        label: "Something worth reading",
-        message: "Some wishes deserve more than just a simple message.",
+        label: "Life Advice",
+        message: "Take more naps, drink some water, and ignore emails you don't feel like answering.",
+        tag: "solid advice 💧",
         paperColor: "#FFF9F1",
         accentColor: "#923C4A",
         tapeColor: "#F7D6BD",
@@ -174,8 +173,9 @@ export const birthdayData = {
       },
       {
         id: 4,
-        label: "One more thing...",
-        message: "I hope this brings a smile to your face. That was the whole idea.",
+        label: "One Final Secret",
+        message: "You're doing much better than you give yourself credit for. Keep going.",
+        tag: "remember this ✨",
         paperColor: "#F7F4FB",
         accentColor: "#7F5A96",
         tapeColor: "#E9E2F5",
@@ -184,108 +184,104 @@ export const birthdayData = {
     ],
   },
 
-  finalMessage: {
-    title: "One last thought...",
-    quote: "Some people are worth putting a little extra effort into.",
-    signature: "— Adyan",
-  },
-
   wishes: {
     heading: "Here's To Your New Chapter!",
-    subtitle: "Six vibrant wishes for an unforgettable year filled with joy and high spirits.",
+    subtitle: "Six specific wishes for the milestones and adventures ahead.",
     items: [
       {
         id: 1,
-        title: "Happiness in Every Little Moment",
-        icon: "Smile",
+        title: "Clarity & Confidence",
+        icon: "Compass",
         detail:
-          "May ordinary everyday moments bring you spontaneous reasons to laugh out loud, feel energized, and smile bright.",
+          "May your upcoming choices feel intuitive and lead to doors you didn't even know were waiting for you.",
       },
       {
         id: 2,
-        title: "Success in Everything You Pursue",
+        title: "Academic & Career Wins",
         icon: "Trophy",
         detail:
-          "Whatever academic goals, exciting projects, or bold challenges you tackle this year—may you achieve them all with flying colors.",
+          "Here's to acing your exams, mastering tough subjects, and knocking every ambition out of the park.",
       },
       {
         id: 3,
-        title: "Beautiful Memories Worth Remembering",
-        icon: "Camera",
+        title: "Restful Nights & Energy",
+        icon: "Sun",
         detail:
-          "Here's to great times with awesome friends, hilarious adventures, delicious birthday food, and unforgettable memories.",
+          "Consistent sleep schedules, refreshing mornings, and plenty of stamina for busy days.",
       },
       {
         id: 4,
-        title: "New Adventures & Opportunities",
-        icon: "Compass",
+        title: "Spontaneous Road Trips",
+        icon: "Camera",
         detail:
-          "May this year open up exciting doors, fresh experiences, inspiring travels, and plenty of thrilling opportunities.",
+          "Unplanned weekend getaways, great road playlists, and scenic stops with good company.",
       },
       {
         id: 5,
-        title: "Good Health & Peaceful Days",
-        icon: "Sun",
+        title: "Financial Green Lights",
+        icon: "Sparkles",
         detail:
-          "Abundant energy to do everything you enjoy, peaceful restful nights, and a calm, stress-free mindset throughout the year.",
+          "May your budget stay healthy enough to buy whatever catches your eye without second guessing.",
       },
       {
         id: 6,
-        title: "Dreams Turning into Reality",
-        icon: "Sparkles",
+        title: "Unapologetic Peace of Mind",
+        icon: "Smile",
         detail:
-          "May every ambition, idea, and goal you've been working towards come together in the best and most rewarding way possible.",
+          "A year with minimal drama, zero overthinking, and plenty of room to breathe at your own pace.",
       },
     ],
   },
 
   cake: {
     heading: "Make a Birthday Wish",
-    subtitle: "Close your eyes, make a wish, and let the magic begin! ✨",
+    subtitle: "Close your eyes, make a silent wish, and blow out the candles.",
     promptLit: "Tap the candles or button to blow them out!",
-    promptExtinguished: "Your birthday wish has been launched into the stars! 🌟",
-    buttonBlow: "Make a Wish ✨",
-    buttonRelight: "Relight Candles 🕯️",
-    wishGrantedTitle: "May All Your Wishes Come True! 🎉",
-    wishGrantedSub: "Wishing you a fabulous birthday filled with cake, laughs, and pure celebration!",
+    promptExtinguished: "Wish sent into the stars! Keep it secret so it comes true ✨",
+    buttonBlow: "Blow Candles 🕯️",
+    buttonRelight: "Relight Candles ✨",
+    wishGrantedTitle: "Wish Sent Into the Universe! 🌟",
+    wishGrantedSub: "Now go enjoy some real cake today.",
   },
 
   interactiveFun: {
     heading: "The Birthday Fun Zone",
     subtitle: "Pop balloons, test your birthday trivia, and draw positive vibes!",
     balloons: [
-      { id: 1, color: "#f4b4cb", label: "Joy", poppedText: "🎉 +100 Happiness Points!" },
-      { id: 2, color: "#dfb65b", label: "Success", poppedText: "🏆 All Goals Achieved!" },
-      { id: 3, color: "#c4b1fc", label: "Laughter", poppedText: "😄 Non-stop Good Vibes!" },
-      { id: 4, color: "#85e3b3", label: "Energy", poppedText: "⚡ Zero-Stress Superpower!" },
-      { id: 5, color: "#ffd166", label: "Luck", poppedText: "🌟 Max Good Fortune!" },
+      { id: 1, color: "#f4b4cb", label: "Energy", poppedText: "⚡ +100 Energy Points!" },
+      { id: 2, color: "#dfb65b", label: "Focus", poppedText: "🎯 Distraction Shield Activated!" },
+      { id: 3, color: "#c4b1fc", label: "Humor", poppedText: "😄 Sarcasm Level Up!" },
+      { id: 4, color: "#85e3b3", label: "Luck", poppedText: "🍀 Good Fortune Multiplier!" },
+      { id: 5, color: "#ffd166", label: "Chill", poppedText: "🛋️ Zero-Stress Pass Granted!" },
     ],
     fortunes: [
-      "✨ Pro tip: Birthday calories officially do not count today. Eat all the cake!",
-      "🚀 Prediction: This next year is going to be your most successful chapter yet.",
-      "🎉 Cosmic memo: You are destined for awesome adventures and great accomplishments.",
-      "☀️ Good fortune alert: Something exciting and unexpected is headed your way soon.",
-      "🌟 High score incoming: You're going to ace whatever you're currently working on!",
-      "🍰 Birthday Law #1: You have full authority to relax, laugh, and celebrate all day long.",
+      "☕ A sudden craving for coffee will lead to an unexpectedly productive afternoon.",
+      "🍰 Cosmic recommendation: Order dessert first today. No regrets.",
+      "🚀 Your next big idea is going to turn out much better than you expect.",
+      "📦 A package you forgot you ordered is about to arrive and make your day.",
+      "🎉 Today’s agenda: maximum relaxation, zero obligations.",
+      "🌟 You will successfully finish that one task you’ve been putting off for weeks.",
     ],
     quiz: {
-      question: "What is the #1 Golden Rule of Birthdays?",
+      question: "What is the official procedure when it's your birthday?",
       options: [
-        { text: "Birthday calories definitely do not count 🎂", isCorrect: true, response: "Spot on! Science fully agrees." },
-        { text: "You must smile in at least 50 photos 📸", isCorrect: false, response: "Good idea, but cake comes first!" },
-        { text: "Do homework instead of partying 📚", isCorrect: false, response: "Definitely incorrect! No way." },
+        { text: "Take the whole day off and demand snacks 🍰", isCorrect: true, response: "Spot on! Science fully agrees." },
+        { text: "Study linear algebra for 8 straight hours 📐", isCorrect: false, response: "Definitely not! Save that for another day." },
+        { text: "Check work emails first thing in the morning 📧", isCorrect: false, response: "Hard pass! Today is for celebration." },
       ],
     },
   },
 
   finalCelebration: {
-    intro: "ONCE AGAIN...",
+    intro: "ONE LAST THING...",
     heading: "HAPPY BIRTHDAY, AFRAA!",
     closingMessage:
-      "May this year bring you endless smiles, incredible achievements and countless unforgettable memories.",
+      "May this next year surprise you with how good things can get. Go celebrate—you've earned it.",
     buttonText: "Launch Birthday Fireworks 🎆",
     replayText: "More Fireworks! 🎊",
     closeText: "Back to Party ✨",
+    modalNote:
+      "Thanks for checking out this little project. Here's to making this year your best chapter yet!",
   },
 
   footer: {

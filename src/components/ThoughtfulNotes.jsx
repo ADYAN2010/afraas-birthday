@@ -6,6 +6,16 @@ import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import WashiTape from './svg/WashiTape';
 import CuteFlower from './svg/CuteFlower';
 
+const noteMoods = [
+  'perspective 🌿',
+  'conversations 💬',
+  'energy ✨',
+  'milestones 📖',
+  'simplicity 🌸',
+  'quiet days ☕',
+  'adventures 🚀',
+];
+
 export default function ThoughtfulNotes() {
   const thoughts = birthdayData.thoughtfulNotes || birthdayData.randomThoughts;
 
@@ -213,7 +223,7 @@ export default function ThoughtfulNotes() {
                     color: '#B59F9F',
                   }}
                 >
-                  with care 🌸
+                  {noteMoods[idx % noteMoods.length]}
                 </span>
               </div>
             </motion.div>

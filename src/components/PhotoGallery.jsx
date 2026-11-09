@@ -17,10 +17,10 @@ export default function PhotoGallery() {
       id: 1,
       type: 'featured',
       src: featuredPhoto,
-      tag: 'FEATURED PORTRAIT',
-      title: 'Garden Reverie 🌸',
-      handwrittenNote: 'A beautiful golden hour in flowers',
-      caption: 'A serene evening moment surrounded by blooming golden blossoms.',
+      tag: 'PORTRAIT',
+      title: 'Golden Hour in Bloom 🌸',
+      handwrittenNote: 'Dusk light & yellow petals',
+      caption: 'Sitting quietly beside the flowerbeds right as the sun set.',
       alt: 'Afraa sitting gracefully in a floral pink saree beside yellow flowers at dusk',
       aspectRatio: '1 / 1',
       tapeColor: '#F3DDE2',
@@ -30,10 +30,10 @@ export default function PhotoGallery() {
       id: 2,
       type: 'collage',
       src: collageSareeStory,
-      tag: 'SCRAPBOOK COLLAGE',
-      title: 'Ammu’s Saree Story ✨',
-      handwrittenNote: 'Crimson red drape & glass bangles',
-      caption: 'Crimson red drape, glass bangles, and artistic calligraphy.',
+      tag: 'TRADITION',
+      title: 'The Crimson Saree ✨',
+      handwrittenNote: 'Glass bangles & silk embroidery',
+      caption: 'A classic traditional look captured in scrapbook frames.',
       alt: 'Artistic photo collage of Afraa in an embroidered red saree with traditional bangles',
       aspectRatio: '490 / 760',
       tapeColor: '#E9E2F5',
@@ -43,10 +43,10 @@ export default function PhotoGallery() {
       id: 3,
       type: 'collage',
       src: collageGhalibAesthetic,
-      tag: 'SCRAPBOOK COLLAGE',
-      title: 'Poetry & Candid Frames 📖',
-      handwrittenNote: 'Timeless poetry & candid memories',
-      caption: 'Mirror reflections, timeless poetry, and vibrant aesthetic details.',
+      tag: 'AESTHETIC',
+      title: 'Mirrors & Urdu Couplets 📖',
+      handwrittenNote: 'Lines of Ghalib on a quiet afternoon',
+      caption: 'A candid reflection paired with timeless poetry.',
       alt: 'Artistic photo collage of Afraa with Ghalib poetry and traditional accents',
       aspectRatio: '468 / 761',
       tapeColor: '#F7D6BD',
@@ -119,7 +119,7 @@ export default function PhotoGallery() {
             margin: '0 auto',
           }}
         >
-          “A collection of lovely pictures ✨”
+          “Candid snapshots, silk sarees, and golden-hour frames ✨”
         </p>
       </motion.div>
 

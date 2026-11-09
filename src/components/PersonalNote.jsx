@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Feather, Sparkles } from 'lucide-react';
+import { Feather } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import CutePostageStamp from './svg/CutePostageStamp';
@@ -115,9 +115,9 @@ export default function PersonalNote() {
         <h3
           style={{
             fontFamily: 'var(--font-handwritten)',
-            fontSize: 'clamp(2rem, 4vw, 2.6rem)',
+            fontSize: 'clamp(2.1rem, 4.5vw, 2.8rem)',
             color: '#A94B59',
-            marginBottom: '18px',
+            marginBottom: '20px',
             fontWeight: 700,
             letterSpacing: '0.01em',
             paddingTop: '6px',
@@ -126,93 +126,37 @@ export default function PersonalNote() {
           {personalNote.salutation}
         </h3>
 
-        {/* Featured Handwritten Message from Adyan */}
-        {personalNote.specialMessage && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            style={{
-              padding: 'clamp(18px, 3.5vw, 26px) clamp(16px, 3.5vw, 24px)',
-              borderRadius: '18px',
-              background: 'linear-gradient(135deg, #FFFDF8 0%, #FFF5F7 100%)',
-              border: '1.5px solid #F3DDE2',
-              boxShadow: '0 4px 14px rgba(169, 75, 89, 0.05)',
-              marginBottom: '22px',
-              position: 'relative',
-            }}
-          >
-            <p
-              style={{
-                fontFamily: 'var(--font-handwritten)',
-                fontSize: 'clamp(1.35rem, 2.8vw, 1.7rem)',
-                color: '#493B3B',
-                lineHeight: 1.5,
-                fontWeight: 600,
-                letterSpacing: '0.01em',
-                margin: 0,
-              }}
-            >
-              “{personalNote.specialMessage}”
-            </p>
-          </motion.div>
-        )}
-
-        {/* Note Messages */}
+        {/* Cohesive Letter Body */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '14px',
-            maxWidth: '620px',
+            gap: '18px',
+            maxWidth: '680px',
           }}
         >
-          {personalNote.messages.map((message, idx) => (
-            <motion.div
+          {personalNote.letterParagraphs?.map((para, idx) => (
+            <motion.p
               key={idx}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              transition={{ delay: idx * 0.12, duration: 0.6 }}
               style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '12px',
-                padding: '12px 16px',
-                borderRadius: '14px',
-                background: '#FFFDF9',
-                border: '1px solid #F5EAEB',
-                boxShadow: '0 2px 8px rgba(73, 59, 59, 0.02)',
-                transition: 'all 0.3s ease',
-              }}
-              whileHover={{
-                backgroundColor: '#FDF7F8',
-                borderColor: '#DDA6B0',
-                x: 4,
+                fontFamily: idx === 1 ? 'var(--font-handwritten)' : 'var(--font-sans)',
+                fontSize: idx === 1 ? 'clamp(1.4rem, 2.8vw, 1.75rem)' : 'clamp(1.02rem, 2.2vw, 1.15rem)',
+                color: idx === 1 ? '#A94B59' : '#493B3B',
+                lineHeight: idx === 1 ? 1.5 : 1.75,
+                fontWeight: idx === 1 ? 600 : 450,
+                margin: 0,
+                padding: idx === 1 ? '10px 16px' : '0',
+                background: idx === 1 ? 'rgba(243, 221, 226, 0.28)' : 'transparent',
+                borderRadius: idx === 1 ? '14px' : '0',
+                borderLeft: idx === 1 ? '3px solid #DDA6B0' : 'none',
               }}
             >
-              <div
-                style={{
-                  color: '#A94B59',
-                  marginTop: '3px',
-                  flexShrink: 0,
-                }}
-              >
-                <Sparkles size={16} />
-              </div>
-              <p
-                style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(1rem, 2.2vw, 1.12rem)',
-                  color: '#493B3B',
-                  lineHeight: 1.65,
-                  fontWeight: 450,
-                }}
-              >
-                {message}
-              </p>
-            </motion.div>
+              {para}
+            </motion.p>
           ))}
         </div>
 

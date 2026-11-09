@@ -288,7 +288,7 @@ export default function HiddenNotes() {
                             color: '#A94B59',
                           }}
                         >
-                          kept as a quiet thought ✨
+                          {item.tag || 'note ✨'}
                         </span>
                       </div>
                     </motion.div>

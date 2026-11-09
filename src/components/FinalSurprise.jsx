@@ -231,19 +231,31 @@ export default function FinalSurprise() {
                 “{finalCelebration.closingMessage}”
               </p>
 
-              {/* Cheerful Friendly Paragraph */}
+              {/* Memorable Sign-Off Note */}
               <p
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: 'clamp(0.96rem, 2vw, 1.05rem)',
                   color: '#6E5D5D',
                   lineHeight: 1.7,
-                  marginBottom: '30px',
+                  marginBottom: '10px',
                   maxWidth: '520px',
-                  margin: '0 auto 30px',
+                  margin: '0 auto 10px',
                 }}
               >
-                Wishing you a fantastic year ahead packed with success, good health, great memories, and reasons to celebrate every single day!
+                {finalCelebration.modalNote}
+              </p>
+
+              <p
+                style={{
+                  fontFamily: 'var(--font-handwritten)',
+                  fontSize: '1.45rem',
+                  fontWeight: 700,
+                  color: '#A94B59',
+                  marginBottom: '26px',
+                }}
+              >
+                — Adyan
               </p>
 
               {/* Actions: Replay Confetti & Close */}
