@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PartyPopper, Sparkles, HelpCircle, Gift, Shuffle, RefreshCw } from 'lucide-react';
+import { PartyPopper, Sparkles, HelpCircle, Shuffle, RefreshCw } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst, triggerCandleConfetti } from '../utils/confetti';
 import { soundCtrl } from '../utils/audio';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import WashiTape from './svg/WashiTape';
-import CuteBow from './svg/CuteBow';
 
 export default function BirthdayFunZone() {
   const { interactiveFun } = birthdayData;
@@ -20,13 +19,10 @@ export default function BirthdayFunZone() {
   // Quiz State
   const [selectedOption, setSelectedOption] = useState(null);
 
-  // Mystery Box State
-  const [boxUnwrapped, setBoxUnwrapped] = useState(false);
-
   // Handle Balloon Pop
   const handlePopBalloon = (id, e) => {
     if (poppedBalloons[id]) return;
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playBalloonPop();
     const rect = e.currentTarget.getBoundingClientRect();
     triggerSparkleBurst(
       (rect.left + rect.width / 2) / window.innerWidth,
@@ -36,13 +32,13 @@ export default function BirthdayFunZone() {
   };
 
   const handleResetBalloons = () => {
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playTap();
     setPoppedBalloons({});
   };
 
   // Handle Fortune Draw
   const handleDrawFortune = (e) => {
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playCardFlip();
     const rect = e.currentTarget.getBoundingClientRect();
     triggerSparkleBurst(
       (rect.left + rect.width / 2) / window.innerWidth,
@@ -53,14 +49,6 @@ export default function BirthdayFunZone() {
       nextIndex = Math.floor(Math.random() * interactiveFun.fortunes.length);
     } while (nextIndex === currentFortuneIndex && interactiveFun.fortunes.length > 1);
     setCurrentFortuneIndex(nextIndex);
-  };
-
-  // Handle Unwrap Box
-  const handleUnwrapBox = () => {
-    if (boxUnwrapped) return;
-    soundCtrl.playMagicalSparkle();
-    triggerCandleConfetti();
-    setBoxUnwrapped(true);
   };
 
   return (
@@ -441,8 +429,12 @@ export default function BirthdayFunZone() {
                     key={idx}
                     onClick={() => {
                       setSelectedOption(idx);
-                      soundCtrl.playMagicalSparkle();
-                      if (option.isCorrect) triggerCandleConfetti();
+                      if (option.isCorrect) {
+                        soundCtrl.playSuccessChime();
+                        triggerCandleConfetti();
+                      } else {
+                        soundCtrl.playTap();
+                      }
                     }}
                     style={{
                       padding: '11px 14px',

@@ -27,7 +27,7 @@ export default function BirthdayCake() {
   };
 
   const handleRelight = () => {
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playCandleLight();
     setCandlesLit(true);
     setWishMade(false);
   };

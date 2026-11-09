@@ -17,12 +17,14 @@ export default function HiddenNotes() {
     setOpenedNotes((prev) => ({ ...prev, [id]: isNowOpen }));
 
     if (isNowOpen) {
-      soundCtrl.playEnvelopeOpen();
+      soundCtrl.playPaperUnfold();
       const rect = e.currentTarget.getBoundingClientRect();
       triggerSparkleBurst(
         (rect.left + rect.width / 2) / window.innerWidth,
         (rect.top + rect.height / 2) / window.innerHeight
       );
+    } else {
+      soundCtrl.playTap();
     }
   };
 

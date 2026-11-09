@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Sparkles, X, Maximize2 } from 'lucide-react';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import WashiTape from './svg/WashiTape';
+import { soundCtrl } from '../utils/audio';
 
 // Import images directly from assets for optimal Vite bundling & Vercel deployment
 import featuredPhoto from '../assets/images/afraa-featured-floral.png';
@@ -164,7 +165,10 @@ export default function PhotoGallery() {
 
             {/* Polaroid Photo Frame */}
             <div
-              onClick={() => setActiveImage(item)}
+              onClick={() => {
+                soundCtrl.playCardFlip();
+                setActiveImage(item);
+              }}
               title="Click to view full image"
               style={{
                 position: 'relative',
@@ -317,7 +321,10 @@ export default function PhotoGallery() {
             >
               {/* Close Button */}
               <button
-                onClick={() => setActiveImage(null)}
+                onClick={() => {
+                  soundCtrl.playTap();
+                  setActiveImage(null);
+                }}
                 aria-label="Close photo view"
                 style={{
                   position: 'absolute',

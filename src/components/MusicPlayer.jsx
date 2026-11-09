@@ -1,96 +1,387 @@
-import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Music } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Volume2, VolumeX, Volume1, Play, Pause, Bell, BellOff, ChevronDown, Sliders } from 'lucide-react';
 import { soundCtrl } from '../utils/audio';
 
 export default function MusicPlayer({ autoStarted = false }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [audioState, setAudioState] = useState(soundCtrl.getState());
+  const [isExpanded, setIsExpanded] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    if (autoStarted && !isPlaying) {
+    // Subscribe to soundCtrl updates
+    const unsubscribe = soundCtrl.subscribe((state) => {
+      setAudioState(state);
+    });
+
+    // Start music only after explicit user gate interaction
+    if (autoStarted && !soundCtrl.isPlayingMusic) {
       soundCtrl.startAmbientMusic();
-      setIsPlaying(true);
-      setHasInteracted(true);
     }
+
+    return () => unsubscribe();
   }, [autoStarted]);
 
-  const handleToggle = () => {
-    setHasInteracted(true);
-    const active = soundCtrl.toggleMusic();
-    setIsPlaying(active);
+  // Click outside to collapse detailed panel
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  const handleTogglePlay = (e) => {
+    e.stopPropagation();
+    soundCtrl.playTap();
+    soundCtrl.toggleMusic();
+  };
+
+  const handleToggleMusicMute = (e) => {
+    e.stopPropagation();
+    soundCtrl.playTap();
+    soundCtrl.toggleMusicMute();
+  };
+
+  const handleToggleSfx = (e) => {
+    e.stopPropagation();
+    soundCtrl.playTap();
+    soundCtrl.toggleSfxMute();
+  };
+
+  const handleVolumeChange = (e) => {
+    const val = parseFloat(e.target.value);
+    soundCtrl.setMusicVolume(val);
+  };
+
+  const isPlaying = audioState.isPlaying && !audioState.isMusicMuted;
+  const currentVolume = audioState.isMusicMuted ? 0 : audioState.volume;
+
+  const getVolumeIcon = () => {
+    if (audioState.isMusicMuted || currentVolume === 0) return <VolumeX size={16} />;
+    if (currentVolume < 0.4) return <Volume1 size={16} />;
+    return <Volume2 size={16} />;
   };
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'fixed',
-        top: 'clamp(12px, 2.5vh, 22px)',
+        top: 'clamp(12px, 2.5vh, 20px)',
         right: 'clamp(12px, 2.5vw, 22px)',
         zIndex: 90,
       }}
+      aria-label="Audio & Music Controls"
     >
-      <button
-        onClick={handleToggle}
-        aria-label={isPlaying ? 'Pause background music' : 'Play background music'}
-        title={isPlaying ? 'Pause ambient melody' : 'Play ambient melody'}
+      {/* Main Floating Pill Trigger */}
+      <motion.div
+        id="music-player-widget"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          padding: 'clamp(8px, 1.5vh, 10px) clamp(14px, 2.5vw, 18px)',
-          minHeight: '44px',
+          padding: '7px 14px',
+          minHeight: '42px',
           borderRadius: '9999px',
-          background: 'rgba(255, 253, 248, 0.94)',
+          background: 'rgba(255, 253, 248, 0.95)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           border: '1.5px solid #F3DDE2',
           boxShadow: isPlaying
-            ? '0 6px 18px rgba(169, 75, 89, 0.15)'
+            ? '0 6px 20px rgba(169, 75, 89, 0.16)'
             : '0 4px 12px rgba(73, 59, 59, 0.08)',
-          color: isPlaying ? '#A94B59' : '#6E5D5D',
           cursor: 'pointer',
+          userSelect: 'none',
           transition: 'all 0.3s ease',
         }}
+        onClick={() => setIsExpanded((prev) => !prev)}
       >
+        {/* Play / Pause Quick Button */}
+        <button
+          onClick={handleTogglePlay}
+          aria-label={audioState.isPlaying ? 'Pause music' : 'Play music'}
+          style={{
+            background: isPlaying ? '#FDF2F4' : '#FFF8E9',
+            border: '1px solid #F3DDE2',
+            borderRadius: '50%',
+            width: '28px',
+            height: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#A94B59',
+            cursor: 'pointer',
+            padding: 0,
+            flexShrink: 0,
+          }}
+        >
+          {audioState.isPlaying ? <Pause size={13} fill="#A94B59" /> : <Play size={13} fill="#A94B59" style={{ marginLeft: '1px' }} />}
+        </button>
+
+        {/* Animated Equalizer Bars */}
         {isPlaying ? (
-          <>
-            {/* Animated Audio Equalizer Bars */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '14px' }}>
-              <span className="equalizer-bar bar-1" />
-              <span className="equalizer-bar bar-2" />
-              <span className="equalizer-bar bar-3" />
-            </div>
-            <Volume2 size={16} color="#A94B59" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 600, letterSpacing: '0.02em' }}>
-              Melody Playing 🎵
-            </span>
-          </>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '14px' }}>
+            <span className="equalizer-bar bar-1" />
+            <span className="equalizer-bar bar-2" />
+            <span className="equalizer-bar bar-3" />
+          </div>
         ) : (
-          <>
-            <Music size={16} color="#857272" />
-            <VolumeX size={16} color="#857272" />
-            <span style={{ fontSize: '0.82rem', fontWeight: 600, letterSpacing: '0.02em', color: '#857272' }}>
-              {hasInteracted ? 'Music Muted' : 'Play Music'}
-            </span>
-          </>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '14px', opacity: 0.4 }}>
+            <span style={{ width: '2.5px', height: '4px', background: '#857272', borderRadius: '1px' }} />
+            <span style={{ width: '2.5px', height: '6px', background: '#857272', borderRadius: '1px' }} />
+            <span style={{ width: '2.5px', height: '4px', background: '#857272', borderRadius: '1px' }} />
+          </div>
         )}
-      </button>
+
+        {/* Status Text */}
+        <span
+          style={{
+            fontSize: '0.8rem',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: 700,
+            color: isPlaying ? '#A94B59' : '#857272',
+            letterSpacing: '0.01em',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {isPlaying ? 'Melody Playing' : audioState.isMusicMuted ? 'Muted' : 'Music Paused'}
+        </span>
+
+        {/* Expand / Details Toggle Chevron */}
+        <div
+          style={{
+            color: '#A94B59',
+            display: 'flex',
+            alignItems: 'center',
+            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.3s ease',
+          }}
+        >
+          <ChevronDown size={14} />
+        </div>
+      </motion.div>
+
+      {/* Expanded Audio Settings Panel */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            id="music-settings-panel"
+            initial={{ opacity: 0, y: -8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'absolute',
+              top: 'calc(100% + 8px)',
+              right: 0,
+              width: 'min(300px, 86vw)',
+              background: '#FFFDF9',
+              border: '1.5px solid #F3DDE2',
+              borderRadius: '20px',
+              padding: '18px 20px',
+              boxShadow: '0 16px 36px rgba(73, 59, 59, 0.12), 0 2px 8px rgba(169, 75, 89, 0.05)',
+              zIndex: 95,
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+            }}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '14px',
+                paddingBottom: '8px',
+                borderBottom: '1px dashed #F3DDE2',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Sliders size={14} color="#A94B59" />
+                <span
+                  style={{
+                    fontSize: '0.74rem',
+                    fontFamily: 'var(--font-sans)',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: '#A94B59',
+                  }}
+                >
+                  Sound Settings
+                </span>
+              </div>
+
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontFamily: 'var(--font-handwritten)',
+                  color: '#857272',
+                }}
+              >
+                handcrafted tunes 🎵
+              </span>
+            </div>
+
+            {/* Music Controls Row: Play/Pause + Mute */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '14px',
+              }}
+            >
+              <span style={{ fontSize: '0.85rem', color: '#493B3B', fontWeight: 600 }}>
+                Background Music
+              </span>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  onClick={handleTogglePlay}
+                  style={{
+                    background: audioState.isPlaying ? '#FDF2F4' : '#FFF8E9',
+                    border: '1px solid #F3DDE2',
+                    borderRadius: '8px',
+                    padding: '5px 10px',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    color: '#A94B59',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  {audioState.isPlaying ? <Pause size={12} /> : <Play size={12} />}
+                  <span>{audioState.isPlaying ? 'Pause' : 'Play'}</span>
+                </button>
+
+                <button
+                  onClick={handleToggleMusicMute}
+                  aria-label={audioState.isMusicMuted ? 'Unmute music' : 'Mute music'}
+                  style={{
+                    background: audioState.isMusicMuted ? '#FDF2F4' : '#FFFDF8',
+                    border: '1px solid #F3DDE2',
+                    borderRadius: '8px',
+                    padding: '5px 8px',
+                    color: audioState.isMusicMuted ? '#A94B59' : '#493B3B',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {getVolumeIcon()}
+                </button>
+              </div>
+            </div>
+
+            {/* Volume Slider Control */}
+            <div style={{ marginBottom: '16px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '6px',
+                  fontSize: '0.76rem',
+                  color: '#857272',
+                }}
+              >
+                <span>Volume</span>
+                <span style={{ fontWeight: 700, color: '#A94B59' }}>
+                  {Math.round(currentVolume * 100)}%
+                </span>
+              </div>
+
+              <input
+                id="music-volume-slider"
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={currentVolume}
+                onChange={handleVolumeChange}
+                aria-label="Music volume slider"
+                style={{
+                  width: '100%',
+                  height: '6px',
+                  borderRadius: '3px',
+                  background: `linear-gradient(to right, #A94B59 0%, #A94B59 ${currentVolume * 100}%, #F3DDE2 ${currentVolume * 100}%, #F3DDE2 100%)`,
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
+                  outline: 'none',
+                  cursor: 'pointer',
+                }}
+              />
+            </div>
+
+            {/* Sound Effects (SFX) Independent Toggle */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: '10px',
+                borderTop: '1px dashed #F3DDE2',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                {audioState.isSfxMuted ? <BellOff size={14} color="#857272" /> : <Bell size={14} color="#A94B59" />}
+                <span style={{ fontSize: '0.82rem', color: '#493B3B', fontWeight: 600 }}>
+                  Sound Effects
+                </span>
+              </div>
+
+              <button
+                onClick={handleToggleSfx}
+                style={{
+                  background: audioState.isSfxMuted ? '#FFF8E9' : '#FDF2F4',
+                  border: `1px solid ${audioState.isSfxMuted ? '#F3DDE2' : '#DDA6B0'}`,
+                  borderRadius: '9999px',
+                  padding: '3px 12px',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: audioState.isSfxMuted ? '#857272' : '#A94B59',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {audioState.isSfxMuted ? 'SFX: OFF' : 'SFX: ON'}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         .equalizer-bar {
           display: inline-block;
-          width: 3px;
+          width: 2.5px;
           background: #A94B59;
           border-radius: 2px;
           animation: eqBounce 1.2s ease-in-out infinite alternate;
         }
-        .bar-1 { height: 8px; animation-delay: 0.1s; }
-        .bar-2 { height: 14px; animation-delay: 0.3s; }
-        .bar-3 { height: 10px; animation-delay: 0.2s; }
+        .bar-1 { height: 6px; animation-delay: 0.1s; }
+        .bar-2 { height: 13px; animation-delay: 0.3s; }
+        .bar-3 { height: 9px; animation-delay: 0.2s; }
 
         @keyframes eqBounce {
-          0% { height: 4px; }
-          100% { height: 14px; }
+          0% { height: 3px; }
+          100% { height: 13px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .equalizer-bar {
+            animation: none !important;
+            height: 8px !important;
+          }
         }
       `}</style>
     </div>

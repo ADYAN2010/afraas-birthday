@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Sparkles, Smile, Trophy, Camera, Compass, Sun, ChevronRight } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
+import { soundCtrl } from '../utils/audio';
 import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import WashiTape from './svg/WashiTape';
 
@@ -29,6 +30,7 @@ export default function BirthdayWishes() {
   const [activeCard, setActiveCard] = useState(null);
 
   const toggleCard = (id, e) => {
+    soundCtrl.playTap();
     if (activeCard !== id) {
       const rect = e.currentTarget.getBoundingClientRect();
       triggerSparkleBurst(

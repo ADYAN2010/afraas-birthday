@@ -14,12 +14,12 @@ export default function FinalSurprise() {
 
   const handleOpenSurprise = () => {
     setIsOpen(true);
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playCelebrationFinale();
     triggerFinaleConfetti();
   };
 
   const handleReplayConfetti = () => {
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playCelebrationFinale();
     triggerFinaleConfetti();
   };
 
@@ -162,7 +162,10 @@ export default function FinalSurprise() {
 
               {/* Close Button */}
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  soundCtrl.playTap();
+                  setIsOpen(false);
+                }}
                 aria-label="Close celebration"
                 style={{
                   position: 'absolute',
@@ -278,7 +281,10 @@ export default function FinalSurprise() {
                 </button>
 
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    soundCtrl.playTap();
+                    setIsOpen(false);
+                  }}
                   className="btn-glass"
                   style={{ padding: '13px 26px', color: '#493B3B', borderColor: '#F3DDE2' }}
                 >

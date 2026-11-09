@@ -16,7 +16,7 @@ export default function OpeningScreen({ onOpen }) {
   const handleTriggerOpen = () => {
     if (isOpening) return;
     setEnvelopeOpen(true);
-    soundCtrl.playMagicalSparkle();
+    soundCtrl.playEnvelopeOpen();
     triggerSparkleBurst(0.5, 0.52);
 
     // Give time for envelope animation before transitioning

@@ -3,15 +3,16 @@ import { motion } from 'framer-motion';
 import { Sparkles, Cake, Feather, PartyPopper, ChevronDown, Camera } from 'lucide-react';
 import { birthdayData } from '../data/birthdayContent';
 import { triggerSparkleBurst } from '../utils/confetti';
+import { soundCtrl } from '../utils/audio';
 import CuteButterfly from './svg/CuteButterfly';
 import CuteFlower from './svg/CuteFlower';
 import CuteBow from './svg/CuteBow';
-import WashiTape from './svg/WashiTape';
 
 export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick, onFunClick }) {
   const { hero } = birthdayData;
 
   const handleWish = (e) => {
+    soundCtrl.playTap();
     const rect = e.currentTarget.getBoundingClientRect();
     triggerSparkleBurst(
       (rect.left + rect.width / 2) / window.innerWidth,
@@ -26,6 +27,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
   };
 
   const handleNote = () => {
+    soundCtrl.playTap();
     if (onNoteClick) {
       onNoteClick();
     } else {
@@ -35,6 +37,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
   };
 
   const handleGallery = () => {
+    soundCtrl.playTap();
     if (onGalleryClick) {
       onGalleryClick();
     } else {
@@ -44,6 +47,7 @@ export default function BirthdayHero({ onWishClick, onNoteClick, onGalleryClick,
   };
 
   const handleFun = () => {
+    soundCtrl.playTap();
     if (onFunClick) {
       onFunClick();
     } else {
