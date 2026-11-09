@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   }
 
   const submittedPassword = body?.password?.toString() || '';
-  const expectedPassword = (process.env.SITE_PASSWORD || 'afraa1511').trim();
+  const expectedPassword = (process.env.SITE_PASSWORD || 'adyan@2010').trim();
 
   const isMatch = timingSafeCompare(submittedPassword.trim(), expectedPassword);
 
