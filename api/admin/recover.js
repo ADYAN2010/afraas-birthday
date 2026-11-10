@@ -1,4 +1,12 @@
-import { checkRateLimit, timingSafeCompare } from '../_auth.js';
+import {
+  checkRateLimit,
+  timingSafeCompare,
+  signToken,
+  parseCookies,
+  generateDeviceId,
+  signDeviceCookie,
+  verifyDeviceCookie,
+} from '../_auth.js';
 import { adminResetLockdown } from '../_redis.js';
 
 export default async function handler(req, res) {
@@ -7,11 +15,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
   }
 
-  // Extract client IP for rate limiting
+  // Extract client IP for sliding rate limiting
   const forwarded = req.headers['x-forwarded-for'];
   const ip = forwarded ? forwarded.split(',')[0].trim() : req.socket?.remoteAddress || 'unknown';
 
-  if (!checkRateLimit(`admin_${ip}`)) {
+  if (!checkRateLimit(`admin_recover_${ip}`)) {
     return res.status(429).json({
       ok: false,
       error: 'Too many recovery attempts. Please wait a minute before trying again.',
@@ -28,23 +36,26 @@ export default async function handler(req, res) {
     }
   }
 
-  const submittedSecret = body?.secret?.toString() || '';
-  const expectedSecret = (
-    process.env.LOCKDOWN_ADMIN_SECRET ||
-    'adyan@admin2026'
-  ).trim();
+  const submittedPassword = body?.password?.toString() || '';
+  const expectedPassword = (process.env.SITE_PASSWORD || 'adyan@2010').trim();
 
-  const isMatch = timingSafeCompare(submittedSecret.trim(), expectedSecret);
+  // Timing-safe password verification against the existing SITE_PASSWORD
+  const isMatch = timingSafeCompare(submittedPassword.trim(), expectedPassword);
 
   if (!isMatch) {
     return res.status(401).json({
       ok: false,
-      error: 'Invalid administrator recovery credential.',
+      error: 'Access denied. Invalid administrator credentials.',
     });
   }
 
-  // Reset lockdown and clear device registry in Redis
-  const resetResult = await adminResetLockdown('Adyan');
+  // Identify or generate administrator's device ID
+  const cookies = parseCookies(req);
+  const verifiedDevice = verifyDeviceCookie(cookies.afraa_device);
+  const adminDeviceId = verifiedDevice?.deviceId || generateDeviceId();
+
+  // Atomically clear lockdown, increment generation (invalidating all old devices), and register admin as device #1
+  const resetResult = await adminResetLockdown(adminDeviceId, 'Desktop PC (Adyan)');
 
   if (!resetResult.ok) {
     return res.status(500).json({
@@ -53,8 +64,40 @@ export default async function handler(req, res) {
     });
   }
 
+  // Issue fresh signed HTTP-only device cookie with the new generation
+  const deviceCookie = signDeviceCookie(adminDeviceId, resetResult.generation);
+  const deviceCookieStr = [
+    `afraa_device=${deviceCookie}`,
+    'Path=/',
+    'HttpOnly',
+    'Secure',
+    'SameSite=Strict',
+    `Max-Age=${365 * 24 * 60 * 60}`,
+  ].join('; ');
+
+  // Issue fresh signed HTTP-only session cookie (so admin is instantly authenticated)
+  const sessionToken = signToken({
+    authenticated: true,
+    iat: Date.now(),
+    exp: Date.now() + 7 * 24 * 60 * 60 * 1000,
+  });
+  const sessionCookieStr = [
+    `afraa_session=${sessionToken}`,
+    'Path=/',
+    'HttpOnly',
+    'Secure',
+    'SameSite=Strict',
+    `Max-Age=${7 * 24 * 60 * 60}`,
+  ].join('; ');
+
+  res.setHeader('Set-Cookie', [deviceCookieStr, sessionCookieStr]);
+
   return res.status(200).json({
     ok: true,
-    message: 'Global privacy lockdown cleared. Device slots have been successfully reset.',
+    title: 'PRIVACY LOCKDOWN REMOVED',
+    message: 'Access has been restored successfully.',
+    subMessage: 'Device registry has been reset.',
+    slot: 1,
+    generation: resetResult.generation,
   });
 }

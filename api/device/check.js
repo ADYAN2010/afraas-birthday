@@ -48,7 +48,8 @@ export default async function handler(req, res) {
   }
 
   // 4. Atomically evaluate device access against the 2-device limit
-  const result = await evaluateDeviceAccess(deviceId);
+  const clientGen = verifiedDevice?.generation || '';
+  const result = await evaluateDeviceAccess(deviceId, '', clientGen);
 
   if (result.isLocked) {
     // 3rd device breached or site got locked down
@@ -60,9 +61,9 @@ export default async function handler(req, res) {
     });
   }
 
-  // 5. If newly registered, set persistent, signed HTTP-only device cookie
-  if (isNewDevice || result.action === 'REGISTERED') {
-    const signedCookie = signDeviceCookie(deviceId);
+  // 5. If newly registered or generation refreshed, set persistent signed HTTP-only device cookie
+  if (isNewDevice || result.action === 'REGISTERED' || clientGen !== result.generation) {
+    const signedCookie = signDeviceCookie(deviceId, result.generation);
     const cookieOptions = [
       `afraa_device=${signedCookie}`,
       'Path=/',
@@ -79,6 +80,7 @@ export default async function handler(req, res) {
     lockdown: false,
     deviceRegistered: true,
     slot: result.count,
+    generation: result.generation,
     action: result.action,
   });
 }

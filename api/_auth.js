@@ -99,41 +99,74 @@ export function generateDeviceId() {
   return `dev_${crypto.randomBytes(16).toString('hex')}`;
 }
 
-export function signDeviceCookie(deviceId) {
+export function signDeviceCookie(deviceId, generation = '1') {
   const timestamp = Date.now().toString();
-  const payload = `${deviceId}:${timestamp}`;
+  const genStr = generation.toString();
+  const payload = `${genStr}:${deviceId}:${timestamp}`;
   const hmac = crypto
     .createHmac('sha256', DEVICE_SECRET)
     .update(payload)
     .digest('base64url');
-  return `v1.${deviceId}.${timestamp}.${hmac}`;
+  return `v2.${genStr}.${deviceId}.${timestamp}.${hmac}`;
 }
 
 export function verifyDeviceCookie(cookieVal) {
   if (!cookieVal || typeof cookieVal !== 'string') return null;
   const parts = cookieVal.split('.');
-  if (parts.length !== 4 || parts[0] !== 'v1') return null;
 
-  const [version, deviceId, timestampStr, signature] = parts;
-  const payload = `${deviceId}:${timestampStr}`;
-  const expectedHmac = crypto
-    .createHmac('sha256', DEVICE_SECRET)
-    .update(payload)
-    .digest('base64url');
+  // v2 cookie with explicit generation tracking
+  if (parts.length === 5 && parts[0] === 'v2') {
+    const [version, generation, deviceId, timestampStr, signature] = parts;
+    const payload = `${generation}:${deviceId}:${timestampStr}`;
+    const expectedHmac = crypto
+      .createHmac('sha256', DEVICE_SECRET)
+      .update(payload)
+      .digest('base64url');
 
-  try {
-    const isSigValid = crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expectedHmac)
-    );
-    if (!isSigValid) return null;
-    return {
-      deviceId,
-      timestamp: parseInt(timestampStr, 10),
-    };
-  } catch (e) {
-    return null;
+    try {
+      const isSigValid = crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedHmac)
+      );
+      if (!isSigValid) return null;
+      return {
+        version: 'v2',
+        generation,
+        deviceId,
+        timestamp: parseInt(timestampStr, 10),
+      };
+    } catch (e) {
+      return null;
+    }
   }
+
+  // v1 cookie backward compatibility
+  if (parts.length === 4 && parts[0] === 'v1') {
+    const [version, deviceId, timestampStr, signature] = parts;
+    const payload = `${deviceId}:${timestampStr}`;
+    const expectedHmac = crypto
+      .createHmac('sha256', DEVICE_SECRET)
+      .update(payload)
+      .digest('base64url');
+
+    try {
+      const isSigValid = crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedHmac)
+      );
+      if (!isSigValid) return null;
+      return {
+        version: 'v1',
+        generation: '1',
+        deviceId,
+        timestamp: parseInt(timestampStr, 10),
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  return null;
 }
 
 export function isBotOrCrawler(userAgent) {

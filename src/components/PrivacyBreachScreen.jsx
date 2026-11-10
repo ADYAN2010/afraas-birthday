@@ -1,34 +1,35 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, Lock, KeyRound, AlertTriangle, X, CheckCircle2, Loader2 } from 'lucide-react';
+import { ShieldAlert, Lock, KeyRound, AlertTriangle, X, CheckCircle2, Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function PrivacyBreachScreen({ onRecovered }) {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
-  const [adminSecret, setAdminSecret] = useState('');
-  const [showSecret, setShowSecret] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
+  const [recoverySuccess, setRecoverySuccess] = useState(false);
 
   const handleAdminSubmit = async (e) => {
     e?.preventDefault();
-    if (!adminSecret.trim() || isLoading) return;
+    if (!adminPassword.trim() || isLoading) return;
 
     setIsLoading(true);
     setErrorMsg('');
-    setSuccessMsg('');
 
     try {
       const res = await fetch('/api/admin/recover', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ secret: adminSecret.trim() }),
+        body: JSON.stringify({ password: adminPassword.trim() }),
       });
 
       const data = await res.json();
 
       if (res.ok && data.ok) {
-        setSuccessMsg('Website restored. Resetting device slots...');
+        setRecoverySuccess(true);
+        setIsLoading(false);
+        // Smooth transition back to normal website after confirmation display
         setTimeout(() => {
           setIsAdminModalOpen(false);
           if (onRecovered) {
@@ -36,9 +37,9 @@ export default function PrivacyBreachScreen({ onRecovered }) {
           } else {
             window.location.reload();
           }
-        }, 1200);
+        }, 1800);
       } else {
-        setErrorMsg(data.error || 'Invalid administrator recovery credential.');
+        setErrorMsg(data.error || 'Access denied. Invalid administrator credentials.');
         setIsLoading(false);
       }
     } catch (err) {
@@ -71,7 +72,8 @@ export default function PrivacyBreachScreen({ onRecovered }) {
         onClick={() => {
           setIsAdminModalOpen(true);
           setErrorMsg('');
-          setSuccessMsg('');
+          setRecoverySuccess(false);
+          setAdminPassword('');
         }}
         title="Admin Recovery"
         aria-label="Admin Recovery"
@@ -213,9 +215,9 @@ export default function PrivacyBreachScreen({ onRecovered }) {
             fontSize: '0.92rem',
             color: '#A0AEC0',
             lineHeight: 1.6,
-            marginBottom: '26px',
+            marginBottom: '24px',
             maxWidth: '440px',
-            margin: '0 auto 26px',
+            margin: '0 auto 24px',
           }}
         >
           This private birthday experience has been temporarily locked to protect its contents.
@@ -229,6 +231,7 @@ export default function PrivacyBreachScreen({ onRecovered }) {
             backgroundColor: 'rgba(255, 255, 255, 0.04)',
             border: '1px solid rgba(229, 62, 62, 0.25)',
             display: 'inline-block',
+            marginBottom: '18px',
           }}
         >
           <span
@@ -241,6 +244,46 @@ export default function PrivacyBreachScreen({ onRecovered }) {
           >
             Please contact Adyan to restore access.
           </span>
+        </div>
+
+        {/* Discreet Unlock Lockdown Button */}
+        <div>
+          <button
+            id="unlock-lockdown-btn"
+            onClick={() => {
+              setIsAdminModalOpen(true);
+              setErrorMsg('');
+              setRecoverySuccess(false);
+              setAdminPassword('');
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 18px',
+              borderRadius: '9999px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              color: '#CBD5E0',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              outline: 'none',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(229, 62, 62, 0.15)';
+              e.currentTarget.style.borderColor = 'rgba(229, 62, 62, 0.35)';
+              e.currentTarget.style.color = '#FFFFFF';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+              e.currentTarget.style.color = '#CBD5E0';
+            }}
+          >
+            <span>Unlock Lockdown 🔓</span>
+          </button>
         </div>
       </motion.div>
 
@@ -310,150 +353,200 @@ export default function PrivacyBreachScreen({ onRecovered }) {
                 <X size={18} />
               </button>
 
-              {/* Icon */}
-              <div
-                style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(229, 62, 62, 0.12)',
-                  border: '1.5px solid #E53E3E',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 14px',
-                  color: '#E53E3E',
-                }}
-              >
-                <Lock size={22} />
-              </div>
-
-              <h2
-                style={{
-                  fontSize: '1.35rem',
-                  fontWeight: 800,
-                  color: '#FFFFFF',
-                  marginBottom: '6px',
-                }}
-              >
-                Administrator Recovery
-              </h2>
-
-              <p
-                style={{
-                  fontSize: '0.84rem',
-                  color: '#A0AEC0',
-                  lineHeight: 1.5,
-                  marginBottom: '20px',
-                }}
-              >
-                Enter the master secret to clear global lockdown and reset device slots for Adyan and Afraa.
-              </p>
-
-              <form onSubmit={handleAdminSubmit}>
-                <div style={{ position: 'relative', marginBottom: '16px' }}>
-                  <input
-                    type={showSecret ? 'text' : 'password'}
-                    value={adminSecret}
-                    onChange={(e) => {
-                      setAdminSecret(e.target.value);
-                      if (errorMsg) setErrorMsg('');
-                    }}
-                    placeholder="Enter admin secret..."
-                    autoFocus
-                    disabled={isLoading}
-                    aria-label="Admin recovery secret"
-                    style={{
-                      width: '100%',
-                      padding: '12px 42px 12px 14px',
-                      borderRadius: '12px',
-                      border: errorMsg ? '1.5px solid #E53E3E' : '1.5px solid rgba(255, 255, 255, 0.15)',
-                      backgroundColor: '#0C0A0D',
-                      fontSize: '0.92rem',
-                      color: '#FFFFFF',
-                      outline: 'none',
-                      boxSizing: 'border-box',
-                      transition: 'border-color 0.2s',
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowSecret(!showSecret)}
-                    aria-label={showSecret ? 'Hide secret' : 'Show secret'}
-                    style={{
-                      position: 'absolute',
-                      right: '12px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'transparent',
-                      border: 'none',
-                      color: '#718096',
-                      cursor: 'pointer',
-                      fontSize: '0.76rem',
-                    }}
-                  >
-                    {showSecret ? 'Hide' : 'Show'}
-                  </button>
-                </div>
-
-                {errorMsg && (
-                  <p style={{ color: '#FC8181', fontSize: '0.82rem', marginBottom: '14px', fontWeight: 600 }}>
-                    {errorMsg}
-                  </p>
-                )}
-
-                {successMsg && (
+              {/* Recovery Success State */}
+              {recoverySuccess ? (
+                <div style={{ textAlign: 'center', padding: '10px 0' }}>
                   <div
                     style={{
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(72, 187, 120, 0.15)',
+                      border: '2px solid #48BB78',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '6px',
-                      color: '#68D391',
-                      fontSize: '0.85rem',
-                      marginBottom: '14px',
-                      fontWeight: 600,
+                      margin: '0 auto 16px',
+                      color: '#48BB78',
                     }}
                   >
-                    <CheckCircle2 size={16} />
-                    <span>{successMsg}</span>
+                    <CheckCircle2 size={30} />
                   </div>
-                )}
 
-                <button
-                  type="submit"
-                  disabled={isLoading || !adminSecret.trim()}
-                  style={{
-                    width: '100%',
-                    padding: '12px 20px',
-                    borderRadius: '12px',
-                    backgroundColor: isLoading || !adminSecret.trim() ? '#4A5568' : '#E53E3E',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    fontSize: '0.92rem',
-                    fontWeight: 700,
-                    cursor: isLoading || !adminSecret.trim() ? 'not-allowed' : 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    boxShadow: '0 4px 14px rgba(229, 62, 62, 0.3)',
-                    transition: 'background-color 0.2s',
-                  }}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={16} className="soundtrack-spinner" />
-                      <span>Verifying credential...</span>
-                    </>
-                  ) : (
-                    <>
-                      <KeyRound size={16} />
-                      <span>Restore Website & Reset Slots</span>
-                    </>
-                  )}
-                </button>
-              </form>
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      padding: '4px 14px',
+                      borderRadius: '9999px',
+                      backgroundColor: 'rgba(72, 187, 120, 0.15)',
+                      border: '1px solid #48BB78',
+                      color: '#68D391',
+                      fontSize: '0.78rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    PRIVACY LOCKDOWN REMOVED
+                  </div>
+
+                  <h3
+                    style={{
+                      fontSize: '1.25rem',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      marginBottom: '6px',
+                    }}
+                  >
+                    Access has been restored successfully.
+                  </h3>
+
+                  <p
+                    style={{
+                      fontSize: '0.88rem',
+                      color: '#A0AEC0',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    Device registry has been reset.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  {/* Lock Icon */}
+                  <div
+                    style={{
+                      width: '50px',
+                      height: '50px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(229, 62, 62, 0.12)',
+                      border: '1.5px solid #E53E3E',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0 auto 14px',
+                      color: '#E53E3E',
+                    }}
+                  >
+                    <Lock size={22} />
+                  </div>
+
+                  {/* Header: Administrator verification */}
+                  <h2
+                    style={{
+                      fontSize: '1.35rem',
+                      fontWeight: 800,
+                      color: '#FFFFFF',
+                      marginBottom: '6px',
+                    }}
+                  >
+                    Administrator verification
+                  </h2>
+
+                  {/* Subtitle: Enter your website password to restore access. */}
+                  <p
+                    style={{
+                      fontSize: '0.86rem',
+                      color: '#A0AEC0',
+                      lineHeight: 1.5,
+                      marginBottom: '20px',
+                    }}
+                  >
+                    Enter your website password to restore access.
+                  </p>
+
+                  <form onSubmit={handleAdminSubmit}>
+                    <div style={{ position: 'relative', marginBottom: '16px' }}>
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        value={adminPassword}
+                        onChange={(e) => {
+                          setAdminPassword(e.target.value);
+                          if (errorMsg) setErrorMsg('');
+                        }}
+                        placeholder="Enter website password..."
+                        autoFocus
+                        disabled={isLoading}
+                        aria-label="Website password"
+                        style={{
+                          width: '100%',
+                          padding: '12px 42px 12px 14px',
+                          borderRadius: '12px',
+                          border: errorMsg ? '1.5px solid #E53E3E' : '1.5px solid rgba(255, 255, 255, 0.15)',
+                          backgroundColor: '#0C0A0D',
+                          fontSize: '0.92rem',
+                          color: '#FFFFFF',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          transition: 'border-color 0.2s',
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                        style={{
+                          position: 'absolute',
+                          right: '12px',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'transparent',
+                          border: 'none',
+                          color: '#718096',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          padding: '4px',
+                        }}
+                      >
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                    </div>
+
+                    {errorMsg && (
+                      <p style={{ color: '#FC8181', fontSize: '0.84rem', marginBottom: '14px', fontWeight: 600 }}>
+                        {errorMsg}
+                      </p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading || !adminPassword.trim()}
+                      style={{
+                        width: '100%',
+                        padding: '12px 20px',
+                        borderRadius: '12px',
+                        backgroundColor: isLoading || !adminPassword.trim() ? '#4A5568' : '#E53E3E',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        fontSize: '0.92rem',
+                        fontWeight: 700,
+                        cursor: isLoading || !adminPassword.trim() ? 'not-allowed' : 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        boxShadow: '0 4px 14px rgba(229, 62, 62, 0.3)',
+                        transition: 'background-color 0.2s',
+                      }}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={16} className="soundtrack-spinner" />
+                          <span>Verifying credentials...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Lock size={15} />
+                          <span>Unlock Lockdown 🔓</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </>
+              )}
             </motion.div>
           </motion.div>
         )}

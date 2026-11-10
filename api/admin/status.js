@@ -8,12 +8,13 @@ export default async function handler(req, res) {
   const querySecret = (req.query?.secret || '').toString();
 
   const submittedSecret = bearerToken || querySecret;
-  const expectedSecret = (
-    process.env.LOCKDOWN_ADMIN_SECRET ||
-    'adyan@admin2026'
-  ).trim();
+  const sitePassword = (process.env.SITE_PASSWORD || 'adyan@2010').trim();
+  const adminSecret = (process.env.LOCKDOWN_ADMIN_SECRET || '').trim();
 
-  if (!timingSafeCompare(submittedSecret.trim(), expectedSecret)) {
+  const isSitePasswordMatch = timingSafeCompare(submittedSecret.trim(), sitePassword);
+  const isAdminSecretMatch = adminSecret ? timingSafeCompare(submittedSecret.trim(), adminSecret) : false;
+
+  if (!isSitePasswordMatch && !isAdminSecretMatch) {
     return res.status(401).json({ ok: false, error: 'Unauthorized admin request.' });
   }
 
