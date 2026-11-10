@@ -7,6 +7,12 @@ import CuteScrapbookDivider from './svg/CuteScrapbookDivider';
 import CuteFlower from './svg/CuteFlower';
 import CuteBow from './svg/CuteBow';
 import CuteButterfly from './svg/CuteButterfly';
+import OuterDecorations from './svg/OuterDecorations';
+import IllustratedGiftBox from './svg/IllustratedGiftBox';
+import CardCornerFlourish from './svg/CardCornerFlourish';
+import HeadingFloralOrnament from './svg/HeadingFloralOrnament';
+import DateFlourish from './svg/DateFlourish';
+import FloralCelebrationRing from './svg/FloralCelebrationRing';
 
 // Target: 15 November 2026, 12:00 AM Asia/Dhaka (UTC+6)
 const TARGET_DATE_STRING = '2026-11-15T00:00:00+06:00';
@@ -207,6 +213,9 @@ export default function LockScreen({ onUnlock, onLockdown }) {
             transition: 'background-color 1s ease',
           }}
         >
+          {/* Custom Animated Background & Outer SVG Decorations */}
+          <OuterDecorations countdown={countdown} />
+
           {/* Subtle Ambient Celebration Glows */}
           <div
             style={{
@@ -301,15 +310,17 @@ export default function LockScreen({ onUnlock, onLockdown }) {
               backgroundColor: '#FFFDF8',
               borderRadius: '28px',
               border: countdown.isFinalHour
-                ? '2px solid rgba(221, 166, 176, 0.8)'
+                ? '2px solid rgba(221, 166, 176, 0.85)'
                 : '2px solid #F3DDE2',
               boxShadow: countdown.isFinalHour
                 ? '0 24px 70px rgba(169, 75, 89, 0.18), 0 0 25px rgba(255, 179, 71, 0.15)'
                 : '0 20px 60px rgba(169, 75, 89, 0.1), 0 4px 16px rgba(0, 0, 0, 0.03)',
+              animation: countdown.isFinal10Minutes ? 'svgCelebrationGlow 4s ease-in-out infinite' : undefined,
               padding: 'clamp(28px, 5.5vw, 48px) clamp(18px, 4.5vw, 38px)',
               textAlign: 'center',
               margin: 'auto',
               transition: 'all 0.5s ease',
+              zIndex: 10,
             }}
           >
             {/* Scrapbook Washi Tape Header Accent */}
@@ -319,7 +330,7 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                 top: '-14px',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                zIndex: 10,
+                zIndex: 15,
               }}
             >
               <WashiTape
@@ -331,15 +342,13 @@ export default function LockScreen({ onUnlock, onLockdown }) {
               />
             </div>
 
-            {/* Corner Floral Accents */}
-            <div style={{ position: 'absolute', top: '16px', left: '16px', opacity: 0.85 }}>
-              <CuteFlower color={countdown.isFinalHour ? '#FFB347' : '#DDA6B0'} size={24} />
-            </div>
-            <div style={{ position: 'absolute', top: '16px', right: '16px', opacity: 0.85 }}>
-              <CuteFlower color={countdown.isFinalHour ? '#A94B59' : '#B8E986'} size={22} />
-            </div>
+            {/* Delicate Corner Floral Accents (All 4 Corners) */}
+            <CardCornerFlourish position="top-left" isFinalHour={countdown.isFinalHour} />
+            <CardCornerFlourish position="top-right" isFinalHour={countdown.isFinalHour} />
+            <CardCornerFlourish position="bottom-left" isFinalHour={countdown.isFinalHour} />
+            <CardCornerFlourish position="bottom-right" isFinalHour={countdown.isFinalHour} />
 
-            {/* Top Scrapbook Icon Emblem */}
+            {/* Top Scrapbook Icon Emblem with Illustrated Gift Box */}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px', marginTop: '4px' }}>
               <motion.div
                 animate={{
@@ -356,21 +365,21 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                   height: '76px',
                   borderRadius: '50%',
                   background: 'linear-gradient(135deg, #FDF2F4 0%, #FFF8E9 100%)',
-                  border: '2px solid #F3DDE2',
+                  border: countdown.isFinalHour ? '2px solid #DDA6B0' : '2px solid #F3DDE2',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 6px 18px rgba(169, 75, 89, 0.1)',
+                  boxShadow: countdown.isFinalHour
+                    ? '0 6px 20px rgba(169, 75, 89, 0.16)'
+                    : '0 6px 18px rgba(169, 75, 89, 0.1)',
                   position: 'relative',
                 }}
               >
-                {countdown.isArrived ? (
-                  <span style={{ fontSize: '32px' }}>🎂</span>
-                ) : countdown.isFinalHour ? (
-                  <Sparkles size={34} color="#A94B59" />
-                ) : (
-                  <Gift size={32} color="#A94B59" />
-                )}
+                <IllustratedGiftBox
+                  size={46}
+                  isOpen={countdown.isArrived}
+                  isFinalHour={countdown.isFinalHour}
+                />
               </motion.div>
             </div>
 
@@ -402,6 +411,9 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                   <Sparkles size={14} />
                   <span>THE WAIT IS OVER!</span>
                 </motion.div>
+
+                {/* Celebratory Floral Flourish */}
+                <HeadingFloralOrnament maxWidth={220} isFinalHour={true} />
 
                 <h1
                   style={{
@@ -524,6 +536,9 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                     height: 'clamp(180px, 45vw, 220px)',
                   }}
                 >
+                  {/* Decorative SVG Floral Wreath framing the 60s Ring */}
+                  <FloralCelebrationRing size={240} />
+
                   {/* Circular SVG Gauge for 60 Seconds */}
                   <svg
                     viewBox="0 0 120 120"
@@ -655,6 +670,9 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                   </span>
                 )}
 
+                {/* Subtle Animated Floral Ornament Above Heading */}
+                <HeadingFloralOrnament maxWidth={180} isFinalHour={countdown.isFinalHour} />
+
                 {/* Primary Hero Heading */}
                 <h1
                   style={{
@@ -669,26 +687,37 @@ export default function LockScreen({ onUnlock, onLockdown }) {
                   {countdown.isFinalHour ? 'ONE HOUR TO GO, AFRAA!' : "AFRAA'S BIRTHDAY"}
                 </h1>
 
-                {/* Target Date Pill */}
+                {/* Target Date Pill Flanked by Decorative SVG Flourishes */}
                 <div
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
+                    justifyContent: 'center',
                     gap: '6px',
-                    padding: '3px 12px',
-                    borderRadius: '9999px',
-                    background: '#FFF8E9',
-                    border: '1px solid #F3DDE2',
-                    fontSize: '0.74rem',
-                    fontWeight: 700,
-                    color: '#857272',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
                     marginBottom: '18px',
                   }}
                 >
-                  <Clock size={12} color="#A94B59" />
-                  <span>15 November 2026 • 12:00 AM Dhaka</span>
+                  <DateFlourish side="left" size={26} />
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '3px 12px',
+                      borderRadius: '9999px',
+                      background: '#FFF8E9',
+                      border: '1px solid #F3DDE2',
+                      fontSize: '0.74rem',
+                      fontWeight: 700,
+                      color: '#857272',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    <Clock size={12} color="#A94B59" />
+                    <span>15 November 2026 • 12:00 AM Dhaka</span>
+                  </div>
+                  <DateFlourish side="right" size={26} />
                 </div>
 
                 <CuteScrapbookDivider maxWidth={240} />
