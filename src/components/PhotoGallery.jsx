@@ -120,7 +120,7 @@ export default function PhotoGallery() {
             margin: '0 auto',
           }}
         >
-          “Candid snapshots, silk sarees, and golden-hour frames ✨”
+          “Candid snapshots, silk sarees, and golden afternoon frames ✨”
         </p>
       </motion.div>
 

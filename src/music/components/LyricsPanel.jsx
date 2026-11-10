@@ -45,7 +45,7 @@ export default function LyricsPanel() {
           <Mic2 size={20} color="var(--soundtrack-green)" />
           <div>
             <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
-              Lyrics — {currentTrack.title}
+              Lyrics: {currentTrack.title}
             </h3>
             <span style={{ fontSize: '0.8rem', color: 'var(--soundtrack-text-secondary)' }}>
               {currentTrack.artist}

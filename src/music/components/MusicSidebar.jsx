@@ -258,7 +258,7 @@ export default function MusicSidebar() {
               letterSpacing: '0.02em',
             }}
           >
-            Curated with care — Adyan
+            Made with care by Adyan
           </div>
         </div>
       </div>

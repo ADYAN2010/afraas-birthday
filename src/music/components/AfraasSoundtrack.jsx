@@ -263,7 +263,7 @@ export default function AfraasSoundtrack() {
             margin: '0 auto 12px',
           }}
         >
-          “Good music, good mood. Handcrafted and curated with care.”
+          “A collection of your favorite Hindi and Bangla songs ✨”
         </p>
 
         <span
@@ -274,7 +274,7 @@ export default function AfraasSoundtrack() {
             letterSpacing: '0.04em',
           }}
         >
-          Curated with care — Adyan
+          Made for Afraa by Adyan
         </span>
       </div>
 

@@ -1,6 +1,6 @@
 /**
- * AFRAA'S SOUNDTRACK — Curated Music Library
- * Curated with care — Adyan
+ * AFRAA'S SOUNDTRACK: Curated Music Library
+ * Made with care by Adyan
  *
  * Tailored specifically to Afraa's authentic music taste:
  * - Hindi Romantic Collection (Bollywood nostalgia, modern romance, and soft Punjabi love tracks)
@@ -18,8 +18,8 @@ export const musicLibrary = {
   branding: {
     title: "AFRAA'S SOUNDTRACK",
     subtitle: "A little space for the music you love.",
-    credit: "Curated with care — Adyan",
-    tagline: "Good music, good mood.",
+    credit: "Made with care by Adyan",
+    tagline: "Your favorite songs in one place.",
   },
 
   // The 5 Dedicated Playlists
@@ -27,7 +27,7 @@ export const musicLibrary = {
     {
       id: "hindi-romance",
       title: "Hindi Romance",
-      description: "Melodious Hindi romantic songs — soulful Bollywood vocals, timeless nostalgic melodies, and modern heartfelt ballads.",
+      description: "Melodious Hindi romantic songs, classic Bollywood vocals, and heartfelt ballads.",
       coverColor: "linear-gradient(135deg, #FF416C 0%, #FF4B2B 50%, #FEB47B 100%)",
       accentColor: "#FF4B2B",
       icon: "Heart",
@@ -55,7 +55,7 @@ export const musicLibrary = {
       id: "bangla-monsoon",
       title: "Bangla Monsoon",
       bengaliTitle: "বাংলা মনসুন",
-      description: "Contemporary Bangla romantic tracks — rain-drenched acoustic melodies, indie love ballads, and soulful youth anthems.",
+      description: "Contemporary Bangla romantic tracks, acoustic melodies, and soulful youth anthems.",
       coverColor: "linear-gradient(135deg, #0575E6 0%, #00F260 60%, #11998E 100%)",
       accentColor: "#00F260",
       icon: "CloudRain",
@@ -131,7 +131,7 @@ export const musicLibrary = {
     {
       id: "a-little-bit-of-everything",
       title: "A Little Bit of Everything",
-      description: "The best of both worlds — a seamless, curated fusion of timeless Hindi romance and contemporary Bangla favourites.",
+      description: "The best of both worlds: a collection of timeless Hindi romance and contemporary Bangla favorites.",
       coverColor: "linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #FEB47B 100%)",
       accentColor: "#38ef7d",
       icon: "Sparkles",
@@ -251,7 +251,7 @@ export const musicLibrary = {
     {
       id: "track-hindi-4",
       title: "Apna Bana Le",
-      artist: "Arijit Singh & Sachin-Jigar",
+      artist: "Arijit Singh & Sachin Jigar",
       album: "Bhediya",
       duration: 261,
       genre: "Modern Bollywood Romance",
@@ -446,7 +446,7 @@ export const musicLibrary = {
       spotifyUrl: "https://open.spotify.com/search/Main%20Tera%20Boyfriend%20Raabta",
       youtubeUrl: "https://www.youtube.com/watch?v=hQqHFJdSq0M",
       lyrics: [
-        { time: 0, text: "(High-energy dance rhythm & synth hook)" },
+        { time: 0, text: "(High energy dance rhythm & synth hook)" },
         { time: 14, text: "Duniya nu bhul ke main taan chaleya..." },
         { time: 30, text: "Pehli vaari dil mera heeriye haleya." },
         { time: 48, text: "Tu meri girlfriend, na na na na..." },
@@ -461,7 +461,7 @@ export const musicLibrary = {
     {
       id: "track-hindi-12",
       title: "Love Me Love Me",
-      artist: "Wajid, Amrita Kak & Sajid-Wajid",
+      artist: "Wajid, Amrita Kak & Sajid Wajid",
       album: "Wanted",
       duration: 231,
       genre: "Catchy Bollywood Dance Romance",
@@ -516,10 +516,10 @@ export const musicLibrary = {
     {
       id: "track-hindi-14",
       title: "Ishq De Fanniyar (Slowed + Reverb)",
-      artist: "Jyotica Tangri & Shaarib-Toshi",
+      artist: "Jyotica Tangri & Shaarib Toshi",
       album: "Fukrey Returns (Lofi Edition)",
       duration: 224,
-      genre: "Soft Punjabi-Influenced Romance",
+      genre: "Soft Punjabi Romance",
       language: "hindi",
       year: 2017,
       sourceType: "youtube",
@@ -675,7 +675,7 @@ export const musicLibrary = {
       spotifyUrl: "https://open.spotify.com/search/Ei%20Obela%20Shironamhin",
       youtubeUrl: "https://www.youtube.com/watch?v=LcNdKXaTyLs",
       lyrics: [
-        { time: 0, text: "(Sarod resonance & cello counter-melody)" },
+        { time: 0, text: "(Sarod resonance & cello melody)" },
         { time: 24, text: "এই অবেলায় তোমারি রঙে রাঙাবো আমার এ পথ..." },
         { time: 52, text: "স্মৃতির পাতায় আঁকা থাক জীবনের এই শপথ।" },
         { time: 80, text: "মেঘেদের দেশে হারিয়ে যেতে চায় এই মন," },
@@ -870,7 +870,7 @@ export const musicLibrary = {
       spotifyUrl: "https://open.spotify.com/search/Bilet%20Raja%20G%20M%20Ashraf",
       youtubeUrl: "https://www.youtube.com/watch?v=oimtknXFil4",
       lyrics: [
-        { time: 0, text: "(Upbeat infectious folk-pop rhythm intro)" },
+        { time: 0, text: "(Upbeat folk pop rhythm intro)" },
         { time: 12, text: "বিলেত রাজা গো, ও বিলেত রাজা..." },
         { time: 26, text: "তোমার দেশে যাবো আমি, বাঁধবো সুখের বাসা।" },
         { time: 44, text: "মন ভেসে যায় দূর সীমানায় রূপকথারই দেশে," },

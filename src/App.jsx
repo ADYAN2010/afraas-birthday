@@ -193,7 +193,7 @@ export default function App() {
           <HiddenNotes />
 
           {/* Editorial Pause: Artistic Reflection */}
-          <EditorialQuote quote="Time moves fast, but the right moments stay anchored." />
+          <EditorialQuote quote="Some memories and moments stay with you forever." />
 
           {/* 7. AFRAA'S SOUNDTRACK: Dedicated Spotify-Inspired Music Space */}
           <AfraasSoundtrack />
@@ -205,7 +205,7 @@ export default function App() {
           <BirthdayWishes />
 
           {/* Editorial Pause: Witty transition into arcade */}
-          <EditorialQuote quote="Growing older is inevitable. Being boring is completely optional." />
+          <EditorialQuote quote="Here is to another year of happiness, laughter, and great memories." />
 
           {/* 10. Birthday Fun Zone: Playful arcade & humor */}
           <BirthdayFunZone />

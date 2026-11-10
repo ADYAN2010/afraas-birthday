@@ -62,10 +62,10 @@ export default function MusicHome() {
               lineHeight: 1.2,
             }}
           >
-            Good music, good mood.
+            Afraa's Favorite Music
           </h2>
           <p style={{ fontSize: '0.85rem', color: 'var(--soundtrack-text-secondary)', marginTop: '4px' }}>
-            A little space for the music you love. Curated with care — Adyan
+            A collection of songs chosen for you, put together by Adyan.
           </p>
         </div>
 

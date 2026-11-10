@@ -799,7 +799,7 @@ export default function LockScreen({ onUnlock }) {
                 color: '#857272',
               }}
             >
-              Curated with care — Adyan
+              Made with care by Adyan
             </div>
           </motion.div>
 

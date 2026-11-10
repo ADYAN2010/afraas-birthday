@@ -258,7 +258,7 @@ export default function FinalSurprise() {
                   marginBottom: '26px',
                 }}
               >
-                — Adyan
+                Adyan
               </p>
 
               {/* Actions: Replay Confetti & Close */}

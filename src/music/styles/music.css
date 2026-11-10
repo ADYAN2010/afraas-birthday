@@ -1,5 +1,5 @@
 /**
- * AFRAA'S SOUNDTRACK — Spotify-Inspired Dark Music Experience Stylesheet
+ * AFRAA'S SOUNDTRACK: Spotify-Inspired Dark Music Experience Stylesheet
  * Handcrafted with deep charcoal, dark surface, soft white, and fresh green accents (#B8E986).
  */
 
@@ -37,7 +37,7 @@
   transition: all 0.3s ease;
 }
 
-/* Spotify Typography Reset — Never allow serif fonts inside player */
+/* Spotify Typography Reset: Never allow serif fonts inside player */
 .soundtrack-app-wrapper,
 .soundtrack-app-wrapper h1,
 .soundtrack-app-wrapper h2,
