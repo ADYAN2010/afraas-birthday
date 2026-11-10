@@ -88,3 +88,61 @@ export function parseCookies(req) {
 
   return list;
 }
+
+// Device registration cookie helpers
+const DEVICE_SECRET =
+  process.env.DEVICE_COOKIE_SECRET ||
+  process.env.SESSION_SECRET ||
+  'afraa-device-signing-secret-2026';
+
+export function generateDeviceId() {
+  return `dev_${crypto.randomBytes(16).toString('hex')}`;
+}
+
+export function signDeviceCookie(deviceId) {
+  const timestamp = Date.now().toString();
+  const payload = `${deviceId}:${timestamp}`;
+  const hmac = crypto
+    .createHmac('sha256', DEVICE_SECRET)
+    .update(payload)
+    .digest('base64url');
+  return `v1.${deviceId}.${timestamp}.${hmac}`;
+}
+
+export function verifyDeviceCookie(cookieVal) {
+  if (!cookieVal || typeof cookieVal !== 'string') return null;
+  const parts = cookieVal.split('.');
+  if (parts.length !== 4 || parts[0] !== 'v1') return null;
+
+  const [version, deviceId, timestampStr, signature] = parts;
+  const payload = `${deviceId}:${timestampStr}`;
+  const expectedHmac = crypto
+    .createHmac('sha256', DEVICE_SECRET)
+    .update(payload)
+    .digest('base64url');
+
+  try {
+    const isSigValid = crypto.timingSafeEqual(
+      Buffer.from(signature),
+      Buffer.from(expectedHmac)
+    );
+    if (!isSigValid) return null;
+    return {
+      deviceId,
+      timestamp: parseInt(timestampStr, 10),
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+export function isBotOrCrawler(userAgent) {
+  if (!userAgent) return false;
+  const ua = userAgent.toLowerCase();
+  const botKeywords = [
+    'bot', 'crawl', 'spider', 'slurp', 'mediapartners', 'facebookexternalhit',
+    'pingdom', 'uptime', 'monitor', 'curl', 'wget', 'python-requests',
+    'lighthouse', 'vercel-cron', 'vercel-screenshot'
+  ];
+  return botKeywords.some((kw) => ua.includes(kw));
+}

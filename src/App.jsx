@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LockScreen from './components/LockScreen';
+import PrivacyBreachScreen from './components/PrivacyBreachScreen';
 import FloatingParticles from './components/FloatingParticles';
 import MusicPlayer from './components/MusicPlayer';
 import BirthdayHero from './components/BirthdayHero';
@@ -17,45 +18,70 @@ import Footer from './components/Footer';
 import AfraasSoundtrack from './music/components/AfraasSoundtrack';
 
 export default function App() {
+  const [isLockedDown, setIsLockedDown] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [startMusic, setStartMusic] = useState(false);
 
-  // Verify server-side session cookie on initial load
-  useEffect(() => {
-    let isMounted = true;
+  // Check device registration and server-side session cookie on initial load
+  const checkAccessAndSession = useCallback(async () => {
+    setIsCheckingAuth(true);
+    try {
+      // 1. Check device registration and global lockdown status
+      const deviceRes = await fetch('/api/device/check', {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-    const checkSession = async () => {
-      try {
-        const res = await fetch('/api/auth/session', {
-          method: 'GET',
-          credentials: 'include',
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted && data.authenticated) {
-            setIsAuthenticated(true);
-          }
-        }
-      } catch (err) {
-        // Fallback to lock screen if API unreachable or unauthenticated
-      } finally {
-        if (isMounted) {
+      if (deviceRes.ok) {
+        const deviceData = await deviceRes.json();
+        if (deviceData.lockdown) {
+          setIsLockedDown(true);
+          setIsAuthenticated(false);
           setIsCheckingAuth(false);
+          return;
         }
       }
-    };
 
-    checkSession();
+      // 2. Check session authentication
+      const sessionRes = await fetch('/api/auth/session', {
+        method: 'GET',
+        credentials: 'include',
+      });
 
-    return () => {
-      isMounted = false;
-    };
+      if (sessionRes.ok) {
+        const sessionData = await sessionRes.json();
+        if (sessionData.lockdown) {
+          setIsLockedDown(true);
+          setIsAuthenticated(false);
+        } else if (sessionData.authenticated) {
+          setIsAuthenticated(true);
+        }
+      }
+    } catch (err) {
+      // Fallback to lock screen if API unreachable or unauthenticated
+    } finally {
+      setIsCheckingAuth(false);
+    }
   }, []);
+
+  useEffect(() => {
+    checkAccessAndSession();
+  }, [checkAccessAndSession]);
 
   const handleUnlock = () => {
     setIsAuthenticated(true);
     setStartMusic(true);
+  };
+
+  const handleLockdownTriggered = () => {
+    setIsLockedDown(true);
+    setIsAuthenticated(false);
+  };
+
+  const handleRecovered = () => {
+    setIsLockedDown(false);
+    checkAccessAndSession();
   };
 
   const scrollToSoundtrack = () => {
@@ -135,6 +161,11 @@ export default function App() {
     );
   }
 
+  // Dedicated Privacy Breach Screen: Activated upon third unique device access
+  if (isLockedDown) {
+    return <PrivacyBreachScreen onRecovered={handleRecovered} />;
+  }
+
   return (
     <div
       style={{
@@ -152,7 +183,9 @@ export default function App() {
       <FloatingParticles />
 
       {/* 1. Website Lock Screen: Default Landing Page with Asia/Dhaka Countdown */}
-      {!isAuthenticated && <LockScreen onUnlock={handleUnlock} />}
+      {!isAuthenticated && (
+        <LockScreen onUnlock={handleUnlock} onLockdown={handleLockdownTriggered} />
+      )}
 
       {/* 2. Main Birthday Experience: Protected until Server Authentication */}
       {isAuthenticated && (

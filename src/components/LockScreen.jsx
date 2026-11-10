@@ -12,7 +12,7 @@ import CuteButterfly from './svg/CuteButterfly';
 const TARGET_DATE_STRING = '2026-11-15T00:00:00+06:00';
 const TARGET_TIMESTAMP = new Date(TARGET_DATE_STRING).getTime();
 
-export default function LockScreen({ onUnlock }) {
+export default function LockScreen({ onUnlock, onLockdown }) {
   // Password Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [password, setPassword] = useState('');
@@ -132,6 +132,15 @@ export default function LockScreen({ onUnlock }) {
       });
 
       const data = await res.json();
+
+      if (res.status === 423 || data.lockdown) {
+        setIsLoading(false);
+        setIsModalOpen(false);
+        if (onLockdown) {
+          onLockdown();
+        }
+        return;
+      }
 
       if (res.ok && data.ok) {
         setIsUnlocked(true);

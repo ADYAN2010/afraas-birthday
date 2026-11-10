@@ -1,9 +1,20 @@
 import { checkRateLimit, timingSafeCompare, signToken } from '../_auth.js';
+import { getLockdownStatus } from '../_redis.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
+  }
+
+  // Check if site is under global privacy lockdown
+  const lockdownState = await getLockdownStatus();
+  if (lockdownState.isLocked) {
+    return res.status(423).json({
+      ok: false,
+      lockdown: true,
+      error: 'Website is under privacy lockdown. Unauthorized access detected.',
+    });
   }
 
   // Extract client IP
